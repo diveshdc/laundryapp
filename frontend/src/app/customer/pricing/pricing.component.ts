@@ -13,7 +13,7 @@ export class PricingComponent implements OnInit {
   categories: []
   productOfCategory: any;
   userData: any;
-  quantity: any;
+  quantity: any = 0;
   selectedCategory: any;
   badgeCount: any;
   userId: any;
@@ -82,7 +82,7 @@ export class PricingComponent implements OnInit {
 
     getQuantity(productId,userId) {
       const result = this.quantityCount.filter(element => {
-       if(element.product_id ==productId && element.user_id ==userId ){
+       if(element.product_id ==productId ){
         return true;
        }
       });
@@ -99,50 +99,48 @@ export class PricingComponent implements OnInit {
     // }
 
     addToCart(product,value) {
-      this.quantityCount.forEach(element => {
-        console.log(element.product_id,'-====------',product.id)
-        if(element.product_id ==product.id && element.user_id == this.userId){
-          this.quantity =element.quantity;
-          if(value =='plus')
-            this.quantity ++;
-            if(value =='minus')
-            this.quantity --;
-          }else{
-          this.quantity = 0
-            if(value =='plus') {
-            this.quantity ++;
-              console.log(this.quantity,'=============')
-            }if(value =='minus') {
-              if(this.quantity >0){
-                this.quantity ++;
-              }else{
-                this.quantity --;
-              }
-              }
-        }
-       });
+      this.quantity = this.getQuantity(product.id, this.userId)
+      if(this.quantity && this.quantity > 0){
+        if(value == 'plus')
+          this.quantity++
+        else
+          this.quantity--
+      }
+      else if(value == 'plus')
+        this.quantity = 1 
+
       const payLoad ={
         'user_id':this.userData.id,
         'product_id':product.id,
         'name':product.name,
         'price':product.price,
-        'sale_price':product.sale_price,
+        'sale_price':product.sale_price?product.sale_price:0,
         'quantity':this.quantity,
         'category_id':this.selectedCategory,
         'description':product.description,
         'image':product.image,
       }
-      console.log(payLoad,'payloadddddd')
-        this.priceservice.addToCart(payLoad).subscribe(async res => {
-          if (res['status'] == true) {
-            this.quantity ='';
-            console.log(res['CartItem'],'=======================')
-            this.badgeCount = res['CartItem'].quantity;
-          } else {
-            
+      this.priceservice.addToCart(payLoad).subscribe(async res => {
+        if (res['status'] == true) {
+          this.badgeCount = res['CartItem'].quantity;
+          let index = this.quantityCount.findIndex(item=>item.product_id == product.id)
+          if(index <= 0){
+            let prod = {
+              'product_id': product.id,
+              'category_id': this.selectedCategory,
+              'quantity': this.quantity
+            }
+            this.quantityCount.push(prod)
           }
-        }, (error) => {
+          else
+            this.quantityCount[index].quantity = this.quantity
+          
+          this.quantity = 0;
+        } else {
+          
+        }
+      }, (error) => {
 
-        })
-      }
+      })
+    }
 }

@@ -66,7 +66,7 @@
                                 
                                 <div class="bottom-text position-relative">
                                     <span class="quantity-badge d-flex justify-content-center align-items-center">{{getQuantity(products.id,userId)}}</span>
-                                    <a (click)="addToCart(products,'minus')" class="cust-cur" ><span>-</span></a>
+                                    <a (click)="addToCart(products,'minus')" class="cust-cur" [ngClass]="{'disabled' : getQuantity(products.id,userId) == 0}"><span>-</span></a>
                                   <div class="price-value">£{{products.price}}</div>
                                     <a (click)="addToCart(products,'plus')" class="cust-cur"><span>+</span></a>
                                 </div>
