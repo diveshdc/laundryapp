@@ -1,0 +1,4 @@
+.dashboard-menu-box {
+  background-image: url("background-image:url('{{ asset('userinterface/images/dashboard-menu-BG.png') }}');" }
+
+

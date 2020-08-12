@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script>
+		//Serve a Publisher HTML
+app.get('/publish', function (req, res) {
+    res.sendFile('publisher.html', {
+        root: __dirname
+    });
+});
+//
+io.on('connection', function (socket) {
+    console.log('socket created');
+
+    let previousId;
+    const safeJoin = currentId => {
+        socket.leave(previousId);
+        socket.join(currentId);
+        previousId = currentId;
+      };
+
+    socket.on('disconnect', function() {
+      console.log('Got disconnect!');
+   });
+
+   socket.on('lastKnownLocation', function (data) {
+            var location = JSON.stringify(data);
+           redisPublisher.publish('locationUpdate', location);
+     });
+
+});
+	</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+<script type="text/javascript" src="js/publish.js" type="text/javascript"></script>
+</body>
+</html>
