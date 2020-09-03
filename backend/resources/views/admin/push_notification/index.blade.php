@@ -10,7 +10,17 @@
  <h3> <strong>{{trans('global.pushnotification.title_singular')}}</strong></h3>
   <h6>{{trans('global.pushnotification.title_singular')}}</h6>
 </div>
-  <form id="edit_user" action="{{ route('admin.pushnotification.create') }}" enctype="multipart/form-data" novalidate>
+
+@if (\Session::has('success'))
+    <div class="alert alert-success">
+        <ul>
+            <li>{!! \Session::get('success') !!}</li>
+        </ul>
+    </div>
+@endif
+
+
+  <form id="edit_user" action="{{ route('admin.sendpush') }}" method="post" enctype="multipart/form-data" novalidate>
     @csrf
       @method('POST')
   <h3>{{trans('global.pushnotification.fields.send')}}</h3><br>
@@ -20,48 +30,58 @@
       </div>
       <div class="form-group col-sm-8">
           <div class="form-group form-check" style="margin-left: 14px;">
-            <div class="row">
+            <div class="row all-user-row">
             <label class="form-check-label">
               <input onchange="valueChanged()" class="form-check-input" type="checkbox" id="check_users" name="check_users" > Check the box to select all Users.
               <div class="invalid-feedback">Check this checkbox to continue.</div>
             </label> 
             </div>
-          <div class="row">
+          <div class="row all-driver-row">
             <label class="form-check-label">
-              <input onchange="valueChanged()" class="form-check-input" type="checkbox" id="check_drivers" name="check_drivers" > Check the box to select all Drivers.
+              <input onchange="valueChangedDriver()" class="form-check-input" type="checkbox" id="check_drivers" name="check_drivers" > Check the box to select all Drivers.
               <div class="invalid-feedback">Check this checkbox.</div>
             </label>
           </div>
         </div>
+        <div class="select-one select-ones">
            <div class="row user-select">
-              <div class="form-group col-sm-3">
+              <div class="form-group col-sm-3 user-dropdown">
             <label class="form-check-label">Single User:</label>
               </div>
               <div class="form-group col-sm-3">
-                 <select name="users" id="users_selection" class="custom-select" required >
-                    @foreach($users as $id => $user)
-                        <option value="{{ $id }}">
-                            {{ $user }}
+                <!-- required -->
+                 <select name="users" id="users_selection" class="custom-select">
+                     <option value="">
+                            Select User
+                        </option>
+                    @foreach($users as $user)
+                        <option value="{{ $user['id'] }}">
+                            {{ $user['first_name'] }} {{ $user['last_name'] }}
                         </option>
                     @endforeach
                 </select>
                 </div>
               </div>
         <div class="row driver-select">
-          <div class="form-group col-sm-3">
+          <div class="form-group col-sm-3 driver-dropdown">
             <label class="form-check-label">Single Driver:</label>
           </div>
              <div class="form-group col-sm-3">
-              <select name="drivers" id="drivers_selection" class="custom-select" required >
-                    @foreach($drivers as $id => $driver)
-                        <option value="{{ $id }}">
-                            {{ $driver }}
+              <!-- required -->
+              <select name="drivers" id="drivers_selection" class="custom-select">
+                     <option value="">
+                            Select driver
+                        </option>
+                    @foreach($drivers as $driver)
+                        <option value="{{ $driver['id']}}">
+                            {{ $driver['first_name'] }} {{ $driver['last_name'] }}
                         </option>
                     @endforeach
                 </select>
                </div>
           <!-- <div class="invalid-feedback">Please select type.</div> -->
     </div>
+  </div>
   </div>
   </div>
 
@@ -85,29 +105,48 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
             <span class="status_msg"></span>
+        <div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable">
                 <thead>
                    <tr>
-                        <th width="10">
-
+                    <th>
+                       
                         </th>
                         <th>
-                            {{ trans('global.pushnotification.fields.sr') }}
+                          Sr no.
                         </th>
                         <th>
-                            {{ trans('global.pushnotification.fields.type') }}
+                           Type
                         </th>
                         <th>
-                            {{ trans('global.pushnotification.fields.message') }}
+                          Message
                         </th>
                         <th>
-                            {{ trans('global.pushnotification.fields.time') }}
+                          Created At
                         </th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($pushNotification  as $key => $notification)
+                        <tr data-entry-id="{{ $notification->id }}">
+                          <td></td>
+                            <td>
+                              {{$key+1}}
+                            </td>
+                            <td>
+                                {{ $notification->type ??'N/A' }}
+                            </td> 
+                            <td>
+                                {{ $notification->notification? $notification->notification: N/A }}
+                            </td> 
+                            
+                            <td>
+                              {{ \Carbon\Carbon::parse($notification->created_at)->format('d/M/Y')}}
+                            </td> 
+                          
+                        </tr>
+                    @endforeach
                     
               
                 </tbody>
@@ -117,7 +156,8 @@
 </div>
 @section('scripts')
 @parent
-<!-- <script>
+
+<script>
     $(function () {
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
@@ -156,9 +196,37 @@
 
 
 
-</script> -->
+</script>
 
 <script>
+  $(document).ready(function(){
+    $(".alert-success").delay(3000).slideUp(300);
+
+
+    $('#drivers_selection').on('change', function() {
+      if($(this).find(":selected").val() ==''){
+       $('#users_selection').prop('disabled', false);
+      $('.user-dropdown').show();
+      }
+      if($(this).find(":selected").val() !=''){
+       $('#users_selection').prop('disabled', true);
+          $('.user-dropdown').hide();
+      }
+      
+});
+    $('#users_selection').on('change', function() {
+       if($(this).find(":selected").val() ==''){
+       $('#drivers_selection').prop('disabled', false);
+      $('.driver-dropdown').show();
+    } if($(this).find(":selected").val() !=''){
+       $('#drivers_selection').prop('disabled', true);
+      $('.driver-dropdown').hide();
+
+    }
+});
+
+
+});
 // Disable form submissions if there are invalid fields
 (function() {
   'use strict';
@@ -178,22 +246,33 @@
   }, false);
 })();
 
-function valueChanged()
-    {
-        if($('#check_drivers').is(":checked")){
-            $("#drivers_selection").prop('disabled', true);
-            $(".driver-select").hide();
-        }else{
-            $("#drivers_selection").prop('disabled', false);
-            $(".driver-select").show();
-        }
+function valueChanged(){
          if($('#check_users').is(":checked")){
-            $("#users_selection").prop('disabled', true);
-            $(".user-select").hide();
+             $('#drivers_selection').prop('disabled', true);
+             $('#users_selection').prop('disabled', true);    
+
+            $(".select-one").hide();
+            $(".all-driver-row").hide();
             }else{
-            $("#users_selection").prop('disabled', false);
-            $(".user-select").show();
+             $('#drivers_selection').prop('disabled', false); 
+             $('#users_selection').prop('disabled', false);       
+            $(".select-one").show();
+            $(".all-driver-row").show();
             }
+
+    }
+function valueChangedDriver(){
+       if($('#check_drivers').is(":checked")){
+             $('#drivers_selection').prop('disabled', true);    
+             $('#users_selection').prop('disabled', true);    
+            $(".select-one").hide();
+            $(".all-user-row").hide();
+        }else{
+             $('#drivers_selection').prop('disabled', false); 
+             $('#users_selection').prop('disabled', false);       
+            $(".select-one").show();
+            $(".all-user-row").show();
+        }
 
     }
 </script>

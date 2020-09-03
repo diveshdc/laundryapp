@@ -48,6 +48,9 @@
                         <th>
                             {{ trans('global.referral_code')}}
                         </th>
+                         <th>
+                          Created At
+                        </th>
                         <th>
                             {{ trans('global.action') }}
                         </th>
@@ -79,6 +82,9 @@
                             <td> {{$user->loyalty_point ?? '0'}}</td>
                             <td>
                                 {{$user->referrer_code ?? ''}}
+                            </td>  
+                            <td>
+                                {{ \Carbon\Carbon::parse($user->created_at)->format('d/M/Y')}}
                             </td>
                             <td>
                                <input data-id="{{$user->id}}" class="block-unblock-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Unblock" data-off="Block" {{ $user->blocked ? 'checked' : '' }}>

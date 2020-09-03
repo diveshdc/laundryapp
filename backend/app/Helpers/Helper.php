@@ -62,15 +62,15 @@ class Helper
                   ->select('id','user_id','collection_date','collection_time',
                            'delivery_date','delivery_time','cleaningInstructions',
                            'actual_price','final_price','status',
-                           'building_name_no','street_name','post_code',
+                           'building_name_no','street_name','post_code','delivery_slot_id','collection_slot_id',
                            'delivery_notes','lat','lng','is_skip_items',
                            'created_at','updated_at')
-                  ->with(array('orderHistory'=>function($query){
-  $query->select('order_id','user_id','product_id',
-                 'quantity','category_id','name','description',
-                 'image','price','sale_price','status',
-                 'created_at','updated_at');}))->get();
-    return $currentOrder;
+                  ->with(array('productList'=>function($query){
+    $query->select('order_id','user_id','product_id',
+                   'quantity','category_id','name','description',
+                   'image','price','sale_price','status',
+                   'created_at','updated_at');}))->get();
+      return $currentOrder;
   }
 
   public static function getPastOrders($request) {
@@ -79,11 +79,11 @@ class Helper
                 ->select('id','user_id','collection_date',
                          'collection_time','delivery_date','delivery_time',
                          'cleaningInstructions','actual_price',
-                         'final_price','status','building_name_no',
+                         'final_price','status','building_name_no','collection_slot_id','delivery_slot_id',
                          'street_name','post_code',
                          'delivery_notes','lat','lng','is_skip_items',
                          'created_at','updated_at')
-                ->with(array('orderHistory'=>function($query){
+                ->with(array('productList'=>function($query){
   $query->select('order_id','user_id','product_id',
                  'quantity','category_id','name','description',
                  'image','price','sale_price','status',

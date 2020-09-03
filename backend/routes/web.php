@@ -26,7 +26,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
       Route::get('viewtask/{id}', 'DriversController@viewTask')->name('viewtask');
 
       Route::post('blockuser', 'DriversController@blockUsers')->name('blockuser');
+      Route::post('getslotinfo', 'TimeslotsController@getSlotInfo')->name('getslotinfo');
+      Route::post('updatetimeslotvalues', 'TimeslotsController@SaveSlotsData')->name('updatetimeslotvalues');
       Route::post('post_code_publish_unpublish', 'PostCodeController@publishUnpublish')->name('post_code_publish_unpublish');
+
+ Route::get('postcoderequest', 'PostCodeController@postcodeRequest')->name('postcoderequest');
 
 
       Route::delete('clients/destroy', 'DriversController@massDestroy')->name('clients.massDestroy');
@@ -58,6 +62,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
       // Route::post('addtimeslot','OrdersController@addTimeSlot')->name('addtimeslot');
 
       Route::resource('pushnotification','PushNotificationController');
+      Route::post('sendpush','PushNotificationController@sendPushNotification')->name('sendpush');
       
       Route::get('skiporders','OrdersController@skipOrders');
 

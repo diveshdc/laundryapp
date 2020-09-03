@@ -15,10 +15,10 @@ class CreateCouponProductsCategories extends Migration
     {
         Schema::create('coupon_products_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('products')->nullable();
-            $table->integer('exclude_products')->nullable();
-            $table->integer('exclude_categories')->nullable();
-            $table->integer('categories')->nullable();
+            $table->string('products')->nullable();
+            $table->string('exclude_products')->nullable();
+            $table->string('exclude_categories')->nullable();
+            $table->string('categories')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

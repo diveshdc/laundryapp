@@ -25,6 +25,9 @@
                             {{ trans('global.postcode.fields.name') }}
                         </th>
                         <th>
+                          Status
+                        </th>
+                        <th>
                             {{ trans('global.action') }}
                         </th>
                     </tr>
@@ -37,6 +40,14 @@
                             </td>
                             <td>
                                 {{ $postcode->post_code ?? 'Not Available' }}
+                            </td> 
+                            <td>
+                              @if($postcode->publish_unpublish == 1)
+                              <span style="color: green;"> Publish</span>
+                              @endif()
+                                @if($postcode->publish_unpublish ==0)
+                              <span style="color: red;"> Unpublish</span>
+                              @endif()
                             </td>                               
                             <td>
                                 @can('postcode_edit')
@@ -44,14 +55,14 @@
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
-                              <!--   @can('postcode_delete')
+                                 <input data-id="{{$postcode->id}}" class="unpublish-publish-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="on" data-off="off" {{ $postcode->publish_unpublish ? 'checked' : '' }}>
+                                   @can('postcode_delete')
                                     <form action="{{ route('admin.postcode.destroy', $postcode->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
-                                @endcan -->
-                                 <input data-id="{{$postcode->id}}" class="unpublish-publish-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Unpublish" data-off="Publish" {{ $postcode->publish_unpublish ? 'checked' : '' }}>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

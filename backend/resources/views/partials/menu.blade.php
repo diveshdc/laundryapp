@@ -101,6 +101,16 @@
                     {{ trans('global.postcode.title') }}
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="{{ route('admin.postcoderequest') }}" class="nav-link {{ request()->is('admin/postcoderequest') || request()->is('admin/postcode/*') ? 'active' : '' }}">
+                    <i class="fa fa-map-pin nav-icon">
+
+                    </i>
+                    PostCode Request
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a href="{{ route('admin.pushnotification.index') }}" class="nav-link {{ request()->is('admin/pushnotification') || request()->is('admin/pushnotification/*') ? 'active' : '' }}">
                     <i class="fa fa-bell nav-icon"></i>

@@ -26,7 +26,7 @@ class OrdersController extends Controller
             'product_id' => 'required',
             'name' => 'required',
             'price' => 'required',
-            'sale_price' => 'required',
+            // 'sale_price' => 'required',
         ],[
         	'user_id.required'    => 'user_id missing',
         	'product_id.required' => 'product_id missing',
@@ -74,10 +74,8 @@ try{
                   // );
                   array_push($data, $productData);
                 }
-                 // $json = json_encode($data, JSON_PRETTY_PRINT);
               }
               $items = CartItem::where('user_id',$userId)->sum('quantity');
-              // dd($items);
               if(!empty($data) || $items >0){
                return response()->json([
                 'status'        => true, 
@@ -103,47 +101,31 @@ try{
 public function getTimeSlot(Request $request){
 try{
   if($request->collection_date){
-    $collection_time = TimeSlot::whereDate('collection_date', date("y-m-d", strtotime($request->collection_date)))->select('collection_time_slot','is_free_collection')->get(); 
-      $collectionTime = array();
-      foreach ($collection_time as $key => $value) {
-        $timeslot['time_slot'] = $collection_time[0]['collection_time_slot'];
-        $timeslot['is_free']   = $collection_time[0]['is_free_collection'];
-         array_push($collectionTime, $timeslot);
+    // dd($request->collection_date);
+    $collectionTime = TimeSlot::where('collection_date','=',$request->collection_date)->get(); 
+      $timePeriod = null;
+      if(count($collectionTime)>0){
+        $timePeriod = $collectionTime[0]->delivery_time_period;
       }
-      if(!empty($collection_time)){
         return response()->json([
           'status'  =>true,
           'message' =>'timeslot found!',
-          'timeslot'    => $collectionTime
+          'timeslot'    => $collectionTime,
+          'timePeriod'=>  $timePeriod
         ],200);
-      }else{
-         return response()->json([
-          'status'  =>false,
-          'message' =>'timeslot not found!',
-        ]);
-      }
-      }
-    else if ($request->delivery_date) {
-      $delivery_time = TimeSlot::whereDate('delivery_date',date("y-m-d", strtotime($request->delivery_date)))->select('delivery_time_slot','is_free_delivery')->get();
-
-        $deliveryTime = array();
-      foreach ($delivery_time as $key => $value) {
-        $timeslot['time_slot'] = $delivery_time[0]['delivery_time_slot'];
-        $timeslot['is_free']  = $delivery_time[0]['is_free_delivery'];
-         array_push($deliveryTime, $timeslot);
-      }
-        if(!empty($delivery_time)){
+    }
+    if ($request->delivery_date) {
+      $deliveryTime = TimeSlot::where('delivery_date','=',$request->delivery_date)->get();
+        $timePeriod = null;
+      if(count($deliveryTime)>0){
+      $timePeriod = $deliveryTime[0]->delivery_time_period;
+    }
         return response()->json([
           'status'  =>true, 
           'message' =>'timeslot found!',
-          'timeslot'    => $deliveryTime
+          'timeslot'    => $deliveryTime,
+           'timeperiod'=>  $timePeriod
         ],200);
-      }else{
-         return response()->json([
-          'status'  =>false,
-          'message' =>'timeslot not found!',
-        ]);
-      }
   }
   }catch (\Exception $ex){
             return response()->json([
@@ -213,17 +195,34 @@ try{
                 ], 401); 
             }
             }
-          $couponCode = Coupon::where('coupon_code',$request['couponcode'])->select('price')->first();
+          $couponCode = Coupon::where('coupon_code',$request['couponcode'])->with('coupons_info')->first();
           if(!empty($couponCode)){
+            if($couponCode->discount_type == 'Percentage'){
+              $finalPrice = number_format($request['actual_price']/ 100 * $couponCode['price'],2);
+              $discount = number_format($request['actual_price'] - $finalPrice,2);
+              $discountType='Percentage';
+            }
+            else if($couponCode->discount_type == 'Fixed Product'){
+              $finalPrice = number_format($request['actual_price'] - ($couponCode['price'] / 100) * $request['actual_price'],2);
+              $discount = number_format($request['actual_price'] - ($couponCode['price'] / 100) * $request['actual_price'],2);
+              $discountType='Fixed Basket';
+            }
+            
+            else if($couponCode->discount_type == 'Fixed Basket'){
+              $finalPrice = number_format($request['actual_price'] - $couponCode['price'],2);
+              $discount =  number_format($request['actual_price'] - $finalPrice,2);
+              $discountType='Fixed Basket';
+            }
             $returnData = array(
                 'actual_price'=>  number_format($request['actual_price'],2),
-                'final_price' =>  number_format(($couponCode['price'] / 100) * $request['actual_price'],2),
-                'discount'    =>  number_format($request['actual_price'] - ($couponCode['price'] / 100) * $request['actual_price'],2),
+                'final_price' =>  $finalPrice,
+                'discount'    =>  $discount,
               );
             return response()->json([
                 'status'     => true,
                 'couponData' => $returnData,
-                'message'    => 'Valid coupon code!',
+                'discount_type'=>$discountType,
+                'message'    => 'Coupon Applied!',
             ], 200);
           }else{
             return response()->json([

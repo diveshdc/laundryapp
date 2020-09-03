@@ -8,44 +8,59 @@ use App\Product;
 use App\Category;
 use App\CartItem;
 use DB;
+use Auth;
 class CategoryProductsController extends Controller
 { 
-   public function getCategoryList(Request $request){
+   public function getCategoryList(Request $request, $id){
    	try{
-
+      $items =[];
    		// abort_unless(\Gate::allows('product_access'), 403);
-      // $productsList = Category::with('category_product')->get();
-      // dd( $request['user_id']);
-      if(empty($id)){
-        $productsList = Category::get();
-        foreach ($productsList as $key => $value) {
-          $value['category_product'] = $value->category_product()->paginate(5);
+        $category = Category::where('id', $id)->get();
+          foreach ($category as $key => $value) {
+          $value['category_product'] = $value->category_product()->paginate(8);
           if(count($value['category_product'])>0){
             foreach ($value['category_product'] as $key => $product_value) {
               $product_value['category_id'] = $value['id'];
             }
           }
         }
-        $items = CartItem::where('user_id',$request['user_id'])->select('product_id','quantity','category_id')->get();
-        // dd($items);
-      }else{
-        $productsList = Category::where('id', $id)->first();
-        $productsList['category_product'] = $productsList->category_product()->paginate(5);
-           if(count($productsList['category_product'])>0){
-            foreach ($productsList['category_product'] as $key => $product_value) {
-              $product_value['category_id'] = $id;
-            }
-          }
-      }
-      
-  		// $productsList = Category::with('category_product.products')->get();
    		return response()->json([
    			'status'             => true, 
    			'message'            => 'Category and products found',
-   			'categoriesArray'    => $productsList,
+   			'categoriesArray'    => $category,
         'quantity_count'     =>$items
    		],200);
    	}catch (\Exception $ex){
+            return response()->json([
+                'status' => false,
+                'message' => $ex->getMessage(),
+                'error_details' => 'on line : '.$ex->getLine().' on file : '.$ex->getFile(),
+            ], 200);
+        } 
+   }
+
+
+   public function getCategoryListByUserId(Request $request){
+    try{
+
+      // abort_unless(\Gate::allows('product_access'), 403);
+        $productsList = Category::get();
+        foreach ($productsList as $key => $value) {
+          $value['category_product'] = $value->category_product()->paginate(8);
+          if(count($value['category_product'])>0){
+            foreach ($value['category_product'] as $key => $product_value) {
+              $product_value['category_id'] = $value['id'];
+            }
+          }
+        }
+        $items = CartItem::where('user_id',$request->user_id)->select('product_id','quantity','category_id')->get();
+      return response()->json([
+        'status'             => true, 
+        'message'            => 'Category and products found',
+        'categoriesArray'    => $productsList,
+        'quantity_count'     =>$items
+      ],200);
+    }catch (\Exception $ex){
             return response()->json([
                 'status' => false,
                 'message' => $ex->getMessage(),

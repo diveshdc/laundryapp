@@ -4,7 +4,7 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.timeslot.create') }}">
-                {{ trans('global.add') }} {{ trans('global.timeslot.title_singular') }}
+                {{ trans('global.edit') }} {{ trans('global.timeslot.title_singular') }}
             </a>
         </div>
     </div>
@@ -35,9 +35,9 @@
                             {{ trans('global.timeslot.fields.delivery_time_slot') }}
                         </th>
                             <th>Delivery free slots</th>
-                        <th>
+                        <!-- <th>
                             {{ trans('global.action') }}
-                        </th>
+                        </th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -57,16 +57,16 @@
                                 {{ $timeslot['delivery_date'] ?? '' }}
                             </td>
                              <td>
-                                {{ $timeslot['delivery_time_slot'] ?? '' }}
+                                {{ $timeslot['delivery_time_start'] ?? '' }} - {{ $timeslot['delivery_time_end'] ?? '' }}
                             </td>
                             <td>{{ $timeslot['is_free_delivery_limit'] ?? '' }}</td>  
-                            <td>
+                            <!-- <td> -->
                                <!--  @can('role_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.timeslot.show', $timeslot->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan -->
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.timeslot.edit', $timeslot->id) }}">
+                                  <!--   <a class="btn btn-xs btn-info" href="{{ route('admin.timeslot.edit', $timeslot->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                     <form action="{{ route('admin.timeslot.destroy', $timeslot->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
@@ -74,7 +74,7 @@
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
-                            </td>
+                            </td> -->
 
                         </tr>
                     @endforeach

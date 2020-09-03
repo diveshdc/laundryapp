@@ -47,4 +47,7 @@ class Order extends Model
      public function orderHistory(){
              return $this->hasMany(OrderHistory::class, 'order_id');
     }
+     public function productList(){
+             return $this->hasMany(OrderHistory::class, 'order_id');
+    }
 }

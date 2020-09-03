@@ -15,13 +15,14 @@ use App\User;
 use Hash;
 use Mail;
 use App\Mail\SendCredentials;
+use App\Mail\AdminChangedUserInfo;
 
 class UsersController extends Controller
 {
     public function index()
     {
         abort_unless(\Gate::allows('user_access'), 403);
-            $users = User::whereHas('roles',function($q){
+            $users = User::OrderBy('id','Desc')->whereHas('roles',function($q){
                 $q->where('title', 'User');
             })->get();
         // $users = Role::where('title', 'User')->first()->users()->get();
@@ -108,7 +109,9 @@ class UsersController extends Controller
 
         $user->update($request->all());
         $user->roles()->sync($request->input('roles', []));
-
+        if($request->send_mail){
+                 Mail::to($request['email'])->send(new AdminChangedUserInfo($user, $request['password']));
+        }
         return redirect()->route('admin.users.index');
     }
 

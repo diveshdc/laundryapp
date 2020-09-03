@@ -31,4 +31,10 @@ class Coupon extends Model
         'updated_at',
         'deleted_at',
     ];
+
+
+    public function coupons_info() {
+
+        return $this->belongsTo(CouponProductsCategory::class,'id','coupon_id');
+    }
 }

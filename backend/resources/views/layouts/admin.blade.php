@@ -300,12 +300,38 @@ function printSuccessMsg (msg) {
      
     $.ajax({
         type: "POST",
-        headers: {'x-csrf-token': _token},
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: "json",
         url: "{{ route('admin.post_code_publish_unpublish') }}",
-        data: {'status': status, 'postcode_id': postcode_id},
+        data: {
+             '_token': "{{ csrf_token() }}",
+             'status': status,
+             'postcode_id': postcode_id
+         },
         success: function(data){
-          console.log(data.success)
+          console.log(data)
+          window.location.reload();
+        }
+    });
+})
+
+ $('.request-unpublish-publish-class').change(function() {
+    var status = $(this).prop('checked') == true ? 1 : 0; 
+    var postcode_id = $(this).data('id'); 
+     
+    $.ajax({
+        type: "POST",
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: "json",
+        url: "{{ route('admin.post_code_publish_unpublish') }}",
+        data: {
+             '_token': "{{ csrf_token() }}",
+             'status': status,
+             'postcode_id': postcode_id
+         },
+        success: function(data){
+          console.log(data)
+          window.location.reload();
         }
     });
 })

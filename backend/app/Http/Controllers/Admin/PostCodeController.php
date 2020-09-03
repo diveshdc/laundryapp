@@ -8,14 +8,24 @@ use App\Http\Requests\MassDestroyPostcodeRequest;
 use Illuminate\Http\Request;
 use App\PostCode;
 use Exception;
-
+use DB;
 class PostCodeController extends Controller
 {
     public function index()
     {
     abort_unless(\Gate::allows('postcode_access'), 403);
-	$postcodes = PostCode::all();
+	$postcodes = PostCode::where('request','=', 0)->get();
     return view('admin.postcode.index',compact('postcodes'));
+    }
+
+
+    public function postcodeRequest()
+    {
+    abort_unless(\Gate::allows('postcode_access'), 403);
+    $postcodes = PostCode::where('request','=', 1)->where('publish_unpublish',0)->get();
+    // $maxValue = DB::table('post_codes')->max('post_code');
+    // dd($maxValue);
+    return view('admin.postcode.post_code_request',compact('postcodes'));
     }
 
     public function create()
@@ -195,6 +205,9 @@ catch (\Exception $ex){
         PostCode::where('id',$request->postcode_id)->update([
             'publish_unpublish'=>$request->status
         ]);
-        return response('Successfull!', 200);
+        return response()->json([
+            'status'=>true,
+            'message'=>'successfull!',
+        ],200);
     }
 }

@@ -26,6 +26,7 @@ class Create1555355612782UsersTable extends Migration
             $table->string('vehicle_number')->unique()->nullable();
             $table->datetime('email_verified_at')->nullable();
             $table->integer('loyalty_point')->nullable();
+            $table->integer('remaining_points')->nullable();
             $table->string('is_request')->nullable();
             $table->boolean('active')->default(false);
             $table->boolean('blocked')->default(false);

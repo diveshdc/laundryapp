@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Notifications\PasswordResetRequest;
-use App\Notifications\PasswordResetSuccess;
+// use App\Notifications\PasswordResetSuccess;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\User;
 use App\PasswordReset;
 use Validator;
+use Mail;
+use App\Mail\ResetPassword;
+use App\Mail\PasswordResetSuccess;
+
 
 class PasswordResetApiController extends Controller
 {
@@ -40,8 +44,9 @@ class PasswordResetApiController extends Controller
              ]
         );
         if ($user && $passwordReset){
-            $user->notify(
-                new PasswordResetRequest($passwordReset->token));
+            // $user->notify(new PasswordResetRequest($passwordReset->token, $user));
+              $sent = Mail::to($user->email)->send(new ResetPassword($passwordReset->token, $user));
+
             return response()->json([
                 'status' => true,
             'message'    => 'We have e-mailed your password reset link!'
@@ -124,7 +129,9 @@ class PasswordResetApiController extends Controller
         $user->password = bcrypt($request->password);
         $user->update();
         $passwordReset->delete();
-        $user->notify(new PasswordResetSuccess($passwordReset));
+          $sent = Mail::to($user->email)->send(new PasswordResetSuccess($user));
+        // $user->notify(new PasswordResetSuccess($passwordReset));
+
         echo 'password reset successfully!';
          exit();
      }catch (\Exception $ex){

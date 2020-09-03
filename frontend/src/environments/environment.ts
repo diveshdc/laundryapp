@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:8000',
-  frontEndUrl: 'http://localhost:4200'
+  url: '3.11.134.243:8000',
+  frontEndUrl: '3.8.194.231:4200'
 };

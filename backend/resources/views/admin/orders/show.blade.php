@@ -9,15 +9,15 @@
 <div class="card-body">
 <div class="row mb-12">
 <div class="col-sm-6 card">
-<div><strong>Payment via Stripe, customer IP: {{$ipAddress}}</strong></div>
-<div><strong>IP:</strong> 203.190.154.146</div>
+<div><strong>Payment via Stripe</strong></div>
+<!-- <div><strong>IP:</strong> 203.190.154.146</div> -->
 <div><strong>General</strong></div>
 <p></p>
 <div>
-<div><strong>2013-02-21 @ 15:25</strong></div>
+<div><strong> {{ \Carbon\Carbon::parse($order[0]['updated_at'])->format('d/M/Y H:i:a')}}</strong></div>
 <div><strong>Status:</strong>{{$order[0]['status']}}</div>
-<div><strong>Customer</strong></div>
-<div><strong>Guest</strong></div>
+<!-- <div><strong>Customer</strong></div>
+<div><strong>Guest</strong></div> -->
 </div>
 
 <div class="table-responsive-sm card">
@@ -34,24 +34,18 @@
 </tr>
 </thead>
 <tbody>
+	@foreach($order as $list)
 <tr>
-<td class="center">1</td>
-<td class="left"><img src="https://images-na.ssl-images-amazon.com/images/I/71URNvzoWqL._AC_SY200_.jpg" style="height: 32px;width: 43px;"></td>
-<td class="left">Origin License</td>  
-<td class="left">Extended License</td>
-<td class="center">1</td>
-<!-- <td class="right">$999,00</td> -->
-<td class="right">$999,00</td>
+@foreach($list->productList as $key=> $products)
+<td class="center">{{$key+1}}</td>
+<td class="center"><img style="height: 30px; width: 30px;" src="{{$products['image']}}"></td>
+<td class="center">{{$products['name']}}</td>
+<td class="center">{{$list['actual_price']}}</td>
+<td class="center">{{$products['quantity']}}</td>
+<td class="center">{{$list['final_price'] }}</td>
+@endforeach()
 </tr>
-<tr>
-<td class="center">2</td>
-<td class="left"><img src="https://images-na.ssl-images-amazon.com/images/I/71URNvzoWqL._AC_SY200_.jpg" style="height: 32px;width: 43px;"></td>
-<td class="left">Custom Services</td>
-<td class="left">Instalation and Customization (cost per hour)</td>
-<td class="center">20</td>
-<!-- <td class="right">$150,00</td> -->
-<td class="right">$3.000,00</td>
-</tr>
+@endforeach()
 </tbody>
 </table>
 </div>
@@ -103,13 +97,17 @@
 </tr> -->
 <tr>
 <td class="left"><strong>Total:</strong></td>
-<td class="right"><strong>£{{$order[0]['final_price']}}</strong></td>
+	@foreach($order as $list)
+@foreach($list->productList as $key=> $products)
+<td class="right"><strong>£{{$products['price']}}</strong></td>
+@endforeach()
+@endforeach()
 </tr>
 </tbody>
 </table>
-<a class="btn btn-success" href="#">
+<!-- <a class="btn btn-success" href="#">
 <svg class="c-icon">
-</svg> Create Order</a>
+</svg> Create Order</a> -->
 </div>
 </div>
 </div>

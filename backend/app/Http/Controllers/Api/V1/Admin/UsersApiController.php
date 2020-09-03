@@ -11,11 +11,13 @@ use App\Notifications\SignupActivate;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\User;
+use App\PushNotification;
 use Validator;
 use Exception;
-use Edujugon\PushNotification\PushNotification;
+// use Edujugon\PushNotification\PushNotification;
 use Illuminate\Support\Arr;
-
+use App\Mail\AccountConfirmation;
+use Mail;
 class UsersApiController extends Controller
 {
     
@@ -113,8 +115,12 @@ class UsersApiController extends Controller
                         'status' => false,
                         'message' =>'Before login you need to activate account!',
                         ], $this->successStatus);
-                 }
-                 else{
+                 }else{
+                    User::where('id',$user->id)->update([
+                        'device_type'=>$request->device_type,
+                        'device_token'=>$request->device_token,
+                    ]);
+                      $user = Auth::user();
                 $token= $user->createToken(env('Token'))->accessToken; 
                         return response()->json([
                             'status' => true,
@@ -140,7 +146,6 @@ class UsersApiController extends Controller
      */ 
     public function register(Request $request) 
     { 
-        // dd($request);
         try{
         $validator = Validator::make($request->all(), [ 
             'building_name_no'   => 'required',
@@ -189,7 +194,10 @@ class UsersApiController extends Controller
         $user['activation_token'] = str::random(60); 
         $user->save();
         $user->roles()->sync($role, []);
-        $user->notify(new SignupActivate($user));
+        // $user->notify(new SignupActivate($user));
+
+         $sent = Mail::to($input['email'])->send(new AccountConfirmation($user));
+
         $token =  $user->createToken(env('Token'))->accessToken; 
         return response()->json([
             'status'  =>true,
@@ -218,10 +226,10 @@ public function signupActivate($token)
          echo '<h3 style="text-align:center;">This activation token is invalid.</h3>';
          die();
     }
-    $user->active = true;
-    $user->activation_token = '';
-    $user->save();
-    $token =  $user->createToken(env('Token'))->accessToken; 
+        $user->active = true;
+        $user->activation_token = '';
+        $user->save();
+        $token =  $user->createToken(env('Token'))->accessToken; 
     // return response()->json([
             // 'status'  => true,   
             echo '<h3 style="text-align:center;">Account activated successfully!. you can login now</h3>';
@@ -247,10 +255,16 @@ public function signupActivate($token)
     public function details()
     {
         if(auth()->user()){
+         $notificationsCount = PushNotification::select('pending_count')->where('user_id',Auth::user()->id)->get();
+         $count = [];
+         if(count($notificationsCount)>0){
+            $count = $notificationsCount[0]['pending_count'];
+         }
         return response()->json([
             'status' => true,
             'message'=> 'Data found',
             'data'   => auth()->user(),
+            'notification_count'=>$count
         ], 200);
     }else{
          return response()->json([

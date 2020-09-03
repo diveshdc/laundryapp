@@ -47,10 +47,8 @@ class CouponsController extends Controller
      */
     public function store(StoreCouponRequest $request)
     {
-        // dd($request);
        abort_unless(\Gate::allows('coupon_create'), 403);
        $expiry_date = date('Y-m-d H:i:s',strtotime($request->expiry_date));
-
        $couponData = Coupon::create([
                 'coupon_code'           => $request->coupon_code,
                 'description'           => $request->description,
@@ -67,45 +65,71 @@ class CouponsController extends Controller
 
         ]);
         $couponData->save();
-        if(!empty($couponData)){
+        if($couponData ==true){
                $productArray = $request->product;
-               if($productArray){
-                foreach($productArray as $selectedProduct){
-                    $couponForProduct = CouponProductsCategory::create([
-                        'products'   => $selectedProduct
-                    ]);
-                    $couponForProduct->save();
-                }
+                $products = implode(', ', $productArray);
+               if(!empty($products)){
+                // foreach($productArray as $selectedProduct){
+                $couponForProduct = CouponProductsCategory::firstOrNew(array('coupon_id' => $couponData->id));
+                $couponForProduct->products = $products;
+                $couponForProduct->coupon_id =$couponData->id;
+                $couponForProduct->save();
+                    // $couponForProduct = CouponProductsCategory::insert([
+                        // 'products'   => $products,
+                        // 'coupon_id' =>$couponData->id
+                    // ]);
+                    // $couponForProduct->save();
+                // }
             }
             $excludeProductsArray = $request->exclude_products;
-            if($excludeProductsArray){
-                foreach($excludeProductsArray as $selectedExcludeProducts){
-                    $newSelectedExcludeProducts=array(
-                        'exclude_products' => $selectedExcludeProducts
-                    ); 
-                    $couponForExcludeProducts = new CouponProductsCategory($newSelectedExcludeProducts);
-                    $couponForExcludeProducts-> save();
-                }
+            $excludeProducts = implode(', ', $excludeProductsArray);
+            // dd($excludeProductsArray);
+            if(!empty($excludeProducts)){
+                $couponForProduct = CouponProductsCategory::firstOrNew(array('coupon_id' => $couponData->id));
+                $couponForProduct->exclude_products = $excludeProducts;
+                $couponForProduct->coupon_id =$couponData->id;
+                $couponForProduct->save();
+                // foreach($excludeProductsArray as $selectedExcludeProducts){
+                    // $couponForExcludeProducts = CouponProductsCategory::insert([
+                    //     'exclude_products' => $excludeProducts,
+                    //     'coupon_id' =>$couponData->id
+                    // ]);
+                    // dd($couponForExcludeProducts);
+                    // $couponForExcludeProducts-> save();
+                // }
             }
             $categoriesArray = $request->category;
-            if($categoriesArray){
-                foreach($categoriesArray as $selectedCategory){
-                    $newCategoriesArray=array(
-                        'category'   => $selectedCategory
-                    );
-                    $couponForCategories = new Coupon($newCategoriesArray);
-                    $couponForCategories-> save();
-                }
+            $categories = implode(', ', $categoriesArray);
+            if(!empty($categories)){
+                 $couponForCategory = CouponProductsCategory::firstOrNew(array('coupon_id' => $couponData->id));
+                 $couponForCategory->categories = $categories;
+                 $couponForCategory->coupon_id =$couponData->id;
+                 $couponForCategory->save();
+
+                // foreach($categoriesArray as $selectedCategory){
+                    // $couponForCategories = CouponProductsCategory::insert([
+                    //     'categories'   => $categories,
+                    //      'coupon_id' =>$couponData->id
+                    // ]);
+                    // $couponForCategories-> save();
+                // }
             }
             $excludeCategoryArray = $request->exclude_categories;
-            if($excludeCategoryArray){
-                foreach($excludeCategoryArray as $selectedExcludeCategory){
-                    $newCategoriesArray=array(
-                        'exclude_categories' => $selectedExcludeCategory
-                    );
-                    $couponForCategories = new CouponProductsCategory($newCategoriesArray);
-                    $couponForCategories-> save();
-                }
+            $excludeCategories = implode(', ', $excludeCategoryArray);
+            if(!empty($excludeCategories)){
+                 $couponForExcludeCategory = CouponProductsCategory::firstOrNew(array('coupon_id' => $couponData->id));
+                 $couponForExcludeCategory->exclude_categories = $excludeCategories;
+                 $couponForExcludeCategory->coupon_id =$couponData->id;
+                 $couponForExcludeCategory->save();
+
+                // foreach($excludeCategoryArray as $selectedExcludeCategory){
+                    // $couponForCategories = CouponProductsCategory::insert([
+                    //     'exclude_categories' => $excludeCategories,
+                    //      'coupon_id' =>$couponData->id
+
+                    // ]);
+                    // $couponForCategories-> save();
+                // }
             }
 
         }

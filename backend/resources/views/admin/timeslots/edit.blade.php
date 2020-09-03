@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-             <div class="form-group {{ $errors->has('delivery_date') ? 'has-error' : '' }}">
+             <!-- <div class="form-group {{ $errors->has('delivery_date') ? 'has-error' : '' }}">
                 <div id="delivery_date" class="row">
             <div class="form-group col-sm-3">
                 <label for="title">{{ trans('global.timeslot.fields.delivery_date') }}*</label>
@@ -54,7 +54,7 @@
                 <input name="delivery_time_end" type="text" value="{{ old('delivery_time_end', isset($deliveryTimeSlotArray) ? $deliveryTimeSlotArray['delivery_time_end'] : '') }}" class="time end form-control">
                 </div>
             </div>
-        </div>
+        </div> -->
                 @if($errors->has('delivery_date'))
                     <em class="invalid-feedback">
                         {{ $errors->first('delivery_date') }}

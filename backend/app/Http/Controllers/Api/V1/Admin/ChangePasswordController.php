@@ -12,7 +12,8 @@ use Hash;
 use Auth;
 use Validator;
 use Exception;
-
+use App\Mail\ChangePassword;
+use Mail;
 
 class ChangePasswordController extends Controller
 {
@@ -54,6 +55,7 @@ class ChangePasswordController extends Controller
             }
             $user->password = Hash::make($new_password);
             $user->save();
+             $sent = Mail::to($user['email'])->send(new ChangePassword($user));
             if ($user) {
                 return response()->json([
                     'status' => true,

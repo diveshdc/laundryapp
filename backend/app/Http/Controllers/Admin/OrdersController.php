@@ -19,10 +19,15 @@ class OrdersController extends Controller
         abort_unless(\Gate::allows('order_access'), 403);
     // $orders= Order::all();
            // $orders = Order::where('is_skip_items',0)->get();
-           $orders = Order::with('userInfo')->get();
-            $drivers = User::whereHas('roles',function($q){
-                $q->where('title', 'Driver');
-            })->pluck('id','first_name');
+           $orders = Order::OrderBy('id','Desc')->with('userInfo')->get();
+            // $drivers = User::whereHas('roles',function($q){
+            //     $q->where('title', 'Driver')->select('id','first_name','last_name')->get();
+
+                $drivers =User::whereHas('roles', function($q){
+                 $q->where('title', 'Driver');
+             })->select('id','first_name','last_name')->get();
+
+                
          return view('admin.orders.index',compact(['orders','drivers']));
     }
 
@@ -81,7 +86,7 @@ class OrdersController extends Controller
     {
         abort_unless(\Gate::allows('order_show'), 403);
         // $order = Order::where('id','=',$id)->first();
-        $order = Order::where('id',$id)->with('userInfo')->get();
+        $order = Order::where('id',$id)->with('userInfo','productList')->get();
         // dd($order);
         $ipAddress = $request->ip();
         return view('admin.orders.show',compact('order','ipAddress'));
@@ -123,22 +128,30 @@ class OrdersController extends Controller
 public function assignJob(Request $request) {
   try{
     $validator = Validator::make($request->all(), [
-            'driver_id' => 'bail|required',
+            // 'assign_delivery' => 'bail|required',
+            'admin_notes'=>'required',
         ],[
-            'driver_id.required' => 'Driver Id missing'
+            // 'assign_delivery.required' => 'Driver Id missing'
         ]);
     if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()->all()]);
     }
-    $assignJob = Order::where('id',$request['job_id'])->update([
-                            'assign_to' =>$request['driver_id'],
-                            'accept_reject'=>'Assigned'
-
-                        ]);
-        return response()->json([
-                    'status' => 'success',
-                     'message' => 'Job assign successfully!', 
-                ]);
+    if($request['assign_delivery']){
+    $aa = Order::where('id',$request['job_id'])->update([
+                'assign_to_delivery' =>$request['assign_delivery'],
+                'notes' =>$request['admin_notes'],
+                'accept_reject'=>'Assigned'
+            ]);   
+            dd($aa);     
+    }
+    if($request['assign_collection']){
+    Order::where('id',$request['job_id'])->update([
+                'assign_to' =>$request['assign_collection'],
+                'notes' =>$request['admin_notes'],
+                'accept_reject'=>'Assigned'
+            ]);
+}
+    return redirect()->back()->with('success', 'Job assigned successfully!');   
   }catch (\Exception $ex){
             return response()->json([
                 'status' => 'errors',

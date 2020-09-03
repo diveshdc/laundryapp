@@ -30,6 +30,15 @@
     {{ trans('global.order.title_singular') }} {{ trans('global.list') }}
     <a style="margin-left: 69%;" href="{{ url('admin/skiporders')}}">{{ trans('global.order.skip_order') }} {{ trans('global.list') }}</a>
   </div> -->
+  @if (\Session::has('success'))
+    <div class="alert alert-success">
+        <ul>
+            <li>{!! \Session::get('success') !!}</li>
+        </ul>
+    </div>
+@endif
+
+
 <div class="alert alert-danger print-error-msg" style="display:none">
   <ul></ul>
 </div>
@@ -66,7 +75,7 @@
              <th>Delivery Task</th>
              <th>Collection Status</th>
              <th>Delivery Status</th>
-           <th>Task Details</th>
+             <th>Task Details</th>
          </tr>
        </thead>
        <tbody>
@@ -76,10 +85,11 @@
           <td>
           </td>
           <td style="color: blue;">
-             <a href="{{ route('admin.order.show',$order->id)}}">#{{$order->id}} {{$order['userInfo']['first_name']}}</a>
+             <a href="{{ route('admin.order.show',$order->id)}}">#{{$order->id}} {{$order['userInfo']['first_name']}} {{$order['userInfo']['last_name']}}</a>
         </td>
            <td>
-            {{ $order->created_at ?? '' }}
+            <!-- {{ $order->created_at ?? '' }} -->
+            {{ \Carbon\Carbon::parse($order->created_at)->format('d/M/Y')}}
           </td>
            <td>
             {{ $order->status?? '' }}
@@ -94,135 +104,136 @@
             <label class="label-hv">
               {{$order->is_skip_items == 1 ? 'Skip Item Selection' : 'With Item' }}
             </label>
-            
           </td>
           <td>
-                 <!-- <select class="badge badge-info assign-job">        
-                    <option value="">Assign Job</option>
-              @foreach($drivers as $key => $driver)
-                    <option id="{{$order->id}}" value="{{$driver}}">{{ $key }}</option>
-               @endforeach
-                </select> -->
-                <div class="dropdown">
-                      <button class="label-hv dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @foreach($drivers as $key => $driver)
-                         {{ $order->assign_to == $driver && $order->delivery_type =='Collection' ? $key : 'Assign To' }}
-                         @endforeach
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <p>
-                      Order <strong>#{{$order->id}}</strong>&nbsp;&nbsp;&nbsp;Task <span class="label-hg">Collection</span><br>
-                   <strong>{{$order['userInfo']['first_name']}} {{$order['userInfo']['last_name']}}</strong><br>
-                 {{ $order->building_name_no ?? '' }} {{ $order->street_name ?? '' }}<br>
-                Postcode: <strong>{{ $order->post_code ?? '' }}</strong><br>
-                Mobile: <strong>{{$order['userInfo']['phone_number']}}</strong><br>
-                Date: <strong>{{$order->created_at}}</strong><br>
-                Time slots: <strong>{{ $order->collection_time }} – {{ $order->delivery_time}}</strong><br>
-                      </p>
-                      <div class="form-group">
-                        <label>Add Notes:</label>
-                        <textarea class="form-control" cols="5" rows="2" ></textarea>
-                      </div>
-                       <div class="form-group">
-                        <label>Assign to Driver:</label>
-                        <select class="custom-select form-control assign-job">        
-                        <option value="">Assign Job</option>
-                        @foreach($drivers as $key => $driver)
-                         <option id="{{$order->id}}" value="{{$driver}}"{{ ( $order->assign_to == $driver ) ? 'selected' : '' }}>{{ $key }}</option>
-                         @endforeach
-                          </select>
-                      </div>
-
-                      </div>
-                  </div>
+          <button class="label-hv dropdown-toggle launch-collection-modal" onclick="openCollection({{$order}})" type="button" id="" aria-expanded="false">
+            @foreach($drivers as $driver)
+             {{ $order->assign_to == $driver->id? $driver->first_name:'Assign To'}}
+             @endforeach
+          </button>
           </td>
-           <!-- <td> -->
-        <!-- @can('order_show')
-        <a class="btn btn-xs btn-primary" href="{{ route('admin.order.show', $order->id) }}">
-          {{ trans('global.view') }}
-        </a>
-        @endcan -->
-   <!--      @can('order_edit')
-        <a class="btn btn-xs btn-info" href="{{ route('admin.order.edit', $order->id) }}">
-          {{ trans('global.edit') }}
-        </a>
-        @endcan -->
-      <!--   @can('order_delete')
-        <form action="{{ route('admin.order.destroy', $order->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-          <input type="hidden" name="_method" value="DELETE">
-          <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-        </form>
-        @endcan -->
-      </td>
-      <td>
-        <div class="dropdown">
-                      <button class="label-hv dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @foreach($drivers as $key => $driver)
-                         {{ $order->assign_to == $driver && $order->delivery_type =='Delivery' ? $key : 'Assign To' }}
-                         @endforeach
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <p>
-                      Order <strong>#{{$order->id}}</strong>&nbsp;&nbsp;&nbsp;Task <span class="label-hg">Delivery</span><br>
-                   <strong>{{$order['userInfo']['first_name']}} {{$order['userInfo']['last_name']}}</strong><br>
-                 {{ $order->building_name_no ?? '' }} {{ $order->street_name ?? '' }}<br>
-                Postcode: <strong>{{ $order->post_code ?? '' }}</strong><br>
-                Mobile: <strong>{{$order['userInfo']['phone_number']}}</strong><br>
-                Date: <strong>{{$order->created_at}}</strong><br>
-                Time slots: <strong>{{ $order->collection_time }} – {{ $order->delivery_time}}</strong><br>
-                      </p>
-                      <div class="form-group">
-                        <label>Add Notes:</label>
-                        <textarea class="form-control" cols="5" rows="2" ></textarea>
-                      </div>
-                       <div class="form-group">
-                        <label>Assign to Driver:</label>
-                       <select class="custom-select form-control assign-job">        
-                        <option value="">Assign Job</option>
-                        @foreach($drivers as $key => $driver)
-                         <option id="{{$order->id}}" value="{{$driver}}"{{ ( $order->assign_to == $driver ) ? 'selected' : '' }}>{{ $key }}</option>
-                         @endforeach
-                          </select>
-                      </div>
-
-                      </div>
-                       </div>
-                  </td>
-                  <td>{{$order->status ?? ''}}</td>
-                  <td>{{$order->status ?? ''}}</td>
-                  <td>
+       
+  <td>
+      <button class="label-hv dropdown-toggle launch-delivery-modal" onclick="openDelivery({{$order}})" type="button" id="" aria-haspopup="false" aria-expanded="false">
+        @foreach($drivers as $driver)
+         {{ $order->assign_to_delivery == $driver->id ? $driver->first_name : 'Assign To' }}
+         @endforeach
+     </button>
+          </td>
+              <td>{{$order->status ?? ''}}</td>
+              <td>{{$order->status ?? ''}}</td>
+              <td>
                 <div class="dropdown">
-                          <button class="label-hv dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Collect
-                          </button>
-                          <div class="dropdown-menu "  aria-labelledby="dropdownMenuButton">
-                          <p>Collection</p>   
-                          <span class="label-hv label-green">Collection</span>
-                          <div class="mt-2"> <img src="https://picsum.photos/id/237/200/300" lass="my-2" height="200"></div>
-                          <a href="#">Export</a>
-                          </div>
-                      </div>
-                          <div class="dropdown">
-                          <button class="label-hv dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Deliver
-                          </button>
-                          <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
-                          <p>Deliver</p>   
-                          <span class="label-hv label-green">Deliver</span>
-                          <div> <img src="https://picsum.photos/id/237/200/300"  class="my-2" height="200"></div>
-                          <a href="#">Export</a>
-
-                          </div>
+                  <button class="label-hv dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Collect
+                  </button>
+                  <div class="dropdown-menu "  aria-labelledby="dropdownMenuButton">
+                  <p>Collection</p>   
+                  <span class="label-hv label-green">Collection</span>
+                  <div class="mt-2"> <img src="{{$order->receiver_image}}" lass="my-2" height="200"></div>
+                  <a href="#">Export</a>
+                  </div>
+              </div>
+                  <div class="dropdown">
+                  <button class="label-hv dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Deliver
+                  </button>
+                  <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                  <p>Deliver</p>   
+                  <span class="label-hv label-green">Deliver</span>
+                  <div> <img src="{{$order->receiver_image}}"  class="my-2" height="200"></div>
+                  <a href="#">Export</a>
+                  </div>
           </div>
         </td>
     </tr>
     @endforeach
   </tbody>
 </table>
-</div>
-</div>
-</div>
+<div id="delivery-modal" class="modal fade">
+           <form id="create_user" action="{{ route('admin.assignjob') }}" method="POST" enctype="multipart/form-data">
+             @csrf
+             <input type="hidden" name="job_id" value="{{ $order->id }}">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-body" id="delivery-data">
+                       <p>
+                          Order <strong id="odr-id"></strong>&nbsp;&nbsp;&nbsp;Task <span class="label-hg">Delivery</span><br>
+                          <strong id="usr-info"></strong><br>
+                          <p id="addr"></p>
+
+                           <br>
+                          Postcode: <strong id="pstcd"></strong><br>
+                          Mobile: <strong id="usr-phn"></strong><br>
+                          Date: <strong id="usr-crt"></strong><br>
+                          Time slots: <strong id="odr-time"></strong><br>
+                        </p>
+                      </div>
+                      <div class="form-group">
+                  <label>Add Notes:</label>
+                  <textarea class="form-control" name="admin_notes" cols="5" rows="2" ></textarea>
+                </div>
+                 <div class="form-group">
+                  <label>Assign to Driver:</label>
+                             <select class="custom-select form-control" id="delivery-task"  name="assign_delivery">        
+                              <option value="">Assign Job</option>
+                              @foreach($drivers as $driver)
+                               <option id="{{$order->id}}" value="{{$driver}}"{{ ( $order->assign_to == $driver->id ) ? 'selected' : '' }}>{{ $driver->first_name }}</option>
+                     @endforeach
+                      </select>
+                  </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Save</button>
+                      </div>
+                  </div>
+              </div>
+               </form>
+           </div>
+
+             <div id="collection-modal" class="modal fade">
+           <form id="create_user" action="{{ route('admin.assignjob') }}" method="POST" enctype="multipart/form-data">
+             @csrf
+             <input type="hidden" name="job_id" value="{{ $order->id }}">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-body" id="collection-data">
+                       <p>
+                          Order <strong id="odrr-id"></strong>&nbsp;&nbsp;&nbsp;Task <span class="label-hg">Collection</span><br>
+                          <strong id="usrr-info"></strong><br>
+                          <p id="addrr"></p>
+
+                           <br>
+                          Postcode: <strong id="pstcdd"></strong><br>
+                          Mobile: <strong id="usrr-phn"></strong><br>
+                          Date: <strong id="usrr-crt"></strong><br>
+                          Time slots: <strong id="odrr-time"></strong><br>
+                        </p>
+                      </div>
+                      <div class="form-group">
+                  <label>Add Notes:</label>
+                  <textarea class="form-control" name="admin_notes" cols="5" rows="2" ></textarea>
+                </div>
+                 <div class="form-group">
+                  <label>Assign to Driver:</label>
+                    <select class="custom-select form-control" name="assign_collection">        
+                    <option value="">Assign Job</option>
+                    @foreach($drivers as $driver)
+                     <option id="{{$order->id}}" value="{{$driver}}"{{ ( $order->assign_to == $driver->id ) ? 'selected' : '' }}>{{ $driver->first_name }}</option>
+                     @endforeach
+                      </select>
+                  </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Save</button>
+                      </div>
+                  </div>
+              </div>
+               </form>
+           </div>
+      </div>
+      </div>
+      </div>
 @section('scripts')
 @parent
 <script>
@@ -291,6 +302,32 @@
         }
     })
 })
+
+
+function openDelivery(data) {
+    $('#delivery-modal').modal({
+      backdrop: 'static'
+    });
+    $('#odr-id').html('#'+data.id);
+    $('#usr-info').html(data.user_info.first_name+' '+data.user_info.last_name);
+    $('#addr').html(data.user_info.building_name_no+','+data.user_info.town);
+    $('#pstcd').html(data.user_info.post_code);
+    $('#usr-phn').html(data.user_info.phone_number);
+    $('#usr-crt').html(data.created_at);
+    $('#odr-time').html(data.delivery_time);
+}
+function openCollection(data) {
+    $('#collection-modal').modal({
+      backdrop: 'static'
+    });
+    $('#odrr-id').html('#'+data.id);
+    $('#usrr-info').html(data.user_info.first_name+' '+data.user_info.last_name);
+    $('#addrr').html(data.user_info.building_name_no+','+data.user_info.town);
+    $('#pstcdd').html(data.user_info.post_code);
+    $('#usrr-phn').html(data.user_info.phone_number);
+    $('#usrr-crt').html(data.created_at);
+    $('#odrr-time').html(data.collection_time);
+}
 </script>
 @endsection
 @endsection

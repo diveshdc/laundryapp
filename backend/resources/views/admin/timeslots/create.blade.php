@@ -2,7 +2,6 @@
 @section('content')
 <head>
     <link rel="stylesheet" href="{{ asset('css/admin/jquery.timepicker.min.css')}}">
-
     <style type="text/css">
         .datepicker, .datepicker-days{padding: 0 !important; background: #ddeeff !important; }
         .datepicker .day, .datepicker .dow{background: #ddeeff !important;padding: 7px;border:1px solid #fff;border-radius:0 !important;border-right-color: grey;border-bottom-color: grey;}}
@@ -24,7 +23,6 @@
     <div class="card-header">
         {{ trans('global.create') }} {{ trans('global.timeslot.title_singular') }}
     </div>
-
     <div class="card-body">
         <form action="{{ route('admin.timeslot.store') }}" method="POST" enctype="multipart/form-data" id="create_role">
             @csrf
@@ -44,45 +42,32 @@
                 </div>
                 </div>
 
-            <div class="modal fade" id="timeslotmodal" role="dialog">
-                <div class="modal-dialog modal-lg">
+            <div class="modal fade" id="timeslotmodal" data-backdrop="static" data-keyboard="false" role="dialog">
+              <div class="modal-dialog modal-lg">
                   <div class="modal-content">
+                    <div class="success-alert" style="height: 50px;"></div>
                     <div class="modal-header">
                       <h4 style="margin-left:20%;" class="modal-title" id="modal-title"></h4>
                     </div>
                     <div class="modal-body">
-                     <input  type="checkbox" name="" value=""> Tick box to lockout date <br>
+                     <input  type="checkbox" name="" id="block-date-slot" onchange="blockDateSlot()" value=""> Tick box to lockout date <br>
                      <i class="fa fa-car" aria-hidden="true"></i>
-                        <span>Set Delivery Period after collection 
-                        <input style="width: 5%;
-                        box-sizing: border-box;" type="text" name="delivery_period" value="48">
-                    </span>(Hours)<br><br>
-                    <table class="table">
-                    <thead>
-                      <tr>
-                        <td></td>
-                        <th>Tick box to lock out time slot</th>
-                        <th>Set maximum number of order for time lockout</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach($adminTimeslots as $key=> $slotsdata)
-                      <tr>
-                        <td><input class="checkbox-click" onchange="selectRow('{{$slotsdata}}')" type="checkbox" name="" value=""></td>
-                        <td>{{$slotsdata->start_time}} - {{$slotsdata->end_time}}</td>
-                        <td><input type="text" name="" value="{{$slotsdata->maximum_order}}"></td>
-                      </tr>
-                      @endforeach()
-                    </tbody>
-                  </table>
+                        <span id="time-period" >Set Delivery Period after collection 
+                      </span>(Hours)<br><br>
+                  <table id="records_table" border='1'>
+                  <tr>
+                    <th></th>
+                      <th>Tick box to lock out time slot  </th>
+                      <th>Set maximum number of order for time lockout</th>
+                  </tr>
+                </table>
                     </div>
-                    <div class="modal-footer">
-                      <button style="margin-right: 56%" id="submit_time_slot" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-                    </div>
+                <div class="modal-footer">
+                  <button type="button" style="margin-right: 50%;" class="btn btn-danger" onclick="closeModal()">Close</button>
+                </div>
                   </div>
                 </div>
               </div>
-
         </form>
     </div>
 </div>
@@ -92,6 +77,7 @@
   crossorigin="anonymous"></script>
   <script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
    <script>
+  
      var tmp = [];
      var slotType;
      var timeSlotDate;
@@ -104,8 +90,113 @@
         var name = new Date(e.date).toLocaleDateString('en-US');
          timeSlotDate = new Date(e.date).toLocaleDateString('en-US');
         $('#timeslotmodal').modal('show');
-         $(".modal-title").text(name); 
+         $(".modal-title").text(name);
+          $.ajax({
+              data: {slot_data:tmp,type:slotType,date:timeSlotDate},
+              url: '/admin/getslotinfo',
+              type: 'POST',
+      beforeSend: function (request) {
+          return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+      },
+      success: function(response){
+        if(response.status ==true){
+          $(function() {
+            var timePeriod ='<input type="text" id="del_period" onblur="updateDeliveryPeriod()" value="'+response.timePeriod+'">'
+            $('#time-period').html(timePeriod);
+            var trHTML = '';
+            if(response.type=='collection'){
+                $.each(response.timeslot, function (i, item) {
+                  trHTML += '<tr><td><input type="checkbox" id="block_time" onchange="blockTimeSlot('+item.id+')"></td><td>'+ item.collection_time_start +'-'+item.collection_time_end+ '</td><td><input id="delivery'+i+'" onblur="updateDeliveryHour('+i+','+item.id+')" type="text" value="'+item.is_free_collection_limit+'"></td></tr>';
+              });
+            }
+           if(response.type=='delivery'){
+              $.each(response.timeslot, function (i, item) {
+                  trHTML += '<tr><td><input type="checkbox" id="block_time" onchange="blockTimeSlot('+item.id+')"></td><td>'+ item.delivery_time_start +'-'+item.delivery_time_end+ '</td><td><input id="delivery'+i+'" onblur="updateDeliveryHour('+i+','+item.id+')" type="text" value="'+item.is_free_delivery_limit+'"></td></tr>';
+              });
+            }
+
+
+              $('#records_table').html(trHTML);
+        });
+        }
+      }
+      })
     });
+
+
+    function updateDeliveryHour(i, id) {
+      const inputId ='delivery'+i;
+      let slotData = $('#'+inputId).val();
+       $.ajax({
+              data: {slot_id:id,value:slotData},
+              url: '/admin/updatetimeslotvalues',
+              type: 'POST',
+      beforeSend: function (request) {
+          return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+      },
+      success: function(response){
+        if(response.status ==true){
+            toastr.success(response.message);
+        }
+      }
+      })
+    };
+
+    function blockTimeSlot(slotId) {
+      const check =$('#block_time').prop('checked');
+      const checkStatus = check ==true?1:0;
+       $.ajax({
+              data: {type:'block_timeslot', id:slotId, value:checkStatus, coll_del:slotType},
+              url: '/admin/updatetimeslotvalues',
+              type: 'POST',
+      beforeSend: function (request) {
+          return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+      },
+      success: function(response){
+        if(response.status ==true){
+            toastr.success(response.message);
+        }
+      }
+      })
+
+  };
+    function blockDateSlot() {
+      const check =$('#block-date-slot').prop('checked');
+      const checkStatus = check ==true?1:0;
+       $.ajax({
+              data: {type:'block_dateslot',date:timeSlotDate,  value:checkStatus, coll_del:slotType},
+              url: '/admin/updatetimeslotvalues',
+              type: 'POST',
+      beforeSend: function (request) {
+          return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+      },
+      success: function(response){
+        if(response.status ==true){
+            toastr.success(response.message);
+        }
+      }
+      })
+
+  };
+
+    function updateDeliveryPeriod(value) {
+
+        let period = $('#del_period').val();
+       $.ajax({
+              data: {type:'period_update',value:period,date:timeSlotDate},
+              url: '/admin/updatetimeslotvalues',
+              type: 'POST',
+      beforeSend: function (request) {
+          return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+      },
+      success: function(response){
+        if(response.status ==true){
+            toastr.success(response.message);
+        }
+      }
+      })
+    };
+
 
     function selectRow(data) {
        tmp.push(data);
@@ -115,11 +206,16 @@
       slotType = data;
     };
 
+    function closeModal() {
+    $('#timeslotmodal').modal('hide');
+      window.location.reload();
+    };
+
     $('#submit_time_slot').on('click', function () {
           $.ajax({
-      data: {slot_data:tmp,type:slotType,date:timeSlotDate},
-      url: '/admin/create_time_slot',
-      type: 'POST',
+              data: {slot_data:tmp,type:slotType,date:timeSlotDate},
+              url: '/admin/create_time_slot',
+              type: 'POST',
       beforeSend: function (request) {
           return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
       },

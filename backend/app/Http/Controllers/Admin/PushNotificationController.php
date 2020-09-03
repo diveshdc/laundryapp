@@ -21,14 +21,15 @@ class PushNotificationController extends Controller
     {
          // abort_unless(\Gate::allows('push_access'), 403);
 
-         $pushNotification = PushNotification::all();
+         $pushNotification = PushNotification::OrderBy('id','Desc')->where('sent_by','Admin')->get();
           $users =User::whereHas('roles', function($q){
-                 $q->where('title', 'User');
-             })->pluck('first_name','device_token');
+                 $q->where('title', 'User')->select('id','first_name','last_name');
+             })->get();
+
 
           $drivers =User::whereHas('roles', function($q){
                  $q->where('title', 'Driver');
-             })->pluck('first_name','device_token');
+             })->select('id','first_name','last_name')->get();
         return view('admin.push_notification.index', compact(['pushNotification','users','drivers']));
     }
 
@@ -37,31 +38,109 @@ class PushNotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function sendPushNotification(Request $request)
     {
         if($request->users){
+        $userId = User::select('id','device_token','device_type')->where('id',$request->users)->first();
         $pushData = array(
-            'device_token'=>$request->users,
-            'title' =>'',
+            'device_token'=>$userId['device_token'],
+            'title' =>"Admin's message",
             'message'=>$request->message,
+            'user_id' =>$request->users
         );  
-            $this->sendPush($pushData);
-        }else if($request->drivers){
-        $pushData = array(
-            'device_token'=>$request->drivers,
-            'title' =>'',
-            'message'=>$request->message,
-        );  
-            $this->sendPush($pushData);
+            $this->saveNotification($pushData);
+            if(!empty($userId['device_token']) && $userId['device_type'] =='iOS' ){
+                $this->sendPushIos($pushData);
+            }
+             if(!empty( $userId['device_token']) && $userId['device_type'] =='Android' ){
+                    $this->sendPush($pushData);
+                }
         }
-        // if($request->check_drivers || $request->check_users){
+        if($request->drivers){
+        $driverId = User::where('id',$request->drivers)->select('id','device_token','device_type')->first();
+        $pushData = array(
+            'device_token'=>$driverId['device_token'],
+            'title' =>"Admin's message",
+            'message'=>$request->message,
+            'user_id' =>$request->drivers
+        ); 
+            $this->saveNotification($pushData); 
+                if(!empty($driverId['device_token']) && $driverId['device_type'] =='iOS' ){
+                $this->sendPushIos($pushData);
+            }
+            // dd($driverId);
+             if(!empty($driverId['device_token']) && $driverId['device_type'] =='Android' ){
+                    $this->sendPush($pushData);
+                }
+        }
+        if($request->check_drivers){
+          $drivers =User::whereHas('roles', function($q){
+                 $q->where('title', 'Driver');
+             })->select('id','device_token','device_type')->get();
+            $this->sendAndSave($drivers, $request);
+        }
+        if ($request->check_users) {
+        $users =User::whereHas('roles', function($q){
+                 $q->where('title', 'User');
+             })->select('id','device_token','device_type')->get();
+         $this->sendAndSave($users, $request);
+        }
 
-        // }
+        return redirect()->back()->with('success', 'Push notification sent successfully!');   
+
        // abort_unless(\Gate::allows('push_create'), 403);
 
         // $roles = Role::all()->pluck('title', 'id');
 
         // return view('admin.push_notification.create', compact(''));
+    }
+
+    protected function saveNotification($data) {
+          $notificationCount = PushNotification::where('user_id',$data['user_id'])->select('pending_count')->first();
+        PushNotification::insert([
+            'user_id'=>$data['user_id'],
+            'sent_by' =>'Admin',
+            'notification'=>$data['message'],
+            'created_at'=>date('Y-m-d'),
+            'updated_at'=>date('Y-m-d')
+        ]);
+        PushNotification::where('user_id',$data['user_id'])->update([
+            'pending_count'=>$notificationCount['pending_count']+1,
+        ]);
+
+        return;
+    }
+
+    protected function sendAndSave($data, $request) {
+        foreach ($data as $value) {
+                    $pushData = array(
+                            'device_token'=> $value['device_token'],
+                            'title' =>"Admin's message",
+                            'message'=>$request->message,
+                            'user_id' =>$value['id']
+                        );
+               $notificationCount = PushNotification::where('user_id',$value['id'])->select('pending_count')->first();
+               PushNotification::where('user_id',$value['id'])->insert([
+                        // 'pending_count'=>$notificationCount['pending_count']+1,
+                        'notification'=>$request->message,
+                        'user_id' =>$value['id'],
+                        'sent_by' =>'Admin',
+                        'created_at'=>date('Y-m-d'),
+                        'updated_at'=>date('Y-m-d')
+
+               ]); 
+               PushNotification::where('user_id',$value['id'])->update([
+                'pending_count'=>$notificationCount['pending_count']+1,
+                ]);
+               if(!empty( $value['device_token']) && $value['device_type'] =='Android' ){
+                    $this->sendPush($pushData);
+                }
+                 if(!empty($value['device_token']) && $value['device_type'] =='ios' ){
+                    // dd($value);   
+                     $this->sendPushIos($pushData);
+                }
+             }
+        return;
     }
 
     /**

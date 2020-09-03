@@ -16,6 +16,7 @@ class CouponProductsCategory extends Model
     ];
     // protected $guarded = ['*'];
     protected $fillable = [
+        'coupon_id',
         'products',
         'exclude_products',
         'exclude_categories',

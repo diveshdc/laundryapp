@@ -623,7 +623,7 @@ return [
         ],
     ],
     'timeslot'                                 => [
-        'title'          => 'Timeslotes',
+        'title'          => 'Timeslots',
         'title_singular' => 'Timeslot',
         'fields'         => [
             'id'                 => 'ID',
