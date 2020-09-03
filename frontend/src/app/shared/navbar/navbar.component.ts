@@ -1,5 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Router } from '@angular/router';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
     selector: 'app-navbar',
@@ -9,28 +11,31 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
-    signInButton: boolean = true;
+    // tslint:disable-next-line:no-inferrable-types
+    signInButton: boolean = false;
 
-    constructor(public location: Location, private element : ElementRef) {
+    constructor(public location: Location,
+        private element: ElementRef,
+        private router: Router,
+        private authservice: AuthService) {
         this.sidebarVisible = false;
     }
 
     ngOnInit() {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-        const userData = localStorage.getItem('la_user_token');
-        if(userData.length>0){
-         this.signInButton = false
+        const userToken = localStorage.getItem('la_user_token');
+        if (userToken.length > 0) {
+            this.signInButton = true;
         }
     }
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const html = document.getElementsByTagName('html')[0];
-        setTimeout(function(){
+        setTimeout(function() {
             toggleButton.classList.add('toggled');
         }, 500);
         html.classList.add('nav-open');
-
         this.sidebarVisible = true;
     };
     sidebarClose() {
@@ -49,14 +54,30 @@ export class NavbarComponent implements OnInit {
             this.sidebarClose();
         }
     };
-  
+
     isDocumentation() {
-        var titlee = this.location.prepareExternalUrl(this.location.path());
-        if( titlee === '/documentation' ) {
+        const titlee = this.location.prepareExternalUrl(this.location.path());
+        if ( titlee === '/documentation' ) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
+    }
+
+    // scroll(id) {
+    //     console.log(`scrolling to ${id}`);
+    //     const el = document.getElementById(id);
+    //     el.scrollIntoView();
+    //   }
+
+    orderNow() {
+        // if (this.signInButton === true) {
+        //     this.router.navigate(['/', 'login']);
+        // }
+    }
+
+    logOut() {
+        this.authservice.removeToken();
+        this.router.navigateByUrl('/login');
     }
 }

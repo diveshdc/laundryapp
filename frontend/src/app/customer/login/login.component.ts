@@ -11,24 +11,24 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
     public userLoginForm: FormGroup;
-    user: any=[]
+    user: any = []
     public account_validation_messages = ValidationService.account_validation_messages;
 
-    data : Date = new Date();
+    data: Date = new Date();
     focus;
     focus1;
 
-    constructor(private formBuilder:FormBuilder,private authservice: AuthService, private route: Router) { }
+    constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router) { }
 
     ngOnInit() {
-        var body = document.getElementsByTagName('body')[0];
+        const body = document.getElementsByTagName('body')[0];
         body.classList.add('login-page');
-        var navbar = document.getElementsByTagName('nav')[0];
+        const navbar = document.getElementsByTagName('nav')[0];
         navbar.classList.add('navbar-transparent');
 
         this.userLoginForm = this.formBuilder.group({
             email: ['', [Validators.required,
-                        Validators.pattern("^[a-zA-Z0-9_!#$%&'*+/=? \\\"`{|}~^.-]+@[a-zA-Z0-9.-]+$"), 
+                        Validators.pattern('^[a-zA-Z0-9_!#$%&\'*+/=? \\"`{|}~^.-]+@[a-zA-Z0-9.-]+$'),
                         ValidationService.avoidEmptyStrigs]],
             password : ['', [Validators.required, Validators.minLength(6)]]
             });
@@ -40,13 +40,13 @@ export class LoginComponent implements OnInit {
           return true;
         }
         this.authservice.login(this.userLoginForm.value).subscribe(async res => {
-            if (res['status'] == true) {
+            if (res['status'] === true) {
               await this.authservice.showToastrMessage('success', 'User Login', res['message']);
-                localStorage.setItem('la_user_token',res['token']);
+                localStorage.setItem('la_user_token', res['token']);
                 localStorage.setItem('la_user_token_data', JSON.stringify(res['data']));
                 this.route.navigate(['']);
             } else {
-              console.log(res,'resres')
+              console.log(res, 'resres')
               this.authservice.showToastrMessage('error', 'Spotlex', res['message']);
             }
           }, (error) => {
@@ -64,12 +64,13 @@ export class LoginComponent implements OnInit {
         control.markAsDirty({ onlySelf: true });
       });
     }
-        
-    ngOnDestroy(){
-        var body = document.getElementsByTagName('body')[0];
+
+    // tslint:disable-next-line:use-life-cycle-interface
+    ngOnDestroy() {
+        const body = document.getElementsByTagName('body')[0];
         body.classList.remove('login-page');
 
-        var navbar = document.getElementsByTagName('nav')[0];
+        const navbar = document.getElementsByTagName('nav')[0];
         navbar.classList.remove('navbar-transparent');
     }
 

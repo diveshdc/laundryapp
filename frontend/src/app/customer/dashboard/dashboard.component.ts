@@ -9,17 +9,20 @@ import { ValidationService } from '../../services/validation.service'
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  public userInfoForm: FormGroup;
-  public account_validation_messages = ValidationService.account_validation_messages; 
-
-  constructor(private formBuilder:FormBuilder,private authservice: AuthService, private route: Router) { }
-
-  ngOnInit(): void {
-    this.getUserData();
+   userInfoForm: FormGroup;
+  public account_validation_messages = ValidationService.account_validation_messages;
+  showSupport: Boolean = false;
+  loyalityPoint: any;
+  userId: any;
+  allOrders: any;
+  orderDetail: any;
+  Coupons: any;
+  constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router) {
     this.userInfoForm = this.formBuilder.group({
       email: ['', [Validators.required,
-                  Validators.pattern("^[a-zA-Z0-9_!#$%&'*+/=? \\\"`{|}~^.-]+@[a-zA-Z0-9.-]+$"), 
-                  ValidationService.avoidEmptyStrigs]],
+                   Validators.pattern('^[a-zA-Z0-9_!#$%&\'*+/=? \\"`{|}~^.-]+@[a-zA-Z0-9.-]+$'),
+                   ValidationService.avoidEmptyStrigs]
+                  ],
       password : ['', [Validators.required, Validators.minLength(6)]],
       postcode : ['', [Validators.required]],
       address : ['', [Validators.required]],
@@ -32,15 +35,20 @@ export class DashboardComponent implements OnInit {
       town : ['', [Validators.required]],
       building_name_no : ['', [Validators.required]],
       });
+   }
+
+  ngOnInit(): void {
+    this.getUserData();
   }
 
   getUserData() {
     this.authservice.getUser().subscribe(async res => {
-      if (res['status'] == true) {
-        this.userInfoForm.controls['first_name'].setValue('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo')
-       
+      if (res['status'] === true) {
+        this.loyalityPoint = res['data'].loyalty_point
+        this.userId = res['data'].id
+        this.userInfoForm.patchValue(res['data'])
       } else {
-        
+
       }
     }, (error) => {
       this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
@@ -51,12 +59,11 @@ export class DashboardComponent implements OnInit {
     if (this.userInfoForm.invalid) {
       this.validateAllFormFields(this.userInfoForm);
       return true;
-    }else{
+    } else {
       this.authservice.login(this.userInfoForm.value).subscribe(async res => {
-        if (res['status'] == true) {
-         
+        if (res['status'] === true) {
+          this.authservice.showToastrMessage('success', 'Spotlex', res['message']);
         } else {
-          
         }
       }, (error) => {
         this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
@@ -68,6 +75,50 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  showChat() {
+    this.showSupport = true;
+  }
+
+  closeChat() {
+    this.showSupport = false;
+  }
+
+  getCouponVoucher() {
+    this.authservice.getCoupon().subscribe(async res => {
+      if (res['status'] === true) {
+        this.Coupons = res['data']
+      } else {
+      }
+    }, (error) => {
+      this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+    })
+  }
+
+  getAccountSetting() {
+
+  }
+
+  viewOrderDetail(orderId) {
+    const result = this.allOrders.filter(element => {
+      if (element.id === orderId) {
+       return true;
+      }
+     });
+     console.log(result[0])
+     this.orderDetail = result[0]
+  }
+
+  getOrderHistory() {
+    this.authservice.getOrderHistory({'user_id': this.userId}).subscribe(async res => {
+      if (res['status'] === true) {
+        this.allOrders = res['currentOrders']
+        this.authservice.showToastrMessage('success', 'Spotlex', res['message']);
+      } else {
+      }
+    }, (error) => {
+      this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+    })
+  }
   /**
    * Function to validate all form fields
    * @param formGroup
@@ -79,5 +130,5 @@ export class DashboardComponent implements OnInit {
       control.markAsDirty({ onlySelf: true });
     });
   }
-  
+
 }

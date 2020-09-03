@@ -18,15 +18,19 @@ export class PricingComponent implements OnInit {
   badgeCount: any;
   userId: any;
   quantityCount: any;
-
-  constructor(private productCategoryService: ProductCategoryService, private priceservice: PriceService,private authservice:AuthService) { }
+  showSpkiItemDiv: boolean;
+  minValue = 15;
+  constructor(
+      private productCategoryService: ProductCategoryService,
+      private priceservice: PriceService,
+      private authservice: AuthService) { }
 
   ngOnInit(): void {
     this.getUserData();
   }
 
   onScroll(e) {
-    if(this.productOfCategory.length>=100) {
+    if (this.productOfCategory.length >= 100) {
       console.log('No more items');
       return;
     }
@@ -35,9 +39,9 @@ export class PricingComponent implements OnInit {
     // this.productOfCategory = [...this.productOfCategory, ...moreProducts];
   }
 
-  getUserData(){
+  getUserData() {
     this.authservice.getUser().subscribe(async res => {
-      if (res['status'] == true) {
+      if (res['status'] === true) {
           this.userData = res['data'];
           this.userId = res['data'].id;
           this.getCategoryList();
@@ -50,16 +54,19 @@ export class PricingComponent implements OnInit {
   }
 
   getCategoryList() {
-    const payload ={
-      user_id:this.userData['id'],
+    const payload = {
+      user_id: this.userData['id'],
     }
     this.productCategoryService.getCategoryList(payload).subscribe(async res => {
-      if (res['status'] == true) {
+      if (res['status'] === true) {
         this.quantityCount = res['quantity_count'];
+        if (this.quantityCount.length > 0) {
+          this.showSpkiItemDiv = true;
+        }
         this.categories = res['categoriesArray'];
         for (let i = 0; i < res['categoriesArray'].length; i++) {
-          let obj = res['categoriesArray'][i];
-          if(i == 0 ){
+          const obj = res['categoriesArray'][i];
+          if (i === 0 ) {
             this.getProductByCatId(obj.id)
           }
       }
@@ -74,70 +81,63 @@ export class PricingComponent implements OnInit {
   getProductByCatId(id) {
     this.selectedCategory = id;
     this.categories.forEach((element) => {
-      if(element['id'] == id){
+      if (element['id'] === id) {
         this.productOfCategory = element['category_product']['data'];
       }
     })
     }
 
-    getQuantity(productId,userId) {
+    getQuantity(productId, userId) {
+      if (this.quantityCount.length <= 0 || this.quantityCount.length === '') {
+        this.showSpkiItemDiv = false;
+      }
       const result = this.quantityCount.filter(element => {
-       if(element.product_id ==productId ){
+       if (element.product_id === productId ) {
         return true;
        }
       });
-      return result[0]?result[0].quantity:0
+      return result[0] ? result[0].quantity : 0
     }
 
-
-    // getCurrentQuantity(productId,userId) {
-    //   const result = this.quantityCount.filter(element => {
-    //    if(element.product_id ==productId && element.user_id ==userId ){
-    //       console.log(element,'elementelementelementelementelementelementelementelementelementelement')
-    //    }
-    //   });
-    // }
-
-    addToCart(product,value) {
+    addToCart(product, value) {
       this.quantity = this.getQuantity(product.id, this.userId)
-      if(this.quantity && this.quantity > 0){
-        if(value == 'plus')
-          this.quantity++
-        else
-          this.quantity--
-      }
-      else if(value == 'plus')
-        this.quantity = 1 
-
-      const payLoad ={
-        'user_id':this.userData.id,
-        'product_id':product.id,
-        'name':product.name,
-        'price':product.price,
-        'sale_price':product.sale_price?product.sale_price:0,
-        'quantity':this.quantity,
-        'category_id':this.selectedCategory,
-        'description':product.description,
-        'image':product.image,
+      if (this.quantity && this.quantity > 0) {
+        if (value === 'plus') {
+          this.quantity++;
+        } else if (value === 'minus') {
+          this.quantity--;
+        }
+      } else if (value === 'plus') {
+        this.quantity = 1
+ }
+      const payLoad = {
+        'user_id': this.userData.id,
+        'product_id': product.id,
+        'name': product.name,
+        'price': product.price,
+        'sale_price': product.sale_price ? product.sale_price : 0,
+        'quantity': this.quantity,
+        'category_id': this.selectedCategory,
+        'description': product.description,
+        'image': product.image,
       }
       this.priceservice.addToCart(payLoad).subscribe(async res => {
-        if (res['status'] == true) {
+        if (res['status'] === true) {
           this.badgeCount = res['CartItem'].quantity;
-          let index = this.quantityCount.findIndex(item=>item.product_id == product.id)
-          if(index <= 0){
-            let prod = {
+          const index = this.quantityCount.findIndex(item => item.product_id === product.id)
+          if (index <= 0) {
+            const prod = {
               'product_id': product.id,
               'category_id': this.selectedCategory,
               'quantity': this.quantity
             }
             this.quantityCount.push(prod)
-          }
-          else
+          } else {
             this.quantityCount[index].quantity = this.quantity
-          
+          }
           this.quantity = 0;
         } else {
-          
+
         }
       }, (error) => {
 

@@ -9,22 +9,28 @@ import { LoginComponent } from './customer/login/login.component';
 import { ProfileComponent } from './customer/profile/profile.component';
 import { PricingComponent } from './customer/pricing/pricing.component';
 import { DashboardComponent } from './customer/dashboard/dashboard.component';
-import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
 import { CommercialComponent } from './customer/commercial/commercial.component';
 import { ReferfriendComponent } from './customer/referfriend/referfriend.component';
 import { TrackDriverComponent } from './customer/track-driver/track-driver.component';
-const routes: Routes =[
+import { BasketComponent } from './customer/basket/basket.component';
+import { CheckoutComponent } from './customer/checkout/checkout.component';
+import { AuthGuard } from './shared/auth.guard';
+import { SignupComponent } from './customer/signup/signup.component';
+const routes: Routes = [
     // { path: '', redirectTo: '', pathMatch: 'full' },
-    { path: '',            component: LandingComponent },
+    { path: '', component: LandingComponent, pathMatch: 'full' , canActivate: [AuthGuard]},
     { path: 'index',       component: ComponentsComponent },
-    { path: 'nucleoicons', component: NucleoiconsComponent },
     { path: 'login',       component: LoginComponent },
     { path: 'profile',     component: ProfileComponent },
     { path: 'pricing',     component: PricingComponent },
-    { path: 'dashboard',     component: DashboardComponent },
+    { path: 'dashboard',     component: DashboardComponent, canActivate: [AuthGuard]},
     { path: 'commercial',     component:  CommercialComponent},
     { path: 'refer-to-friend',     component:  ReferfriendComponent},
     { path: 'track-driver',     component:  TrackDriverComponent},
+    { path: 'basket',     component:  BasketComponent},
+    { path: 'checkout',     component:  CheckoutComponent},
+    { path: 'signup',     component:  SignupComponent},
+    { path: 'basket',     component:  BasketComponent},
 ];
 
 @NgModule({
@@ -33,6 +39,7 @@ const routes: Routes =[
         BrowserModule,
         RouterModule.forRoot(routes),
     ],
+    providers: [AuthGuard],
     exports: [
     ],
 })

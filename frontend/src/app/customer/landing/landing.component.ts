@@ -6,27 +6,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
-  data : Date = new Date();
+  data: Date = new Date();
   focus;
   focus1;
-  signInButton: boolean =true;
+  signInButton = true;
 
   constructor() { }
 
   ngOnInit() {
     const userData = localStorage.getItem('la_user_token');
-     if(userData.length>0){
+     if (userData.length > 0) {
       this.signInButton = false
      }
-    var body = document.getElementsByTagName('body')[0];
+    const body = document.getElementsByTagName('body')[0];
     body.classList.add('landing-page');
-    var navbar = document.getElementsByTagName('nav')[0];
+    const navbar = document.getElementsByTagName('nav')[0];
     navbar.classList.add('navbar-transparent');
   }
-  ngOnDestroy(){
-    var body = document.getElementsByTagName('body')[0];
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnDestroy() {
+    const body = document.getElementsByTagName('body')[0];
     body.classList.remove('landing-page');
-    var navbar = document.getElementsByTagName('nav')[0];
+    const navbar = document.getElementsByTagName('nav')[0];
     navbar.classList.remove('navbar-transparent');
   }
 }

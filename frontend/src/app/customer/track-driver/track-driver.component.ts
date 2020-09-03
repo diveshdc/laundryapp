@@ -16,20 +16,19 @@ export class TrackDriverComponent implements OnInit {
   ngOnInit(): void {
   }
     // google maps zoom level
+    // tslint:disable-next-line:member-ordering
     zoom: number = 15;
-  
     // initial center position for the map
     lat: number = 51.512802;
     lng: number = -0.091324;
-  
     map: any;
     line: any;
     directionsService: any;
     marker: TravelMarker = null;
-  
+
     // speedMultiplier to control animation speed
     speedMultiplier = 1;
-  
+
     onMapReady(map: any) {
       console.log(map);
       this.map = map;
@@ -37,15 +36,15 @@ export class TrackDriverComponent implements OnInit {
       this.mockDirections();
       // this.initEvents();
     }
-  
+
   /**
    *                  IMPORTANT NOTICE
    *  Google stopped its FREE TIER for Directions service.
    *  Hence the below route calculation will not work unless you provide your own key with directions api enabled
-   *  
+   *
    *  Meanwhile, for the sake of demo, precalculated value will be used
    */
-  
+
     // get locations from direction service
     calcRoute() {
       this.line = new google.maps.Polyline({
@@ -53,7 +52,7 @@ export class TrackDriverComponent implements OnInit {
         path: [],
         map: this.map
       });
-      
+
       const start = new google.maps.LatLng(51.513237, -0.099102);
       const end = new google.maps.LatLng(51.514786, -0.080799);
       const request = {
@@ -80,15 +79,15 @@ export class TrackDriverComponent implements OnInit {
         }
       });
     }
-  
+
   /**
    *                  IMPORTANT NOTICE
    *  Google stopped its FREE TIER for Directions service.
    *  Hence the below route calculation will not work unless you provide your own key with directions api enabled
-   *  
+   *
    *  Meanwhile, for the sake of demo, precalculated value will be used
    */
-  
+
     // mock directions api
     mockDirections() {
      let locationData=[[51.51324,-0.09909000000000001],[51.51478,-0.08078]]
@@ -100,19 +99,19 @@ export class TrackDriverComponent implements OnInit {
         map: this.map
       });
       locationArray.forEach(l => this.line.getPath().push(l));
-    
+
       const start = new google.maps.LatLng(51.513237, -0.099102);
       const end = new google.maps.LatLng(51.514786, -0.080799);
-  
+
       const startMarker = new google.maps.Marker({position: start, map: this.map, label: 'A'});
       const endMarker = new google.maps.Marker({position: end, map: this.map, label: 'B'});
       this.initRoute();
     }
-  
+
     // initialize travel marker
     initRoute() {
       const route = this.line.getPath().getArray();
-  
+
       // options
       const options: TravelMarkerOptions = {
         map: this.map,  // map object
@@ -135,54 +134,54 @@ export class TrackDriverComponent implements OnInit {
           }
         },
       };
-    
+
       // define marker
       this.marker = new TravelMarker(options);
-      
-      // add locations from direction service 
+
+      // add locations from direction service
       this.marker.addLocation(route);
-        
+
       setTimeout(() => this.play(), 2000);
     }
-  
+
     // play animation
     play() {
       this.marker.play();
     }
-  
+
     // pause animation
     pause() {
       this.marker.pause();
     }
-  
+
     // reset animation
     reset() {
       this.marker.reset();
     }
-  
+
     // jump to next location
     next() {
       this.marker.next();
     }
-  
+
     // jump to previous location
     prev() {
       this.marker.prev();
     }
-  
+
     // fast forward
     fast() {
       this.speedMultiplier*=2;
       this.marker.setSpeedMultiplier(this.speedMultiplier);
     }
-  
+
     // slow motion
     slow() {
       this.speedMultiplier/=2;
       this.marker.setSpeedMultiplier(this.speedMultiplier)
     }
-  
-    initEvents() {
+
+   initEvents() {
       this.marker.event.onEvent((event: EventType, data: TravelData) => {
         console.log(event, data);
       });

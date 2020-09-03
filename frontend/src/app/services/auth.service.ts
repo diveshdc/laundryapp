@@ -28,14 +28,25 @@ export class AuthService {
 //   return this.http.get(this.apiUrl + '/api/user');
 // }
 
-
+getOrderHistory(userId) {
+  return this.http.post(this.apiUrl + '/api/getcurrentorders', userId);
+}
 
   userLogout() {
     return this.http.get(this.apiUrl + '/api/auth/logout');
   }
 
   login(loginData) {
-    return this.http.post(this.apiUrl + '/api/login',loginData);
+    return this.http.post(this.apiUrl + '/api/login', loginData);
+  }
+
+  removeToken() {
+    localStorage.removeItem('la_user_token');
+    localStorage.removeItem('la_user_token_data');
+  }
+
+  getCoupon() {
+    return this.http.get(this.apiUrl + '/api/getcoupons');
   }
 
 

@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class ProductCategoryService {
   public apiUrl: string = environment.url;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.apiUrl = environment.url;
   }
 
@@ -17,7 +17,7 @@ export class ProductCategoryService {
   *
   */
  getCategoryList(userId) {
-  return this.http.post(this.apiUrl + '/api/getcategory_list',userId);
+  return this.http.post(this.apiUrl + '/api/getcategory_list', userId);
 }
 
 }

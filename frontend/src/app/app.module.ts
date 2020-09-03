@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // this is needed!
 import { NgModule } from '@angular/core';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -9,13 +9,18 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
-import {NgbModule, NgbButtonsModule,NgbDropdownModule,NgbTabsetModule,NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import { MyInterceptor } from './interceptor/interceptor';
 // import { NgxUiLoaderModule, NgxUiLoaderConfig } from  'ngx-ui-loader';
 import { MessagesModule } from 'primeng/messages';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ScrolltotopComponent } from './shared/scrolltotop/scrolltotop.component';
 import { TrackDriverComponent } from './customer/track-driver/track-driver.component';
+import { LoaderService } from './services/loader.service';
+
+import { LoaderInterceptor } from './interceptor/loader-interceptor.service';
+import { MyLoaderComponent } from './components/my-loader/my-loader.component';
+
 import { AgmCoreModule } from '@agm/core';
 
 // import { ToastModule } from 'primeng/toast';
@@ -27,8 +32,8 @@ import { AgmCoreModule } from '@agm/core';
         NavbarComponent,
         FooterComponent,
         ScrolltotopComponent,
-        TrackDriverComponent
-        
+        TrackDriverComponent,
+        MyLoaderComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -54,7 +59,12 @@ import { AgmCoreModule } from '@agm/core';
         // ToastModule,
     ],
     providers: [
+        LoaderService,
         MessageService,
+        { provide: HTTP_INTERCEPTORS,
+          useClass: LoaderInterceptor,
+          multi: true
+        },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MyInterceptor,

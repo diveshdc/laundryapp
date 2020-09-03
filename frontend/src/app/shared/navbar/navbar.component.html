@@ -12,7 +12,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item ">
-                        <a *ngIf="signInButton" class="nav-link"  routerLink="login" routerLinkActive="active">Sign In</a>
+                        <a *ngIf="!signInButton" class="nav-link"  routerLink="login" routerLinkActive="active">Sign In</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/pricing" routerLinkActive="active" >Pricing</a>
@@ -31,7 +31,10 @@
                     </li>
 
                     <li class="nav-item">
-                        <a *ngIf="!signInButton" class="nav-link order_btn" routerLink="/dashboard" routerLinkActive="active">Order Now</a>
+                        <a *ngIf="!signInButton" class="nav-link order_btn" routerLink="/login" routerLinkActive="active">Order Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a *ngIf="signInButton" class="nav-link order_btn hand" (click)="logOut()" routerLinkActive="active">Logout</a>
                     </li>
                 </ul>
             </div>

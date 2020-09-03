@@ -4,8 +4,8 @@
     </div>
     <div class="dashboard-inner">
         <ul class="nav" id="dashboard-tabs">
-            <li>
-                <a href="javascript:void(0);" id="help-ssupport-block">
+            <li (click)="showChat()">
+                <a class="hand" id="help-ssupport-block">
                     <div class="dashboard-menu-box">
                         <h3>Help</h3>
                         <figure class="footer-icon">
@@ -25,7 +25,7 @@
                     </div>
                 </a>
             </li>
-            <li>
+            <li (click)="getAccountSetting()">
                 <a id="dashboard-tabs-2" data-toggle="tab" href="#account-setting" role="tab"
                     aria-controls="account-setting" aria-selected="false">
                     <div class="dashboard-menu-box">
@@ -36,7 +36,7 @@
                     </div>
                 </a>
             </li>
-            <li>
+            <li (click)="getOrderHistory()">
                 <a id="dashboard-tabs-3" data-toggle="tab" href="#order-history" role="tab"
                     aria-controls="order-history" aria-selected="false">
                     <div class="dashboard-menu-box">
@@ -69,7 +69,7 @@
                     </div>
                 </a>
             </li>
-            <li>
+            <li (click)="getCouponVoucher()">
                 <a id="dashboard-tabs-6" data-toggle="tab" href="#coupen" role="tab" aria-controls="coupen"
                     aria-selected="false">
                     <div class="dashboard-menu-box">
@@ -82,10 +82,10 @@
             </li>
             <li>
                 <!-- <a href="javascript:void(0);"> -->
-                    <div class="chat-support-wrap show">
+                    <div *ngIf="showSupport" (click)="closeChat()" class="chat-support-wrap show">
                         <div class="char-tile">
                             <h3>Live Support chat</h3>
-                            <a href="javascript:void(0);" class="chat-close-btn">X</a>
+                            <a click="closeChat()" class="chat-close-btn hand"><span class="cust-clr">X</span></a>
                         </div>
                         <div class="chat-support-content-wrap">
                             <ul>
@@ -429,124 +429,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><a href="#" class="">#2265</a></td>
-                                                <td>April 9, 2019</td>
-                                                <td>On Hold</td>
-                                                <td>£1.50 for 1 item</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2154</a></td>
-                                                <td>February 13, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£1.50 for 1 item</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2158</a></td>
-                                                <td>February 8, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£1.99 for 1 item</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2136</a></td>
-                                                <td>February 3, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£12.40 for 3 items</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2175</a></td>
-                                                <td>January 31, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£15.25 for 4 items</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2185</a></td>
-                                                <td>January 25, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£1.99 for 1 item</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2130</a></td>
-                                                <td>January 16, 2019</td>
-                                                <td>On Hold</td>
-                                                <td>£15.25 for 4 items</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2135</a></td>
-                                                <td>January 10, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£12.40 for 3 items</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2245</a></td>
-                                                <td>January 4, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£1.50 for 1 item</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2198</a></td>
-                                                <td>December 29, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£1.50 for 1 item</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2174</a></td>
-                                                <td>December 25, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£1.99 for 1 item</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2148</a></td>
-                                                <td>December 21, 2019</td>
-                                                <td>On Hold</td>
-                                                <td>£15.25 for 4 items</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2267</a></td>
-                                                <td>December 18, 2019</td>
-                                                <td>On Hold</td>
-                                                <td>£15.25 for 4 items</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2196</a></td>
-                                                <td>December 12, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£1.50 for 1 item</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><a href="#" class="">#2187</a></td>
-                                                <td>December 8, 2019</td>
-                                                <td>Processing</td>
-                                                <td>£12.40 for 3 items</td>
-                                                <td><a href="#" class="link_bttn">View</a></td>
+                                            <tr *ngFor="let orderItem of allOrders">
+                                                <td><a href="#" class="">#{{orderItem.id}}</a></td>
+                                                <td>{{orderItem.updated_at}}</td>
+                                                <td>{{orderItem.status}}</td>
+                                                <td>{{orderItem.actual_price}}</td>
+                                                <td><a class="link_bttn hand" (click)="viewOrderDetail(orderItem.id)">View</a></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -557,7 +445,7 @@
                                 <div class="order-details-wrap">
                                     <div class="title">
                                         <h3>Order details</h3>
-                                        <p>Order #2239 was placed on January 14, 2019 and is currently Processing</p>
+                                        <p>Order #{{orderDetail?.id}} was placed on January 14, 2019 and is currently Processing</p>
                                     </div>
                                     <div class="table-wrap table-row">
                                         <table class="table order-detail-table" style="width:100%">
@@ -569,7 +457,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <th><a href="#">Hand Towel(Wash and Dry)</a> x 1</th>
+                                                    <th><a href="#">{{orderDetail?.order_history[0].name}}</a> </th>
                                                     <td>£1.50</td>
                                                 </tr>
                                                 <tr>
@@ -632,15 +520,15 @@
                             <div class="sm-buttons-outer">
                                 <ul>
                                     <li>
-                                        <a href="#" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i>
+                                        <a href="www.facebook.com" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i>
                                             Share on Facebook </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i>
+                                        <a href="www.twitter.com" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i>
                                             Share on Twitter</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="googlePlus"><i class="fa fa-google-plus"
+                                        <a href="www.gmail.com" class="googlePlus"><i class="fa fa-google-plus"
                                                 aria-hidden="true"></i> Share on Google+</a>
                                     </li>
                                 </ul>
@@ -654,8 +542,8 @@
 
                                 <div class="newsletter-wrap">
                                     <form>
-                                        <input type="text" class="form-control" value="PATRICKE1" readonly />
-                                        <button class="btn primary_btn">Copy</button>
+                                        <input type="text" class="form-control" value="ORDER1" readonly />
+                                        <button type="button" class="btn primary_btn">Copy</button>
                                     </form>
                                 </div>
                             </div>
@@ -670,21 +558,31 @@
                         <h3>Loyalty Points</h3>
                     </div>
                     <div class="dashboard-tabs-content-inn text-center">
-                        <h3>You have 4 points</h3>
+                        <h3>You have {{loyalityPoint}} points</h3>
                         <p>For every pound you spend you earn one point. Once you reach 150 points, you will
                             receive<br /> a 10GBP discount to use on future orders.</p>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="coupen" role="tabpanel" aria-labelledby="dashboard-tabs-3">
-                <div class="dashboard-tabs-content-box">
-                    <div class="dashboard-tabs-content-title">
-                        <h3>Cooming Soon</h3>
+                    <div class="dashboard-tabs-content-box">
+                        <div class="dashboard-tabs-content-title">
+                            <div class="row mr-lf">
+                            <div *ngFor="let item of Coupons" class="box">
+                                <div class="inner">
+                                 <p>Coupon Code:-{{item.coupon_code}}</p>
+                                    <div class="coupon">
+                                    <span class="scissors">✂</span>
+                                    <span class="code">{{item.price}} {{item.discount_type}}</span>  
+                                    </div>
+                              </div>
+                             </div>
+                             </div>
+                            </div>
+                        <!-- <div class="dashboard-tabs-content-inn">
+                            working...
+                        </div> -->
                     </div>
-                    <div class="dashboard-tabs-content-inn">
-                        working...
-                    </div>
-                </div>
             </div>
         </div>
     </div>

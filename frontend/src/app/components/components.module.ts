@@ -8,11 +8,10 @@ import { RouterModule } from '@angular/router';
 
 import { BasicelementsComponent } from './basicelements/basicelements.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import { TypographyComponent } from './typography/typography.component';
-import { NucleoiconsComponent } from './nucleoicons/nucleoicons.component';
 import { ComponentsComponent } from './components.component';
 import { NotificationComponent } from './notification/notification.component';
 import { NgbdModalBasic } from './modal/modal.component';
+// import { MyLoaderComponent } from './my-loader/my-loader.component';
 
 @NgModule({
     imports: [
@@ -27,11 +26,10 @@ import { NgbdModalBasic } from './modal/modal.component';
         ComponentsComponent,
         BasicelementsComponent,
         NavigationComponent,
-        TypographyComponent,
-        NucleoiconsComponent,
         NotificationComponent,
-        NgbdModalBasic
+        NgbdModalBasic,
+        // MyLoaderComponent
     ],
-    exports:[ ComponentsComponent ]
+    exports: [ComponentsComponent ]
 })
 export class ComponentsModule { }

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -12,6 +12,9 @@ import { PricingModule } from './pricing/pricing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { CommercialModule } from './commercial/commercial.module';
 import { ReferfriendModule } from './referfriend/referfriend.module';
+import { BasketComponent } from './basket/basket.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { SignupComponent } from './signup/signup.component';
 
 
 @NgModule({
@@ -32,6 +35,9 @@ import { ReferfriendModule } from './referfriend/referfriend.module';
         LoginComponent,
         CustomerComponent,
         ProfileComponent,
+        BasketComponent,
+        CheckoutComponent,
+        SignupComponent,
     ]
 })
 export class CustomerModule { }
