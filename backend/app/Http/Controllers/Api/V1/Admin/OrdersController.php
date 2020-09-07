@@ -207,7 +207,6 @@ try{
               $discount = number_format($request['actual_price'] - ($couponCode['price'] / 100) * $request['actual_price'],2);
               $discountType='Fixed Basket';
             }
-            
             else if($couponCode->discount_type == 'Fixed Basket'){
               $finalPrice = number_format($request['actual_price'] - $couponCode['price'],2);
               $discount =  number_format($request['actual_price'] - $finalPrice,2);

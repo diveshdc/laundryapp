@@ -15,6 +15,9 @@ export class BasketComponent implements OnInit {
   informationForm: FormGroup;
   public account_validation_messages = ValidationService.account_validation_messages;
   userId: any;
+  CartItemsData: any;
+  totalItems: any;
+  totalPrice: any;
   constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router) {
     this.informationForm = this.formBuilder.group({
       email: ['', [Validators.required,
@@ -45,6 +48,7 @@ export class BasketComponent implements OnInit {
       if (res['status'] === true) {
         this.userId = res['data'].id
         this.informationForm.patchValue(res['data'])
+        this.getCartItems(res['data'].id);
       } else {
 
       }
@@ -53,9 +57,40 @@ export class BasketComponent implements OnInit {
     })
   }
 
+  getCartItems(userId) {
+    this.authservice.getCartItems(userId).subscribe(async res => {
+      if (res['status'] === true) {
+            this.CartItemsData = res['CartData'];
+              this.totalItems = res['quantity_count'];
+              this.totalPrice = 0;
+              res['CartData'].forEach(element => {
+                let total = 0;
+                for (let i = 0; i < element.price.length; i++) {
+                  total += element.price[i];
+                }
+                this.totalPrice = total;
+              });
+      } else {
+
+      }
+    }, (error) => {
+      this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+    })
+  }
+
+  // totalItemsPrice(votes) {
+  //    console.log(votes, 'asdsadsdgaskdgak')
+
+  // }
+
   EditAddress() {
 
   }
+
+  goToCheckout(): void {
+    // this.route.navigate(['/ckeckout', this.totalPrice]);
+    this.route.navigate(['/checkout']);
+}
 
   goBack() {
     window.history.go(-1); return false;

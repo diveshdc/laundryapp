@@ -27,12 +27,9 @@ Route::get('getcart_item/{user_id}', 'Api\V1\Admin\OrdersController@getCartItem'
 // Route::post('getPost', 'Api\V1\Admin\PostCodeController@geoLocate');
 Route::post('gettimeslot', 'Api\V1\Admin\OrdersController@getTimeSlot');
 
-
 Route::post('getcurrentorders', 'Api\V1\Admin\OrdersController@getOrderHistory');
 
 Route::post('addcarddetails', 'Api\V1\Admin\PaymentController@addCardDetails');
-
-
 Route::post('placeorder', 'Api\V1\Admin\PaymentController@chargeOrder');
 
 Route::post('chargeorder', 'Api\V1\Admin\PaymentController@chargeOrder');

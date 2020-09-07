@@ -107,6 +107,9 @@ export class ValidationService {
 'town': [
 { type: 'required', message: 'Town is required' },
 ],
+'coupon_code': [
+  { type: 'required', message: 'please enter coupon code' },
+  ],
     }
     static numberNotRequiredValidator(number): any {
       if (number.pristine) {

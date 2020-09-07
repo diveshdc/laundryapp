@@ -44,6 +44,7 @@ export class SignupComponent implements OnInit {
         if (res['status'] === true) {
           this.authservice.showToastrMessage('success', 'Spotlex', res['message']);
         } else {
+          this.authservice.showToastrMessage('error', 'Spotlex', res['message']);
         }
       }, (error) => {
         this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);

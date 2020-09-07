@@ -264,12 +264,6 @@
                 </div>
             </div>
             <!--Left Form Closed-->
-
-
-
-
-
-
             
              <!--Right Section Start-->
              <div class="col-md-4">
@@ -282,39 +276,12 @@
                  <div class="table-responsive">
                     <table class="table customtable borderBottom">
                         <tbody>
-                            <tr>
-                                <td class="prodImg" width="50"><img src="images/pic.jpg" alt=""></td>
-                                <td><a href="#">1x</a></td>
-                                <td>Lorem ipsum dolor sit</td>
-                                <td class="text-right">$6.00</td>
-                                <td class="text-right actionCol"> <a href="#"><i class="fa fa-times"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td class="prodImg" width="50"><img src="images/pic.jpg" alt=""></td>
-                                <td><a href="#">1x</a></td>
-                                <td>Lorem ipsum dolor sit</td>
-                                <td class="text-right">$6.00</td>
-                                <td class="text-right actionCol"> <a href="#"><i class="fa fa-times"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td class="prodImg" width="50"><img src="images/pic.jpg" alt=""></td>
-                                <td><a href="#">1x</a></td>
-                                <td>Lorem ipsum dolor sit</td>
-                                <td class="text-right">$6.00</td>
-                                <td class="text-right actionCol"> <a href="#"><i class="fa fa-times"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td class="prodImg" width="50"><img src="images/pic.jpg" alt=""></td>
-                                <td><a href="#">1x</a></td>
-                                <td>Lorem ipsum dolor sit</td>
-                                <td class="text-right">$6.00</td>
-                                <td class="text-right actionCol"> <a href="#"><i class="fa fa-times"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td class="prodImg" width="50"><img src="images/pic.jpg" alt=""></td>
-                                <td><a href="#">1x</a></td>
-                                <td>Lorem ipsum dolor sit</td>
-                                <td class="text-right">$6.00</td>
+                            <tr *ngFor="let cartData of CartItemsData; let i =index">
+                                <!-- <p>{{cartData}}</p> -->
+                                <td class="prodImg" width="50"><img src="{{cartData.image}}" alt=""></td>
+                                <td><a>{{cartData.quantity}}x</a></td>
+                                <td>{{cartData.name}}</td>
+                                <td class="text-right">£ {{cartData.sale_price ? cartData.sale_price :cartData.price}}</td>
                                 <td class="text-right actionCol"> <a href="#"><i class="fa fa-times"></i></a></td>
                             </tr>
                             
@@ -323,13 +290,14 @@
                  </div>
 
                  <div class="totalWidget">
-                    <p class="totalitems">Total Items: 5</p>
-                    <p class="totalAmounts">Total Amounts: $46.00</p>
+                    <p class="totalitems">Total Items: {{totalItems}}</p>
+                    <p class="totalAmounts">Total Amounts:£ {{totalPrice}}</p>
+
                  </div>
                  <p class="mt-4">
                      <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
                  </p>
-                 <button class="btn primary_btn nm_btn btn-shadow arrowBtn">Next <i class="fa fa-angle-right"></i></button>
+                 <button class="btn primary_btn nm_btn btn-shadow arrowBtn" (click) ="goToCheckout()">Next <i class="fa fa-angle-right"></i></button>
                 
             </div>
             <!--Right Section Closed-->

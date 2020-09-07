@@ -32,6 +32,10 @@ getOrderHistory(userId) {
   return this.http.post(this.apiUrl + '/api/getcurrentorders', userId);
 }
 
+getCartItems(userId) {
+  return this.http.get(this.apiUrl + `/api/getcart_item/${userId}`);
+}
+
   userLogout() {
     return this.http.get(this.apiUrl + '/api/auth/logout');
   }
@@ -39,7 +43,13 @@ getOrderHistory(userId) {
   login(loginData) {
     return this.http.post(this.apiUrl + '/api/login', loginData);
   }
+  applyCoupon(couponData) {
+    return this.http.post(this.apiUrl + '/api/applycoupon', couponData);
+  }
 
+  checkOut(checkoutData) {
+    return this.http.post(this.apiUrl + '/api/chargeorder', checkoutData);
+  }
   removeToken() {
     localStorage.removeItem('la_user_token');
     localStorage.removeItem('la_user_token_data');
