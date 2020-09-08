@@ -16,7 +16,11 @@ class CreatePushNotificationsTable extends Migration
         Schema::create('push_notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('notification');
-            $table->date();
+            $table->integer('user_id');
+            $table->integer('pending_count');
+            $table->string('job_type')->nullable();
+            $table->string('sent_by');
+            // $table->date();
         });
     }
 
