@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  // url: '3.11.134.243:8000',
-  url: 'http://127.0.0.1:8000',
+  url: '3.11.134.243:8000',
+  // url: 'http://127.0.0.1:8000',
 
   frontEndUrl: '3.8.194.231:4200'
 };
