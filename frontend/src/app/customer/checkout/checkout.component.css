@@ -7,3 +7,6 @@ cursor: pointer;
 .success-msg{
     color:green;
 }
+.gray {
+    background-color: #d1cbcb;
+}

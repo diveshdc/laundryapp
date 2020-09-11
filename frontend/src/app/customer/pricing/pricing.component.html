@@ -228,7 +228,7 @@
         </div>
     </div>
 </section>
-<section class="select-cart active" *ngIf="showSpkiItemDiv">
+<section class="select-cart active">
     <div class="container">
        <div class="row">
            <div class="col-sm-7">
@@ -245,10 +245,10 @@
            </div> 
            <!-- routerLink="/checkout" routerLinkActive="active" -->
              <div class="col-sm-5 text-right">
-               <a class="your-basket">
+               <a class="your-basket hand" *ngIf="!showSpkiItemDiv" (click)="skipItem()">
                    Skip Item Selection<i class="fa fa-angle-right" aria-hidden="true"></i>
                </a>
-               <a class="your-basket" routerLink="/basket" routerLinkActive="active">
+               <a class="your-basket" routerLink="/basket" routerLinkActive="active" *ngIf="showSpkiItemDiv">
                    Your Basket <i class="fa fa-angle-right" aria-hidden="true"></i>
                </a>
              </div>

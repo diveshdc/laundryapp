@@ -370,6 +370,64 @@ public function signupActivate($token)
     }
 
 
+      public function updateAddress(Request $request)
+        {
+        try{
+        // return $request->all();
+            $user = Auth::user();
+        if(empty($user)){
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthenticated user',
+            ],200);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'building_name_no'   => 'required',
+            'street_name'        => 'required',
+            'town'               => 'required',
+            'first_name'         => 'required', 
+            'last_name'          => 'required',
+            'postcode'          => 'required',
+            'phone_number'       => ['required', 'digits:11'],
+            'new_password' => ['nullable', 'string'],
+            'password_confirmation' => ['nullable', 'required_with:new_password', 'same:new_password'],
+            'password' => ['required', function ($attribute, $value, $fail) {
+            if (!\Hash::check($value, Auth::user()->password)) {
+                return $fail(__('The current password is incorrect.'));
+            }
+            }]
+            ]);
+         if ($validator->fails()) {
+            foreach ($validator->messages()->getMessages() as $field_name => $messages){
+                 return response()->json([
+                    'status'  => false,
+                    'message' => implode('<br />', $messages)
+                ], 200); 
+            }
+            }
+            $input = $request->all();
+            $input['password'] = bcrypt($input['new_password']);
+            $user->fill($input)->save();
+            if($user){
+                return response()->json([
+                    'status' => true,
+                    'message'=> 'Profile updated successfully!',
+                    'data'  => $user
+                ]);
+            }
+        }catch (\Exception $ex){
+            return response()->json([
+                'status' => false,
+                'message' => $ex->getMessage(),
+                'error_details' => 'on line : '.$ex->getLine().' on file : '.$ex->getFile(),
+            ], 200);
+        }
+        
+    }
+
+
+
 
 // public function send_method_in_apn_service(){
 // $push = new PushNotification('apn');

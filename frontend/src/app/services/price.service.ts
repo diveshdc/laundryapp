@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class PriceService {
   public apiUrl: string = environment.url;
 
-  constructor( private http: HttpClient) { 
+  constructor( private http: HttpClient) {
   this.apiUrl = environment.url;
 
   }
@@ -26,7 +26,7 @@ export class PriceService {
   *
   */
  addToCart(cartData) {
-  return this.http.post(this.apiUrl + '/api/add_and_remove_cart/',cartData);
+  return this.http.post(this.apiUrl + '/api/add_and_remove_cart/', cartData);
 }
 
 }

@@ -3,12 +3,14 @@ import { AuthService } from 'app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidationService } from '../../services/validation.service'
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+    post_code: String = '';
    userInfoForm: FormGroup;
   public account_validation_messages = ValidationService.account_validation_messages;
   showSupport: Boolean = false;
@@ -17,7 +19,8 @@ export class DashboardComponent implements OnInit {
   allOrders: any;
   orderDetail: any;
   Coupons: any;
-  constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router) {
+  fullAddress: any;
+  constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router,  private toastr: ToastrService) {
     this.userInfoForm = this.formBuilder.group({
       email: ['', [Validators.required,
                    Validators.pattern('^[a-zA-Z0-9_!#$%&\'*+/=? \\"`{|}~^.-]+@[a-zA-Z0-9.-]+$'),
@@ -51,7 +54,7 @@ export class DashboardComponent implements OnInit {
 
       }
     }, (error) => {
-      this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+      this.toastr.success(error.error.message);
     })
   }
 
@@ -60,19 +63,16 @@ export class DashboardComponent implements OnInit {
       this.validateAllFormFields(this.userInfoForm);
       return true;
     } else {
-      this.authservice.login(this.userInfoForm.value).subscribe(async res => {
+      this.authservice.updateAddress(this.userInfoForm.value).subscribe(async res => {
         if (res['status'] === true) {
-          this.authservice.showToastrMessage('success', 'Spotlex', res['message']);
+          this.toastr.success(res['message']);
         } else {
+          this.toastr.error(res['message'], 'Spotlex');
         }
       }, (error) => {
-        this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+        this.toastr.error(error.error.message, 'Spotlex');
       })
     }
-  }
-
-  findPostCode() {
-
   }
 
   showChat() {
@@ -96,6 +96,24 @@ export class DashboardComponent implements OnInit {
 
   getAccountSetting() {
 
+  }
+
+  checkPostCode() {
+    this.authservice.checkPostCode({post_code: this.post_code}).subscribe(async res => {
+      if (res['status'] === true) {
+        this.toastr.success(res['message'], 'Spotlex');
+        this.userInfoForm.patchValue({
+        //  address: res['data'].full_address,
+         street_name: res['data'].route,
+         town: res['data'].postal_town,
+        });
+        this.fullAddress = res['data'].full_address
+      } else {
+        this.toastr.error(res['message'], 'Spotlex');
+      }
+    }, (error) => {
+      this.toastr.error(error.error.message, 'Update Address!');
+    })
   }
 
   viewOrderDetail(orderId) {

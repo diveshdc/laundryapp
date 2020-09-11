@@ -57,14 +57,14 @@ Route::post('jobaccept_reject', 'Api\V1\Admin\DriversApiController@acceptOrRejec
 Route::post('upload_signature', 'Api\V1\Admin\DriversApiController@signatureAndImageUpload');
 
 Route::post('uploadimage', 'Api\V1\Admin\DriversApiController@signatureAndImageUpload');
-
-
 Route::get('getnotifications', 'Api\V1\Admin\NotificationController@getNotifications');
-Route::get('getcoupons', 'Api\V1\Admin\CouponContoller@getcoupons');
-
+Route::get('getcoupons', 'Api\V1\Admin\CouponController@getcoupons');
 Route::post('onmyway', 'Api\V1\Admin\DriversApiController@onMyWay');
-
 Route::post('sendpush', 'Api\V1\Admin\DriversApiController@sendPush');
+
+
+Route::post('removeitems', 'Api\V1\Admin\OrdersController@removeItem');
+Route::post('updateaddress', 'Api\V1\Admin\UsersApiController@updateAddress');
 // ----------------------------- Driver Routes End-------------------------------------------------------------------
 
 

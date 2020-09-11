@@ -1123,4 +1123,3 @@ function subscribeNewsLetter() {
 });
 
 ;
-//# sourceMappingURL=scripts.js.map

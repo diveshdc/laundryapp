@@ -60,10 +60,10 @@ public function chargeOrder(Request $request) {
 		// dd($request);
 		 $validator = Validator::make($request->all(), [ 
             'user_id'         => 'required',
-            'collection_date' => 'required',
-            'collection_time' => 'required',
-            'delivery_date'   => 'required', 
-            'delivery_time'   => 'required', 
+            // 'collection_date' => 'required',
+            // 'collection_time' => 'required',
+            // 'delivery_date'   => 'required', 
+            // 'delivery_time'   => 'required', 
             'is_couponcode'   => 'required',
             'actual_price'    => 'required',
             'card_token'		  => 'required',

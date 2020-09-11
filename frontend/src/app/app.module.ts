@@ -23,7 +23,8 @@ import { MyLoaderComponent } from './components/my-loader/my-loader.component';
 
 import { AgmCoreModule } from '@agm/core';
 
-// import { ToastModule } from 'primeng/toast';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { AgmCoreModule } from '@agm/core';
         ReactiveFormsModule,
         MessagesModule,
         HttpClientModule,
+        ToastrModule.forRoot(),
         AgmCoreModule.forRoot({
             // please get your own API key here:
             // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en

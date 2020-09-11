@@ -8,24 +8,91 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="collaction">
-                                <h4>Collaction time</h4>
-                                <p class="date">Wed, Nov 2019</p>
-                                <p>07.00 AM to 08.00 AM</p>
+                                <h4 class="hand">Collaction time</h4>
+                                <p-calendar
+                                [(ngModel)]="value"
+                                placeholder="MM/DD/YYYY"
+                                [readonlyInput]="true"
+                                [minDate]="minDate"
+                                [maxDate]="maxDate"
+                                yearRange="2001:2018"
+                                [monthNavigator]="true"
+                                [yearNavigator]="true"
+                                dateFormat="MM d, yy"
+                                [showIcon]="true"
+                                (onSelect)="onDateSelected($event, 0)"
+                            >
+                            </p-calendar>
+                                <td>{{collectionDateTime | date:'MMM-dd-yyyy '}}</td>
+                                <p>{{ setCollectionSlotValue }}</p>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <p-dialog header="Select a collection time slot" [(visible)]="displayCollection" [style]="{width: '20vw'}" [baseZIndex]="10000">
+                            <table style="text-align: center; margin-left: 50px;">
+                                <tr>
+                                  <th>Collection Timeslot</th>
+                                </tr>
+                                <tr  *ngFor="let slots of collectionSlot; let i =index">
+                                  <td [ngClass]="{'success-msg': slots.blocked_collection_slot === 0, 'gray':slots.blocked_collection_slot === 1}" (click)="selectedCollectionSlot(slots)">
+                                    <a class="hand">
+                                      {{slots.collection_time_start}}-{{slots.collection_time_end}}
+                                    </a>
+                                </td>
+                                </tr>
+                              </table>
+                           
+                        <!-- <p-footer>
+                            <button type="button" pButton icon="pi pi-check" (click)="displayBasic=false" label="Yes"></button>
+                            <button type="button" pButton icon="pi pi-times" (click)="displayBasic=false" label="No" class="ui-button-secondary"></button>
+                        </p-footer> -->
+                    </p-dialog>
+                        <p-dialog header="Select a delivery time slot" [(visible)]="displayDelivery" [style]="{width: '20vw'}" [baseZIndex]="10000">
+                            <table style="text-align: center; margin-left: 50px;">
+                                <tr>
+                                  <th>Delivery Timeslot</th>
+                                </tr>
+                                <tr  *ngFor="let slots of deliverySlot; let i =index">
+                                 <td [ngClass]="{'success-msg': slots.blocked_delivery_slot === 0, 'gray':slots.blocked_delivery_slot === 1}" (click)="selectedDeliverySlot(slots)">
+                                    <a class="hand">
+                                      {{slots.delivery_time_start}}-{{slots.delivery_time_end}}
+                                    </a>
+                                </td>
+                                </tr>
+                              </table>
+                        
+                        <!-- <p-footer>
+                            <button type="button" pButton icon="pi pi-check" (click)="displayBasic=false" label="Yes"></button>
+                            <button type="button" pButton icon="pi pi-times" (click)="displayBasic=false" label="No" class="ui-button-secondary"></button>
+                        </p-footer> -->
+                    </p-dialog>
+                            <div class="col-sm-6">
                             <div class="collaction">
-                                <h4>Delivery time</h4>
-                                <p class="date">Wed, Nov 2019</p>
-                                <p>07.00 AM to 08.00 AM</p>
+                                <h4 class="hand">Delivery time</h4>
+                                <p-calendar
+                                [(ngModel)]="value"
+                                placeholder="MM/DD/YYYY"
+                                [readonlyInput]="true"
+                                [minDate]="minDate"
+                                [maxDate]="maxDate"
+                                yearRange="2001:2018"
+                                [monthNavigator]="true"
+                                [yearNavigator]="true"
+                                dateFormat="MM d, yy"
+                                [showIcon]="true"
+                                (onSelect)="onDateSelected($event,1)"
+                            >
+                            </p-calendar>
+                            <td>{{deliveryDateTime | date:'MMM-dd-yyyy '}}</td>
+                            <p>{{setDeliverySlotValue}}</p>
                             </div>
                         </div>
                     </div>
+
                     <!-- <a href="#" class="a-link">Save date to calendar</a> -->
                     <h3>Delevery Instruction</h3>
-                    <form [formGroup]="deliveryNotesForm">
-                    <textarea  formControlName="delivery_notes" placeholder="Cleaning instructions (optional)"></textarea>
-                    </form>
+                    <!-- <form [formGroup]="deliveryNotesForm"> -->
+                    <textarea  [(ngModel)]="delivery_notes" placeholder="Cleaning instructions (optional)"></textarea>
+                    <!-- </form> -->
                 </div>
                 <div class="col-sm-6">
                     <div class="checkout-box">
@@ -38,8 +105,8 @@
                                 <input type="text" formControlName="coupon_code" placeholder="Voucher Code">
                                 <input type="submit" value="Submit" class="btn-back">
                             </div>
-                            <span  class="validation-error">{{errorMessage}}</span>
-                            <span  class="success-msg">{{successMsg}}</span>
+                            <!-- <span  class="validation-error">{{errorMessage}}</span> -->
+                            <!-- <span  class="success-msg">{{successMsg}}</span> -->
                             <div class="validation-error" *ngFor="let validation of account_validation_messages.coupon_code">
                                 <span class="validation-error"
                                     *ngIf="couponForm.get('coupon_code').hasError(validation.type) && (couponForm.get('coupon_code').dirty || couponForm.get('coupon_code').touched)">*{{validation.message}}

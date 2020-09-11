@@ -25,9 +25,9 @@
                                         <label for="inputState" class="col-sm-6 col-form-label">Select Address<span
                                                 class="required">*</span></label>
                                         <div class="col-sm-6">
-                                            <select id="inputState" formControlName="address" class="form-control arrow-down  form-control-lg">
+                                            <select id="inputState" class="form-control arrow-down  form-control-lg">
                                                 <option selected="">Your Post Code</option>
-                                                <option>...</option>
+                                                <option ></option>
                                             </select>
                                         </div>
                                     </div>
@@ -39,7 +39,7 @@
                                         <label for="inputPassword" class="col-sm-3 col-form-label">Post Code<span
                                                 class="required">*</span></label>
                                         <div class="col-sm-6 input-group">
-                                            <input type="text" formControlName="postcode" class="form-control form-control-lg"
+                                            <input type="text" formControlName="postcode" [(ngModel)]="post_code" class="form-control form-control-lg"
                                                 placeholder="se187bg">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><img
@@ -48,8 +48,10 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-3 ">
-                                            <button type="button" class="btn w-100 h-100 find-btn btn-success">Find <i
-                                                    class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                            <button type="button" (click)="checkPostCode()" 
+                                                    class="btn w-100 h-100 find-btn btn-success">Find 
+                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="validation-error" *ngFor="let validation of account_validation_messages.postcode">
@@ -153,7 +155,7 @@
                                         <label for="inputPassword" class="col-sm-3 col-form-label">Email Address<span
                                                 class="required">*</span></label>
                                         <div class="col-sm-9 input-group">
-                                            <input type="text" formControlName="email" class="form-control form-control-lg"
+                                            <input type="text" formControlName="email" disabled="disabled" class="form-control form-control-lg"
                                                 placeholder="Enter Your Email Address">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><img
@@ -271,7 +273,7 @@
                     <h2>Items</h2>
                     <a  routerLink="/basket" routerLinkActive="active" class="hand" >Edit <i class="fa fa-edit"></i></a>
                  </div>
-                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                 <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
 
                  <div class="table-responsive">
                     <table class="table customtable borderBottom">
@@ -282,7 +284,9 @@
                                 <td><a>{{cartData.quantity}}x</a></td>
                                 <td>{{cartData.name}}</td>
                                 <td class="text-right">£ {{cartData.sale_price ? cartData.sale_price :cartData.price}}</td>
-                                <td class="text-right actionCol"> <a href="#"><i class="fa fa-times"></i></a></td>
+                                <td class="text-right actionCol"> 
+                                    <a class="hand" (click)="removeItem(cartData.id,i)"><i class="fa fa-times"></i></a>
+                                </td>
                             </tr>
                             
                         </tbody>

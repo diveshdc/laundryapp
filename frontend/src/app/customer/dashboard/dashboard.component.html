@@ -168,9 +168,10 @@
                                         <label for="inputState" class="col-sm-3 col-form-label">Select Address<span
                                                 class="required">*</span></label>
                                         <div class="col-sm-9">
+                                            <!-- *ngFor="let addr of fullAddress" -->
                                             <select id="inputState" formControlName="address" class="form-control arrow-down  form-control-lg">
-                                                <option selected="">Your Post Code</option>
-                                                <option>...</option>
+                                                <option selected="selected">Your Post Code</option>
+                                                <option  [value]="fullAddress"><option>
                                             </select>
                                         </div>
                                     </div>
@@ -182,7 +183,7 @@
                                         <label for="inputPassword" class="col-sm-3 col-form-label">Post Code<span
                                                 class="required">*</span></label>
                                         <div class="col-sm-6 input-group">
-                                            <input type="text" formControlName="postcode" class="form-control form-control-lg"
+                                            <input type="text" formControlName="postcode" [(ngModel)]="post_code"  class="form-control form-control-lg"
                                                 placeholder="se187bg">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><img
@@ -191,7 +192,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-3 ">
-                                            <button type="button" (click)="findPostCode()" class="btn w-100 h-100 find-btn btn-success">Find <i
+                                            <button type="button" (click)="checkPostCode()" class="btn w-100 h-100 find-btn btn-success">Find <i
                                                     class="fa fa-paper-plane" aria-hidden="true"></i></button>
                                         </div>
                                     </div>
@@ -296,7 +297,7 @@
                                         <label for="inputPassword" class="col-sm-3 col-form-label">Email Address<span
                                                 class="required">*</span></label>
                                         <div class="col-sm-9 input-group">
-                                            <input type="text" formControlName="email" class="form-control form-control-lg"
+                                            <input type="text" disabled="disabled" formControlName="email" class="form-control form-control-lg"
                                                 placeholder="Enter Your Email Address">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><img
@@ -314,7 +315,7 @@
                                         <label for="inputPassword" class="col-sm-3 col-form-label">Password<span
                                                 class="required">*</span></label>
                                         <div class="col-sm-9 input-group">
-                                            <input type="text" formControlName="password" class="form-control form-control-lg"
+                                            <input type="password" formControlName="password" class="form-control form-control-lg"
                                                 placeholder="Enter Your Current Password">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><img
@@ -332,7 +333,7 @@
                                         <label for="inputPassword" class="col-sm-3 col-form-label">Create New Password
                                         </label>
                                         <div class="col-sm-9 input-group">
-                                            <input type="text" formControlName="new_password" class="form-control form-control-lg"
+                                            <input type="password" formControlName="new_password" class="form-control form-control-lg"
                                                 placeholder="Enter Your New Password">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><img
@@ -350,7 +351,7 @@
                                         <label for="inputPassword" class="col-sm-3 col-form-label">Confirm Password
                                         </label>
                                         <div class="col-sm-9 input-group">
-                                            <input type="text" formControlName="password_confirmation" class="form-control form-control-lg"
+                                            <input type="password" formControlName="password_confirmation" class="form-control form-control-lg"
                                                 placeholder="Confirm Your New Password">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><img

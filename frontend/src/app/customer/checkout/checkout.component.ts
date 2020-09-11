@@ -1,22 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from 'app/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ValidationService } from 'app/services/validation.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
+  public delivery_notes;
+  public value;
+  public minDate;
+  public maxDate;
   public account_validation_messages = ValidationService.account_validation_messages;
   userId: any;
   finalPrice: number;
   couponForm: FormGroup;
-  deliveryNotesForm: FormGroup;
-  errorMessage: any;
-  successMsg: any;
+  // deliveryNotesForm: FormGroup;
+  // errorMessage: any;
+  // successMsg: any;
+  displayCollection: boolean;
+  displayDelivery: boolean;
   isCouponCode: boolean;
   deliverySlotId: any;
   collectionSlotId: any;
@@ -24,7 +30,22 @@ export class CheckoutComponent implements OnInit {
   collectionDate: any;
   collectionTime: any;
   deliveryDate: any;
-  constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router) {
+  isSkipItem: string;
+  collectionSlot: any;
+  deliverySlot: any;
+  setDeliverySlotValue: string;
+  setCollectionSlotValue: string;
+  deliveryDateTime: string;
+  collectionDateTime: string;
+  constructor(private formBuilder: FormBuilder,
+    private authservice: AuthService,
+    private route: Router,
+    private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute,
+    ) {
+    this.minDate = new Date();
+    // this.maxDate = new Date();
+    this.value = new Date();
     this.couponForm = this.formBuilder.group({
       coupon_code: ['', [Validators.required]]
       });
@@ -32,6 +53,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const skipItemSelection = this.activatedRoute.snapshot.params.skip;
+    if (skipItemSelection) {
+      this.isSkipItem = atob(skipItemSelection);
+      this.finalPrice = 15;
+    }
     this.getUserData();
   }
 
@@ -57,7 +83,7 @@ export class CheckoutComponent implements OnInit {
 
       }
     }, (error) => {
-      this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+      this.toastr.error(error.error.message, 'Spotlex!');
     })
   }
 
@@ -76,42 +102,69 @@ export class CheckoutComponent implements OnInit {
 
       }
     }, (error) => {
-      this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+      this.toastr.error(error.error.message, 'Spotlex!');
     })
   }
 
   applyCoupon() {
-    console.log(this.finalPrice, '---------------------------')
     if (this.couponForm.invalid) {
       this.validateAllFormFields(this.couponForm);
       return true;
     } else {
       this.authservice.applyCoupon({'couponcode': this.couponForm.value, 'actual_price': this.finalPrice}).subscribe(async res => {
         if (res['status'] === true) {
-          console.log(res['couponData'].discount, '--------------', this.finalPrice)
           // tslint:disable-next-line:radix
           this.finalPrice = this.finalPrice - parseInt(res['couponData'].discount);
           this.isCouponCode = true;
-          this.errorMessage = '';
-          this.successMsg  = res['message'];
-          this.authservice.showToastrMessage('success', 'Spotlex', res['message']);
+          this.toastr.success(res['message'], 'Spotlex!');
+
         } else {
-          this.errorMessage = res['message'];
-          this.successMsg = '';
           this.isCouponCode = false;
-          this.authservice.showToastrMessage('error', 'Spotlex', res['message']);
+          this.toastr.error(res['message'], 'Spotlex!');
         }
       }, (error) => {
-        this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+        this.toastr.error(error.error.message, 'Spotlex!');
       })
   }
 }
 
+onDateSelected(e, type) {
+  const newDate = e.toLocaleDateString();
+  if (type === 0) {
+    this.collectionDateTime = e;
+    this.displayDelivery = false;
+    this.authservice.getTimeSlot({collection_date: newDate}).subscribe(async res => {
+
+   if (res['status'] === true) {
+     this.collectionSlot = res['timeslot']
+     this.displayCollection = true;
+    } else {
+
+      }
+    }, (error) => {
+      this.toastr.error(error.error.message, 'Spotlex!');
+    })
+  } else {
+    this.deliveryDateTime = e;
+    this.displayCollection = false;
+    this.authservice.getTimeSlot({delivery_date: newDate}).subscribe(async res => {
+      if (res['status'] === true) {
+        console.log(res['timeslot'], 'pppppppppppppppppppppppp')
+        this.deliverySlot = res['timeslot']
+        this.displayDelivery = true;
+      } else {
+
+      }
+    }, (error) => {
+      this.toastr.error(error.error.message, 'Spotlex!');
+    })
+  }
+}
 
 checkOut() {
   const payLoad = {
     'is_couponcode': this.isCouponCode,
-    // 'delivery_notes': this.deliveryNotesForm,
+    'cleaningInstructions': this.delivery_notes,
     'delivery_slot_id': this.deliverySlotId,
     'collection_slot_id': this.collectionSlotId,
     'delivery_time': this.deliveryTime,
@@ -119,9 +172,9 @@ checkOut() {
     'collection_time': this.collectionTime,
     'collection_date': this.collectionDate,
     'user_id': this.userId,
-    'final_price': this.finalPrice
+    'final_price': this.finalPrice,
+    'actual_price': this.finalPrice
   }
-  console.log(payLoad)
   this.authservice.checkOut(payLoad).subscribe(async res => {
     if (res['status'] === true) {
 
@@ -134,6 +187,28 @@ checkOut() {
   })
 }
 
+selectedCollectionSlot(slotData) {
+  console.log(slotData, 'poiutghfxhsfdhsagfdhasdfashgdfashdagfsdhgadasd');
+  if (slotData.blocked_collection_slot === 0) {
+    this.collectionSlotId = slotData.id;
+    this.setCollectionSlotValue = slotData.collection_time_start + '-' +  slotData.collection_time_end
+    }
+  if (slotData.blocked_collection_slot === 1) {
+    alert('this timeslot is not available');
+  }
+}
+
+selectedDeliverySlot(slotData) {
+  console.log(slotData, 'poiutghfxhsfdhsagfdhasdfashgdfashdagfsdhgadasd');
+  if (slotData.blocked_delivery_slot === 0) {
+    this.setDeliverySlotValue = slotData.delivery_time_start + '-' +  slotData.delivery_time_end
+    this.deliverySlotId = slotData.id;
+  }
+  if (slotData.blocked_delivery_slot === 1) {
+    alert('this timeslot is not available');
+    return;
+  }
+}
   goBack() {
     window.history.go(-1); return false;
   }

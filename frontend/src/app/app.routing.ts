@@ -28,6 +28,7 @@ const routes: Routes = [
     { path: 'refer-to-friend',     component:  ReferfriendComponent},
     { path: 'track-driver',     component:  TrackDriverComponent},
     { path: 'basket',     component:  BasketComponent},
+    { path: 'checkout/:skip', component: CheckoutComponent },
     { path: 'checkout',     component:  CheckoutComponent},
     { path: 'signup',     component:  SignupComponent},
     { path: 'basket',     component:  BasketComponent},

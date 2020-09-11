@@ -43,12 +43,28 @@ getCartItems(userId) {
   login(loginData) {
     return this.http.post(this.apiUrl + '/api/login', loginData);
   }
+
   applyCoupon(couponData) {
     return this.http.post(this.apiUrl + '/api/applycoupon', couponData);
   }
 
+  checkPostCode(postCode) {
+    return this.http.post(this.apiUrl + '/api/checkPostCode', postCode);
+  }
+
+  getTimeSlot(date) {
+    return this.http.post(this.apiUrl + '/api/gettimeslot', date);
+  }
   checkOut(checkoutData) {
     return this.http.post(this.apiUrl + '/api/chargeorder', checkoutData);
+  }
+
+  updateAddress(payload) {
+    return this.http.post(this.apiUrl + '/api/updateaddress', payload);
+  }
+
+  removeItems(id) {
+    return this.http.post(this.apiUrl + '/api/removeitems', id);
   }
   removeToken() {
     localStorage.removeItem('la_user_token');

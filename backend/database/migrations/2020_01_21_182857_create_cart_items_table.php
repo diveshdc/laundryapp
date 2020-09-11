@@ -25,6 +25,7 @@ class CreateCartItemsTable extends Migration
             $table->decimal('price', 15, 2);
             $table->decimal('sale_price', 15, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

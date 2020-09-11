@@ -15,7 +15,11 @@ import { ReferfriendModule } from './referfriend/referfriend.module';
 import { BasketComponent } from './basket/basket.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { SignupComponent } from './signup/signup.component';
-
+import {CalendarModule} from 'primeng/calendar';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import {ListboxModule} from 'primeng/listbox';
 
 @NgModule({
     imports: [
@@ -28,7 +32,12 @@ import { SignupComponent } from './signup/signup.component';
         PricingModule,
         DashboardModule,
         CommercialModule,
-        ReferfriendModule
+        ReferfriendModule,
+        CalendarModule,
+        DynamicDialogModule,
+        DialogModule,
+        ToastModule,
+        ListboxModule
     ],
     declarations: [
         LandingComponent,

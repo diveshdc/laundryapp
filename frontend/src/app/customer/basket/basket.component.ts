@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from 'app/services/validation.service';
 import { AuthService } from 'app/services/auth.service';
 import { Router } from '@angular/router';
+import { from } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-basket',
@@ -11,14 +14,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./basket.component.css']
 })
 export class BasketComponent implements OnInit {
-
+  post_code: String = '';
   informationForm: FormGroup;
   public account_validation_messages = ValidationService.account_validation_messages;
   userId: any;
   CartItemsData: any;
   totalItems: any;
   totalPrice: any;
-  constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router) {
+  constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router, private toastr: ToastrService) {
     this.informationForm = this.formBuilder.group({
       email: ['', [Validators.required,
                    Validators.pattern('^[a-zA-Z0-9_!#$%&\'*+/=? \\"`{|}~^.-]+@[a-zA-Z0-9.-]+$'),
@@ -74,7 +77,7 @@ export class BasketComponent implements OnInit {
 
       }
     }, (error) => {
-      this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+      this.toastr.error(error.error.message, 'Spotlex');
     })
   }
 
@@ -84,12 +87,60 @@ export class BasketComponent implements OnInit {
   // }
 
   EditAddress() {
-
+    this.authservice.updateAddress(this.informationForm.value).subscribe(async res => {
+      if (res['status'] === true) {
+        this.toastr.success(res['message'], 'Update Address!');
+      } else {
+        this.toastr.error(res['message'], 'Update Address!');
+      }
+    }, (error) => {
+      this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+    })
   }
 
   goToCheckout(): void {
     // this.route.navigate(['/ckeckout', this.totalPrice]);
     this.route.navigate(['/checkout']);
+}
+
+checkPostCode() {
+  this.authservice.checkPostCode({post_code: this.post_code}).subscribe(async res => {
+    if (res['status'] === true) {
+      this.toastr.success(res['message'], 'Spotlex');
+      this.informationForm.patchValue({
+       address: res['data'].full_address,
+       street_name: res['data'].route,
+       town: res['data'].postal_town,
+      });
+    } else {
+
+    }
+  }, (error) => {
+    this.toastr.error(error.error.message, 'Update Address!');
+  })
+}
+
+removeItem(id, i) {
+  console.log(id, 'datadatadatadatadatadata');
+  this.authservice.removeItems({id: id}).subscribe(async res => {
+    if (res['status'] === true) {
+          this.CartItemsData = res['CartData'];
+            this.totalItems = res['quantity_count'];
+            this.totalPrice = 0;
+            res['CartData'].forEach(element => {
+              let total = 0;
+              // tslint:disable-next-line:no-shadowed-variable
+              for (let i = 0; i < element.price.length; i++) {
+                total += element.price[i];
+              }
+              this.totalPrice = total;
+            });
+    } else {
+
+    }
+  }, (error) => {
+    this.toastr.error(error.error.message, 'Update Address!');
+  })
 }
 
   goBack() {

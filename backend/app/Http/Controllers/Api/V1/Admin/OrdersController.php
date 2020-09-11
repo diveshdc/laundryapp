@@ -60,7 +60,7 @@ class OrdersController extends Controller
         }
    }
 
-public function getCartItem($userId){
+public function getCartItem($userId) {
 try{
   $cartData = CartItem::with('productInfo')->where('user_id',$userId)->get();
    if(count($cartData)>0){
@@ -101,8 +101,9 @@ try{
 public function getTimeSlot(Request $request){
 try{
   if($request->collection_date){
+    $your_date = date("m/d/yy", strtotime($request->collection_date));
     // dd($request->collection_date);
-    $collectionTime = TimeSlot::where('collection_date','=',$request->collection_date)->get(); 
+    $collectionTime = TimeSlot::where('collection_date','=',$your_date)->get(); 
       $timePeriod = null;
       if(count($collectionTime)>0){
         $timePeriod = $collectionTime[0]->delivery_time_period;
@@ -115,7 +116,8 @@ try{
         ],200);
     }
     if ($request->delivery_date) {
-      $deliveryTime = TimeSlot::where('delivery_date','=',$request->delivery_date)->get();
+        $your_date = date("m/d/yy", strtotime($request->delivery_date));
+      $deliveryTime = TimeSlot::where('delivery_date','=',$your_date)->get();
         $timePeriod = null;
       if(count($deliveryTime)>0){
       $timePeriod = $deliveryTime[0]->delivery_time_period;
@@ -316,5 +318,16 @@ public function reOrder(Request $request){
         }
 }
 
+
+    public function removeItem(Request $request) {
+        $data = CartItem::find($request->id)->delete();
+         // $category = Category::find($id)->delete();
+        // $request->user()->statuses()->findOrFail($statusId)->delete();
+        return $data;
+        return response()->json([
+          'status'  => true,
+          'message' => 'Item deleted successfully!'
+      ],200);
+    }
 
 }

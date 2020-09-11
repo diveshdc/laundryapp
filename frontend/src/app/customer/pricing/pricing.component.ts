@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductCategoryService } from '../../services/product-category.service';
 import { PriceService } from '../../services/price.service';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,12 +19,13 @@ export class PricingComponent implements OnInit {
   badgeCount: any;
   userId: any;
   quantityCount: any;
-  showSpkiItemDiv: boolean;
+  showSpkiItemDiv: Boolean = false;
   minValue = 15;
   constructor(
       private productCategoryService: ProductCategoryService,
       private priceservice: PriceService,
-      private authservice: AuthService) { }
+      private authservice: AuthService,
+      private router: Router) { }
 
   ngOnInit(): void {
     this.getUserData();
@@ -87,6 +89,10 @@ export class PricingComponent implements OnInit {
     })
     }
 
+    skipItem() {
+      this.router.navigate(['/checkout', btoa('skipItem')]);
+    }
+
     getQuantity(productId, userId) {
       if (this.quantityCount.length <= 0 || this.quantityCount.length === '') {
         this.showSpkiItemDiv = false;
@@ -123,6 +129,11 @@ export class PricingComponent implements OnInit {
       }
       this.priceservice.addToCart(payLoad).subscribe(async res => {
         if (res['status'] === true) {
+          if (res['CartItem'].length > 0) {
+            this.showSpkiItemDiv = false;
+          } else {
+            this.showSpkiItemDiv = true;
+          }
           this.badgeCount = res['CartItem'].quantity;
           const index = this.quantityCount.findIndex(item => item.product_id === product.id)
           if (index <= 0) {
