@@ -22,7 +22,7 @@ const routes: Routes = [
     { path: 'index',       component: ComponentsComponent },
     { path: 'login',       component: LoginComponent },
     { path: 'profile',     component: ProfileComponent },
-    { path: 'pricing',     component: PricingComponent },
+    { path: 'neworder',     component: PricingComponent },
     { path: 'dashboard',     component: DashboardComponent, canActivate: [AuthGuard]},
     { path: 'commercial',     component:  CommercialComponent},
     { path: 'refer-to-friend',     component:  ReferfriendComponent},

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ValidationService } from '../../services/validation.service'
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,10 @@ export class LoginComponent implements OnInit {
     focus;
     focus1;
 
-    constructor(private formBuilder: FormBuilder, private authservice: AuthService, private route: Router) { }
+    constructor(private formBuilder: FormBuilder,
+                private authservice: AuthService,
+                private route: Router,
+                private toastr: ToastrService) { }
 
     ngOnInit() {
         const body = document.getElementsByTagName('body')[0];
@@ -41,13 +45,16 @@ export class LoginComponent implements OnInit {
         }
         this.authservice.login(this.userLoginForm.value).subscribe(async res => {
             if (res['status'] === true) {
+              this.toastr.success(res['message'], 'Spotlex');
               await this.authservice.showToastrMessage('success', 'User Login', res['message']);
                 localStorage.setItem('la_user_token', res['token']);
                 localStorage.setItem('la_user_token_data', JSON.stringify(res['data']));
                 this.route.navigate(['']);
+            } else if (res['status'] === false) {
+              this.toastr.error(res['message'], 'Spotlex');
             } else {
               console.log(res, 'resres')
-              this.authservice.showToastrMessage('error', 'Spotlex', res['message']);
+              this.toastr.error(res['message'], 'Spotlex');
             }
           }, (error) => {
             this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);

@@ -40,6 +40,10 @@ getCartItems(userId) {
     return this.http.get(this.apiUrl + '/api/auth/logout');
   }
 
+  addCardToPay(cardInfo) {
+    return this.http.post(this.apiUrl + '/api/addcarddetails', cardInfo);
+  }
+
   login(loginData) {
     return this.http.post(this.apiUrl + '/api/login', loginData);
   }

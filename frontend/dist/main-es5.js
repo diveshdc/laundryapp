@@ -101,7 +101,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"progress-loader\" [hidden]=\"!loading\">\n    <div class=\"loading-spinner\">\n        <img src=\"../../../assets/images/Preloader_2.gif\">\n    </div>\n</div>";
+    __webpack_exports__["default"] = "<div class=\"progress-loader\" [hidden]=\"!loading\">\n    <div class=\"loading-spinner\">\n        <img src=\"../../../assets/images/laloader.gif\">\n    </div>\n</div>";
     /***/
   },
 
@@ -181,7 +181,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "    <section class=\"checkout-section\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-6\">\n                    <div class=\"section-header\">\n                        <h2>Times<a href=\"#\">Edit</a></h2>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-sm-6\">\n                            <div class=\"collaction\">\n                                <h4 class=\"hand\">Collaction time</h4>\n                                <p-calendar\n                                [(ngModel)]=\"value\"\n                                placeholder=\"MM/DD/YYYY\"\n                                [readonlyInput]=\"true\"\n                                [minDate]=\"minDate\"\n                                [maxDate]=\"maxDate\"\n                                yearRange=\"2001:2018\"\n                                [monthNavigator]=\"true\"\n                                [yearNavigator]=\"true\"\n                                dateFormat=\"MM d, yy\"\n                                [showIcon]=\"true\"\n                                (onSelect)=\"onDateSelected($event, 0)\"\n                            >\n                            </p-calendar>\n                                <td>{{collectionDateTime | date:'MMM-dd-yyyy '}}</td>\n                                <p>{{ setCollectionSlotValue }}</p>\n                            </div>\n                        </div>\n                        <p-dialog header=\"Select a collection time slot\" [(visible)]=\"displayCollection\" [style]=\"{width: '20vw'}\" [baseZIndex]=\"10000\">\n                            <table style=\"text-align: center; margin-left: 50px;\">\n                                <tr>\n                                  <th>Collection Timeslot</th>\n                                </tr>\n                                <tr  *ngFor=\"let slots of collectionSlot; let i =index\">\n                                  <td [ngClass]=\"{'success-msg': slots.blocked_collection_slot === 0, 'gray':slots.blocked_collection_slot === 1}\" (click)=\"selectedCollectionSlot(slots)\">\n                                    <a class=\"hand\">\n                                      {{slots.collection_time_start}}-{{slots.collection_time_end}}\n                                    </a>\n                                </td>\n                                </tr>\n                              </table>\n                           \n                        <!-- <p-footer>\n                            <button type=\"button\" pButton icon=\"pi pi-check\" (click)=\"displayBasic=false\" label=\"Yes\"></button>\n                            <button type=\"button\" pButton icon=\"pi pi-times\" (click)=\"displayBasic=false\" label=\"No\" class=\"ui-button-secondary\"></button>\n                        </p-footer> -->\n                    </p-dialog>\n                        <p-dialog header=\"Select a delivery time slot\" [(visible)]=\"displayDelivery\" [style]=\"{width: '20vw'}\" [baseZIndex]=\"10000\">\n                            <table style=\"text-align: center; margin-left: 50px;\">\n                                <tr>\n                                  <th>Delivery Timeslot</th>\n                                </tr>\n                                <tr  *ngFor=\"let slots of deliverySlot; let i =index\">\n                                 <td [ngClass]=\"{'success-msg': slots.blocked_delivery_slot === 0, 'gray':slots.blocked_delivery_slot === 1}\" (click)=\"selectedDeliverySlot(slots)\">\n                                    <a class=\"hand\">\n                                      {{slots.delivery_time_start}}-{{slots.delivery_time_end}}\n                                    </a>\n                                </td>\n                                </tr>\n                              </table>\n                        \n                        <!-- <p-footer>\n                            <button type=\"button\" pButton icon=\"pi pi-check\" (click)=\"displayBasic=false\" label=\"Yes\"></button>\n                            <button type=\"button\" pButton icon=\"pi pi-times\" (click)=\"displayBasic=false\" label=\"No\" class=\"ui-button-secondary\"></button>\n                        </p-footer> -->\n                    </p-dialog>\n                            <div class=\"col-sm-6\">\n                            <div class=\"collaction\">\n                                <h4 class=\"hand\">Delivery time</h4>\n                                <p-calendar\n                                [(ngModel)]=\"value\"\n                                placeholder=\"MM/DD/YYYY\"\n                                [readonlyInput]=\"true\"\n                                [minDate]=\"minDate\"\n                                [maxDate]=\"maxDate\"\n                                yearRange=\"2001:2018\"\n                                [monthNavigator]=\"true\"\n                                [yearNavigator]=\"true\"\n                                dateFormat=\"MM d, yy\"\n                                [showIcon]=\"true\"\n                                (onSelect)=\"onDateSelected($event,1)\"\n                            >\n                            </p-calendar>\n                            <td>{{deliveryDateTime | date:'MMM-dd-yyyy '}}</td>\n                            <p>{{setDeliverySlotValue}}</p>\n                            </div>\n                        </div>\n                    </div>\n\n                    <!-- <a href=\"#\" class=\"a-link\">Save date to calendar</a> -->\n                    <h3>Delevery Instruction</h3>\n                    <!-- <form [formGroup]=\"deliveryNotesForm\"> -->\n                    <textarea  [(ngModel)]=\"delivery_notes\" placeholder=\"Cleaning instructions (optional)\"></textarea>\n                    <!-- </form> -->\n                </div>\n                <div class=\"col-sm-6\">\n                    <div class=\"checkout-box\">\n                        <div class=\"checkout-header\">\n                            <h2>Checkout</h2>\n                        </div>\n                        <div class=\"checkout-body\">\n                            <form [formGroup]=\"couponForm\" (ngSubmit)=\"applyCoupon()\">\n                            <div class=\"code-here\">\n                                <input type=\"text\" formControlName=\"coupon_code\" placeholder=\"Voucher Code\">\n                                <input type=\"submit\" value=\"Submit\" class=\"btn-back\">\n                            </div>\n                            <!-- <span  class=\"validation-error\">{{errorMessage}}</span> -->\n                            <!-- <span  class=\"success-msg\">{{successMsg}}</span> -->\n                            <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.coupon_code\">\n                                <span class=\"validation-error\"\n                                    *ngIf=\"couponForm.get('coupon_code').hasError(validation.type) && (couponForm.get('coupon_code').dirty || couponForm.get('coupon_code').touched)\">*{{validation.message}}\n                                </span>\n                            </div>\n                        </form>\n                            <div class=\"subtotal\">\n                                <h5>Subtotal<span>£{{finalPrice}}</span></h5>\n                                <hr>\n                                <h4>Total<span>£{{finalPrice}}</span></h4>\n                            </div>\n                            <input type=\"button\" value=\"Place order\" (click)=\"checkOut()\" class=\"theme-btn\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <a (click)=\"goBack()\" class=\"btn-back hand\">Back</a>\n        </div>\n    </section>\n    <section class=\"select-cart\">\n        <div class=\"container\">\n           <div class=\"row\">\n               <div class=\"col-sm-7\">\n                       <h4>Minimum Order Value $15</h4>\n               </div>\n               <!-- <div class=\"col-sm-5 text-right\">\n                   <h4>Total: $ 5.20</h4>\n               </div>     -->\n               <div class=\"col-sm-7\">\n                   <a href=\"#\" class=\"support-here\">\n                     <span> <i class=\"fa fa-commenting\" aria-hidden=\"true\"></i></span>\n                       Support\n                   </a>\n               </div> \n                 <!-- <div class=\"col-sm-5 text-right\">\n                   <a href=\"#\" class=\"your-basket\">\n                       Your Basket<i class=\"fa fa-angle-right\" aria-hidden=\"true\"></i>\n                   </a>\n                 </div> -->\n           </div>\n       </div>\n   </section>\n";
+    __webpack_exports__["default"] = "    <section class=\"checkout-section\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-6\">\n                    <div class=\"section-header\">\n                        <h2>Times<a href=\"#\">Edit</a></h2>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-sm-6\">\n                            <div class=\"collaction\">\n                                <h4 class=\"hand\">Collaction time</h4>\n                                <p-calendar\n                                [(ngModel)]=\"value\"\n                                placeholder=\"MM/DD/YYYY\"\n                                [readonlyInput]=\"true\"\n                                [minDate]=\"minDate\"\n                                [maxDate]=\"maxDate\"\n                                yearRange=\"2001:2018\"\n                                [monthNavigator]=\"true\"\n                                [yearNavigator]=\"true\"\n                                dateFormat=\"MM d, yy\"\n                                [showIcon]=\"true\"\n                                (onSelect)=\"onDateSelected($event, 0)\"\n                            >\n                            </p-calendar>\n                                <td>{{collectionDateTime | date:'MMM-dd-yyyy '}}</td>\n                                <p>{{ setCollectionSlotValue }}</p>\n                            </div>\n                        </div>\n                        <p-dialog header=\"Select a collection time slot\" [(visible)]=\"displayCollection\" [style]=\"{width: '20vw'}\" [baseZIndex]=\"10000\">\n                            <table style=\"text-align: center; margin-left: 50px;\">\n                                <tr>\n                                  <th>Collection Timeslot</th>\n                                </tr>\n                                <tr  *ngFor=\"let slots of collectionSlot; let i =index\">\n                                  <td [ngClass]=\"{'success-msg': slots.blocked_collection_slot === 0, 'gray':slots.blocked_collection_slot === 1}\" (click)=\"selectedCollectionSlot(slots)\">\n                                    <a class=\"hand\">\n                                      {{slots.collection_time_start}}-{{slots.collection_time_end}}\n                                    </a>\n                                </td>\n                                </tr>\n                              </table>\n                           \n                        <!-- <p-footer>\n                            <button type=\"button\" pButton icon=\"pi pi-check\" (click)=\"displayBasic=false\" label=\"Yes\"></button>\n                            <button type=\"button\" pButton icon=\"pi pi-times\" (click)=\"displayBasic=false\" label=\"No\" class=\"ui-button-secondary\"></button>\n                        </p-footer> -->\n                    </p-dialog>\n                        <p-dialog header=\"Select a delivery time slot\" [(visible)]=\"displayDelivery\" [style]=\"{width: '20vw'}\" [baseZIndex]=\"10000\">\n                            <table style=\"text-align: center; margin-left: 50px;\">\n                                <tr>\n                                  <th>Delivery Timeslot</th>\n                                </tr>\n                                <tr  *ngFor=\"let slots of deliverySlot; let i =index\">\n                                 <td [ngClass]=\"{'success-msg': slots.blocked_delivery_slot === 0, 'gray':slots.blocked_delivery_slot === 1}\" (click)=\"selectedDeliverySlot(slots)\">\n                                    <a class=\"hand\">\n                                      {{slots.delivery_time_start}}-{{slots.delivery_time_end}}\n                                    </a>\n                                </td>\n                                </tr>\n                              </table>\n                        \n                        <!-- <p-footer>\n                            <button type=\"button\" pButton icon=\"pi pi-check\" (click)=\"displayBasic=false\" label=\"Yes\"></button>\n                            <button type=\"button\" pButton icon=\"pi pi-times\" (click)=\"displayBasic=false\" label=\"No\" class=\"ui-button-secondary\"></button>\n                        </p-footer> -->\n                    </p-dialog>\n                            <div class=\"col-sm-6\">\n                            <div class=\"collaction\">\n                                <h4 class=\"hand\">Delivery time</h4>\n                                <p-calendar\n                                [(ngModel)]=\"value\"\n                                placeholder=\"MM/DD/YYYY\"\n                                [readonlyInput]=\"true\"\n                                [minDate]=\"minDate\"\n                                [maxDate]=\"maxDate\"\n                                yearRange=\"2001:2018\"\n                                [monthNavigator]=\"true\"\n                                [yearNavigator]=\"true\"\n                                dateFormat=\"MM d, yy\"\n                                [showIcon]=\"true\"\n                                (onSelect)=\"onDateSelected($event,1)\"\n                            >\n                            </p-calendar>\n                            <td>{{deliveryDateTime | date:'MMM-dd-yyyy '}}</td>\n                            <p>{{setDeliverySlotValue}}</p>\n                            </div>\n                        </div>\n                    </div>\n\n                    <!-- <a href=\"#\" class=\"a-link\">Save date to calendar</a> -->\n                    <h3>Delevery Instruction</h3>\n                    <!-- <form [formGroup]=\"deliveryNotesForm\"> -->\n                    <textarea  [(ngModel)]=\"delivery_notes\" placeholder=\"Cleaning instructions (optional)\"></textarea>\n                    <!-- </form> -->\n                </div>\n                <div class=\"col-sm-6\">\n                    <div class=\"checkout-box\">\n                        <div class=\"checkout-header\">\n                            <h2>Checkout</h2>\n                        </div>\n                        <div class=\"checkout-body\">\n                            <form [formGroup]=\"couponForm\" (ngSubmit)=\"applyCoupon()\">\n                            <div class=\"code-here\">\n                                <input type=\"text\" formControlName=\"coupon_code\" placeholder=\"Voucher Code\">\n                                <input type=\"submit\" value=\"Submit\" class=\"btn-back\">\n                            </div>\n                            <!-- <span  class=\"validation-error\">{{errorMessage}}</span> -->\n                            <!-- <span  class=\"success-msg\">{{successMsg}}</span> -->\n                            <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.coupon_code\">\n                                <span class=\"validation-error\"\n                                    *ngIf=\"couponForm.get('coupon_code').hasError(validation.type) && (couponForm.get('coupon_code').dirty || couponForm.get('coupon_code').touched)\">*{{validation.message}}\n                                </span>\n                            </div>\n                        </form>\n                            <div class=\"subtotal\">\n                                <h5>Subtotal<span>£{{finalPrice}}</span></h5>\n                                <hr>\n                                <h4>Total<span>£{{finalPrice}}</span></h4>\n                            </div>\n                            <input type=\"button\" value=\"Place order\" (click)=\"addCardDetails()\" class=\"theme-btn\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <a (click)=\"goBack()\" class=\"btn-back hand\">Back</a>\n        </div>\n    </section>\n    <section class=\"select-cart\">\n        <div class=\"container\">\n           <div class=\"row\">\n               <div class=\"col-sm-7\">\n                       <h4>Minimum Order Value $15</h4>\n               </div>\n               <!-- <div class=\"col-sm-5 text-right\">\n                   <h4>Total: $ 5.20</h4>\n               </div>     -->\n               <div class=\"col-sm-7\">\n                   <a href=\"#\" class=\"support-here\">\n                     <span> <i class=\"fa fa-commenting\" aria-hidden=\"true\"></i></span>\n                       Support\n                   </a>\n               </div> \n                 <!-- <div class=\"col-sm-5 text-right\">\n                   <a href=\"#\" class=\"your-basket\">\n                       Your Basket<i class=\"fa fa-angle-right\" aria-hidden=\"true\"></i>\n                   </a>\n                 </div> -->\n           </div>\n       </div>\n       <p-dialog header=\"Add card details to make a payment\" [(visible)]=\"addCard\" [style]=\"{width: '50vw'}\" [baseZIndex]=\"10000\">\n        <form [formGroup]=\"AddCardForm\" (ngSubmit)=\"addCardToPay()\" >\n          <div class=\"form-container\" style=\"background:#f7fcff\">\n                <input id=\"column-left\" type=\"text\" formControlName=\"name_on_card\"  placeholder=\"Name\"/>\n                <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.name_on_card\">\n                    <span class=\"validation-error\"\n                        *ngIf=\"AddCardForm.get('name_on_card').hasError(validation.type) && (AddCardForm.get('name_on_card').dirty || AddCardForm.get('name_on_card').touched)\">*{{validation.message}}\n                    </span>\n                </div>\n                <input id=\"input-field\" type=\"text\" formControlName=\"card_no\" placeholder=\"Card Number\"/>\n                <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.card_no\">\n                    <span class=\"validation-error\"\n                        *ngIf=\"AddCardForm.get('card_no').hasError(validation.type) && (AddCardForm.get('card_no').dirty || AddCardForm.get('card_no').touched)\">*{{validation.message}}\n                    </span>\n                </div>\n                <input id=\"column-left\" type=\"text\" formControlName=\"expiry_month\"  placeholder=\"Expiry Month\">\n                <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.expiry_month\">\n                    <span class=\"validation-error\"\n                        *ngIf=\"AddCardForm.get('expiry_month').hasError(validation.type) && (AddCardForm.get('expiry_month').dirty || AddCardForm.get('expiry_month').touched)\">*{{validation.message}}\n                    </span>\n                </div>\n                <input id=\"column-left\" type=\"text\" formControlName=\"expiry_year\"  placeholder=\"Expiry Year\">\n                <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.expiry_year\">\n                    <span class=\"validation-error\"\n                        *ngIf=\"AddCardForm.get('expiry_year').hasError(validation.type) && (AddCardForm.get('expiry_year').dirty || AddCardForm.get('expiry_year').touched)\">*{{validation.message}}\n                    </span>\n                </div>\n                <input id=\"column-right\" type=\"text\"  formControlName=\"cvv\" placeholder=\"CCV\"/>\n                <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.cvv\">\n                    <span class=\"validation-error\"\n                        *ngIf=\"AddCardForm.get('cvv').hasError(validation.type) && (AddCardForm.get('cvv').dirty || AddCardForm.get('cvv').touched)\">*{{validation.message}}\n                    </span>\n                </div>\n                <input type=\"submit\" value=\"Pay Now\" class=\"theme-btn\">\n            </div>\n          </form>\n        </p-dialog>\n   </section>\n";
     /***/
   },
 
@@ -241,7 +241,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<section class=\"dashboard-main\">\r\n    <div class=\"title\">\r\n        <h2>Welcome Maria!</h2>\r\n    </div>\r\n    <div class=\"dashboard-inner\">\r\n        <ul class=\"nav\" id=\"dashboard-tabs\">\r\n            <li (click)=\"showChat()\">\r\n                <a class=\"hand\" id=\"help-ssupport-block\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>Help</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon1.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a class=\"\" id=\"dashboard-tabs-1\" data-toggle=\"tab\" href=\"#place-new-order\" role=\"tab\"\r\n                    aria-controls=\"place-new-order\" aria-selected=\"true\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>PLACE NEW ORDER</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon2.png\" alt=\"dashboard-menu-icon2.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li (click)=\"getAccountSetting()\">\r\n                <a id=\"dashboard-tabs-2\" data-toggle=\"tab\" href=\"#account-setting\" role=\"tab\"\r\n                    aria-controls=\"account-setting\" aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>ACCOUNT SETTING</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon3.png\" alt=\"dashboard-menu-icon3.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li (click)=\"getOrderHistory()\">\r\n                <a id=\"dashboard-tabs-3\" data-toggle=\"tab\" href=\"#order-history\" role=\"tab\"\r\n                    aria-controls=\"order-history\" aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>ORDER HISTORY</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon4.png\" alt=\"dashboard-menu-icon4.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a id=\"dashboard-tabs-4\" data-toggle=\"tab\" href=\"#refer-friend\" role=\"tab\" aria-controls=\"refer-friend\"\r\n                    aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>REFER YOUR FRIENDS</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon5.png\" alt=\"dashboard-menu-icon5.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a id=\"dashboard-tabs-5\" class=\"active\" data-toggle=\"tab\" href=\"#loyality-point\" role=\"tab\"\r\n                    aria-controls=\"loyality-point\" aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>LOYALTY POINTS</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon6.png\" alt=\"dashboard-menu-icon6.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li (click)=\"getCouponVoucher()\">\r\n                <a id=\"dashboard-tabs-6\" data-toggle=\"tab\" href=\"#coupen\" role=\"tab\" aria-controls=\"coupen\"\r\n                    aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>COUPON/VOUCHER </h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon7.png\" alt=\"dashboard-menu-icon7.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <!-- <a href=\"javascript:void(0);\"> -->\r\n                    <div *ngIf=\"showSupport\" (click)=\"closeChat()\" class=\"chat-support-wrap show\">\r\n                        <div class=\"char-tile\">\r\n                            <h3>Live Support chat</h3>\r\n                            <a click=\"closeChat()\" class=\"chat-close-btn hand\"><span class=\"cust-clr\">X</span></a>\r\n                        </div>\r\n                        <div class=\"chat-support-content-wrap\">\r\n                            <ul>\r\n                                <li>\r\n                                    <div class=\"chat-box\">\r\n                                        <figure class=\"img-box\"\r\n                                            style=\"background-image:url('assets/images/avtar-1.png')\">\r\n                                        </figure>\r\n                                        <div class=\"chat-text-box\">\r\n                                            <p>Hello! Can I help you?</p>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>\r\n                                <li>\r\n                                    <div class=\"chat-box user-chat\">\r\n                                        <figure class=\"img-box\"\r\n                                            style=\"background-image:url('assets/images/avtar-1.png')\"></figure>\r\n                                        <div class=\"chat-text-box\">\r\n                                            <p>Yes, can I pay via PayPal?</p>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>\r\n\r\n                                <li>\r\n                                    <div class=\"chat-box\">\r\n                                        <figure class=\"img-box\"\r\n                                            style=\"background-image:url('assets/images/avtar-1.png')\"></figure>\r\n                                        <div class=\"chat-text-box\">\r\n                                            <p>Sure you can!</p>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>\r\n\r\n                                <li>\r\n                                    <div class=\"chat-box user-chat\">\r\n                                        <figure class=\"img-box\"\r\n                                            style=\"background-image:url('assets/images/avtar-1.png')\"></figure>\r\n                                        <div class=\"chat-text-box\">\r\n                                            <p>Thanks</p>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>\r\n\r\n                            </ul>\r\n                            <div class=\"type-msg-wrap\">\r\n                                <input type=\"text\" class=\"form-control\" placeholder=\"Enter your message\" />\r\n                            </div>\r\n                        </div>\r\n\r\n                    </div>\r\n                <!-- </a> -->\r\n            </li>\r\n        </ul>\r\n        <div class=\"tab-content\" id=\"dashboard-tabs-content\">\r\n\r\n            <div class=\"tab-pane fade \" id=\"place-new-order\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-1\">\r\n\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Cooming Soon</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn\">\r\n                        working...\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n\r\n            <div class=\"tab-pane fade\" id=\"account-setting\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-2\">\r\n\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Account Details</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn\">\r\n                        <form [formGroup]=\"userInfoForm\" (ngSubmit)=\"updateUserInfo()\" class=\"row\">\r\n                            <div class=\"col-md-5\">\r\n                                <div class=\"dashboard-form-wrap\">\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputState\" class=\"col-sm-3 col-form-label\">Select Address<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9\">\r\n                                            <!-- *ngFor=\"let addr of fullAddress\" -->\r\n                                            <select id=\"inputState\" formControlName=\"address\" class=\"form-control arrow-down  form-control-lg\">\r\n                                                <option selected=\"selected\">Your Post Code</option>\r\n                                                <option  [value]=\"fullAddress\"><option>\r\n                                            </select>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.address\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('address').hasError(validation.type) && (userInfoForm.get('address').dirty || userInfoForm.get('address').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n                                    <div class=\"form-group form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Post Code<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-6 input-group\">\r\n                                            <input type=\"text\" formControlName=\"postcode\" [(ngModel)]=\"post_code\"  class=\"form-control form-control-lg\"\r\n                                                placeholder=\"se187bg\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-1.png\"\r\n                                                        alt=\"form-field-icon-1.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                        <div class=\"col-sm-3 \">\r\n                                            <button type=\"button\" (click)=\"checkPostCode()\" class=\"btn w-100 h-100 find-btn btn-success\">Find <i\r\n                                                    class=\"fa fa-paper-plane\" aria-hidden=\"true\"></i></button>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.postcode\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('postcode').hasError(validation.type) && (userInfoForm.get('postcode').dirty || userInfoForm.get('postcode').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Building Name or\r\n                                            Number<span class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"text\" formControlName=\"building_name_no\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Building Name or Number\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-2.png\"\r\n                                                        alt=\"form-field-icon-2.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.building_name_no\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('building_name_no').hasError(validation.type) && (userInfoForm.get('building_name_no').dirty || userInfoForm.get('building_name_no').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Street Name<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9  input-group\">\r\n                                            <input type=\"text\"  formControlName=\"street_name\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Street Name\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-3.png\"\r\n                                                        alt=\"form-field-icon-3.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.street_name\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('street_name').hasError(validation.type) && (userInfoForm.get('street_name').dirty || userInfoForm.get('street_name').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Town<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9  input-group\">\r\n                                            <input type=\"text\"  formControlName=\"town\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Town\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-4.png\"\r\n                                                        alt=\"form-field-icon-4.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.town\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('town').hasError(validation.type) && (userInfoForm.get('town').dirty || userInfoForm.get('town').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-md-5 offset-md-1\">\r\n                                <div class=\"dashboard-form-wrap\">\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputState\" class=\"col-sm-3 col-form-label\">First Name<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"text\" formControlName=\"first_name\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your First Name\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-5.png\"\r\n                                                        alt=\"form-field-icon-5.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.first_name\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('first_name').hasError(validation.type) && (userInfoForm.get('first_name').dirty || userInfoForm.get('first_name').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n                                    <div class=\"form-group form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Last Name<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"text\" formControlName=\"last_name\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your Last Name\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-5.png\"\r\n                                                        alt=\"form-field-icon-5.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.last_name\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('last_name').hasError(validation.type) && (userInfoForm.get('last_name').dirty || userInfoForm.get('last_name').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Email Address<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"text\" disabled=\"disabled\" formControlName=\"email\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your Email Address\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-6.png\"\r\n                                                        alt=\"form-field-icon-6.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.email\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('email').hasError(validation.type) && (userInfoForm.get('email').dirty || userInfoForm.get('email').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Password<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"password\" formControlName=\"password\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your Current Password\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-7.png\"\r\n                                                        alt=\"form-field-icon-7.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.password\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('password').hasError(validation.type) && (userInfoForm.get('password').dirty || userInfoForm.get('password').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Create New Password\r\n                                        </label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"password\" formControlName=\"new_password\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your New Password\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-8.png\"\r\n                                                        alt=\"form-field-icon-8.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.new_password\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('new_password').hasError(validation.type) && (userInfoForm.get('new_password').dirty || userInfoForm.get('new_password').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Confirm Password\r\n                                        </label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"password\" formControlName=\"password_confirmation\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Confirm Your New Password\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-8.png\"\r\n                                                        alt=\"form-field-icon-8.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.password_confirmation\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('password_confirmation').hasError(validation.type) && (userInfoForm.get('password_confirmation').dirty || userInfoForm.get('password_confirmation').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Phone Number<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <div class=\"input-group-prepend\">\r\n                                                <span class=\"input-group-text\" id=\"basic-addon3\">\r\n                                                    <select class=\"selectpicker\" data-width=\"fit\">\r\n                                                        <option\r\n                                                            data-content='<span class=\"flag-icon flag-icon-us\"></span>'>\r\n                                                        </option>\r\n                                                        <option\r\n                                                            data-content='<span class=\"flag-icon flag-icon-mx\"></span>'>\r\n                                                        </option>\r\n                                                    </select>\r\n                                                </span>\r\n                                            </div>\r\n                                            <input type=\"text\" formControlName=\"phone_number\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"123 456 7890\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-9.png\"\r\n                                                        alt=\"form-field-icon-9.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.phone_number\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('phone_number').hasError(validation.type) && (userInfoForm.get('phone_number').dirty || userInfoForm.get('phone_number').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <div class=\"col-lg-12\">\r\n                                <div class=\"buttons-outer text-center\">\r\n                                    <button class=\"btn primary_border_btn nm_btn\" type=\"button\">Back</button>\r\n                                    <button type=\"button\" (click)=\"updateUserInfo()\" class=\"btn primary_btn nm_btn\">Save Changes</button>\r\n                                </div>\r\n                            </div>\r\n                        </form>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            \r\n            <div class=\"tab-pane fade\" id=\"order-history\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-3\">\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Check your order history</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn\">\r\n                        <div class=\"row\">\r\n                            <div class=\"col-md-6\">\r\n                                <div class=\"dashboard-history-table-wrap\">\r\n                                    <table id=\"order-table\" class=\"table table-striped table-bordered\"\r\n                                        style=\"width:100%\">\r\n                                        <thead>\r\n                                            <tr>\r\n                                                <th>Order</th>\r\n                                                <th>Date</th>\r\n                                                <th>Status</th>\r\n                                                <th>Total</th>\r\n                                                <th>Actions</th>\r\n                                            </tr>\r\n                                        </thead>\r\n                                        <tbody>\r\n                                            <tr *ngFor=\"let orderItem of allOrders\">\r\n                                                <td><a href=\"#\" class=\"\">#{{orderItem.id}}</a></td>\r\n                                                <td>{{orderItem.updated_at}}</td>\r\n                                                <td>{{orderItem.status}}</td>\r\n                                                <td>{{orderItem.actual_price}}</td>\r\n                                                <td><a class=\"link_bttn hand\" (click)=\"viewOrderDetail(orderItem.id)\">View</a></td>\r\n                                            </tr>\r\n                                        </tbody>\r\n                                    </table>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <div class=\"col-md-6\">\r\n                                <div class=\"order-details-wrap\">\r\n                                    <div class=\"title\">\r\n                                        <h3>Order details</h3>\r\n                                        <p>Order #{{orderDetail?.id}} was placed on January 14, 2019 and is currently Processing</p>\r\n                                    </div>\r\n                                    <div class=\"table-wrap table-row\">\r\n                                        <table class=\"table order-detail-table\" style=\"width:100%\">\r\n                                            <thead>\r\n                                                <tr>\r\n                                                    <th>Product</th>\r\n                                                    <th>Total</th>\r\n                                                </tr>\r\n                                            </thead>\r\n                                            <tbody>\r\n                                                <tr>\r\n                                                    <th><a href=\"#\">{{orderDetail?.order_history[0].name}}</a> </th>\r\n                                                    <td>£1.50</td>\r\n                                                </tr>\r\n                                                <tr>\r\n                                                    <th>Subtotal:</th>\r\n                                                    <td><strong>£1.50</strong></td>\r\n                                                </tr>\r\n                                                <tr>\r\n                                                    <th>Paymnet Method:</th>\r\n                                                    <td>Debit/Credit Card</td>\r\n                                                </tr>\r\n\r\n                                                <tr>\r\n                                                    <th>TOTAL:</th>\r\n                                                    <td><strong>£1.50</strong></td>\r\n                                                </tr>\r\n                                            </tbody>\r\n                                        </table>\r\n                                    </div>\r\n                                    <div class=\"table-row schedule-collection-wrap\">\r\n                                        <p><strong>Schedule your collection date:</strong> 14 January, 2019</p>\r\n                                    </div>\r\n\r\n\r\n                                    <div class=\"table-wrap table-row\">\r\n                                        <table class=\"table order-detail-table\" style=\"width:100%\">\r\n                                            <tbody>\r\n                                                <tr>\r\n                                                    <th><strong>Select your collection day and time slots:</strong></th>\r\n                                                    <td>Wednesday - 19:00-20:00</td>\r\n                                                </tr>\r\n                                            </tbody >\r\n                                        </table>\r\n                                    </div>\r\n                                    \r\n                                    <div class=\"billing-adress-wrap table-row\">\r\n                                        <h3>Billing address</h3>\r\n                                        <p>Patrick Ejezie<br />\r\n                                            2 Burrage Place,<br />\r\n                                            SE18 78G<br />\r\n                                            Info.spotlex@gmail.com</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"table-row order-detail-button text-right\">\r\n                                        <button class=\"btn primary_btn\">Reorder</button>\r\n                                    </div>\r\n\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"tab-pane fade\" id=\"refer-friend\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-3\">\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Refer Your Friends</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn row\">\r\n                        <div class=\"col-md-2 offset-md-2\">\r\n                            <div class=\"sm-buttons-outer\">\r\n                                <ul>\r\n                                    <li>\r\n                                        <a href=\"www.facebook.com\" class=\"facebook\"><i class=\"fa fa-facebook\" aria-hidden=\"true\"></i>\r\n                                            Share on Facebook </a>\r\n                                    </li>\r\n                                    <li>\r\n                                        <a href=\"www.twitter.com\" class=\"twitter\"><i class=\"fa fa-twitter\" aria-hidden=\"true\"></i>\r\n                                            Share on Twitter</a>\r\n                                    </li>\r\n                                    <li>\r\n                                        <a href=\"www.gmail.com\" class=\"googlePlus\"><i class=\"fa fa-google-plus\"\r\n                                                aria-hidden=\"true\"></i> Share on Google+</a>\r\n                                    </li>\r\n                                </ul>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-md-5 offset-md-1\">\r\n                            <div class=\"reger-frient-content\">\r\n                                <h4>Refer friends now</h4>\r\n                                <p>When your friend completes their first Spotlex order using your referral code, you'll\r\n                                    receive £10 of Spotlex credit</p>\r\n\r\n                                <div class=\"newsletter-wrap\">\r\n                                    <form>\r\n                                        <input type=\"text\" class=\"form-control\" value=\"ORDER1\" readonly />\r\n                                        <button type=\"button\" class=\"btn primary_btn\">Copy</button>\r\n                                    </form>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"tab-pane fade active show\" id=\"loyality-point\" role=\"tabpanel\"\r\n                aria-labelledby=\"dashboard-tabs-3\">\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Loyalty Points</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn text-center\">\r\n                        <h3>You have {{loyalityPoint}} points</h3>\r\n                        <p>For every pound you spend you earn one point. Once you reach 150 points, you will\r\n                            receive<br /> a 10GBP discount to use on future orders.</p>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"tab-pane fade\" id=\"coupen\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-3\">\r\n                    <div class=\"dashboard-tabs-content-box\">\r\n                        <div class=\"dashboard-tabs-content-title\">\r\n                            <div class=\"row mr-lf\">\r\n                            <div *ngFor=\"let item of Coupons\" class=\"box\">\r\n                                <div class=\"inner\">\r\n                                 <p>Coupon Code:-{{item.coupon_code}}</p>\r\n                                    <div class=\"coupon\">\r\n                                    <span class=\"scissors\">✂</span>\r\n                                    <span class=\"code\">{{item.price}} {{item.discount_type}}</span>  \r\n                                    </div>\r\n                              </div>\r\n                             </div>\r\n                             </div>\r\n                            </div>\r\n                        <!-- <div class=\"dashboard-tabs-content-inn\">\r\n                            working...\r\n                        </div> -->\r\n                    </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n";
+    __webpack_exports__["default"] = "<section class=\"dashboard-main\">\r\n    <div class=\"title\">\r\n        <h2>Welcome Maria!</h2>\r\n    </div>\r\n    <div class=\"dashboard-inner\">\r\n        <ul class=\"nav\" id=\"dashboard-tabs\">\r\n            <li (click)=\"showChat()\">\r\n                <a class=\"hand\" id=\"help-ssupport-block\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>Help</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon1.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a class=\" hand\" id=\"dashboard-tabs-1\" data-toggle=\"tab\" routerLink=\"/neworder\" routerLinkActive=\"active\" role=\"tab\"\r\n                    aria-controls=\"place-new-order\" aria-selected=\"true\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>PLACE NEW ORDER</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon2.png\" alt=\"dashboard-menu-icon2.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li (click)=\"getAccountSetting()\">\r\n                <a id=\"dashboard-tabs-2\" data-toggle=\"tab\" href=\"#account-setting\" role=\"tab\"\r\n                    aria-controls=\"account-setting\" aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>ACCOUNT SETTING</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon3.png\" alt=\"dashboard-menu-icon3.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li (click)=\"getOrderHistory()\">\r\n                <a id=\"dashboard-tabs-3\" data-toggle=\"tab\" href=\"#order-history\" role=\"tab\"\r\n                    aria-controls=\"order-history\" aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>ORDER HISTORY</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon4.png\" alt=\"dashboard-menu-icon4.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a id=\"dashboard-tabs-4\" data-toggle=\"tab\" href=\"#refer-friend\" role=\"tab\" aria-controls=\"refer-friend\"\r\n                    aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>REFER YOUR FRIENDS</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon5.png\" alt=\"dashboard-menu-icon5.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a id=\"dashboard-tabs-5\" class=\"active\" data-toggle=\"tab\" href=\"#loyality-point\" role=\"tab\"\r\n                    aria-controls=\"loyality-point\" aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>LOYALTY POINTS</h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon6.png\" alt=\"dashboard-menu-icon6.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li (click)=\"getCouponVoucher()\">\r\n                <a id=\"dashboard-tabs-6\" data-toggle=\"tab\" href=\"#coupen\" role=\"tab\" aria-controls=\"coupen\"\r\n                    aria-selected=\"false\">\r\n                    <div class=\"dashboard-menu-box\">\r\n                        <h3>COUPON/VOUCHER </h3>\r\n                        <figure class=\"footer-icon\">\r\n                            <img src=\"assets/images/dashboard-menu-icon7.png\" alt=\"dashboard-menu-icon7.png\" />\r\n                        </figure>\r\n                    </div>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <!-- <a href=\"javascript:void(0);\"> -->\r\n                    <div *ngIf=\"showSupport\" (click)=\"closeChat()\" class=\"chat-support-wrap show\">\r\n                        <div class=\"char-tile\">\r\n                            <h3>Live Support chat</h3>\r\n                            <a click=\"closeChat()\" class=\"chat-close-btn hand\"><span class=\"cust-clr\">X</span></a>\r\n                        </div>\r\n                        <div class=\"chat-support-content-wrap\">\r\n                            <ul>\r\n                                <li>\r\n                                    <div class=\"chat-box\">\r\n                                        <figure class=\"img-box\"\r\n                                            style=\"background-image:url('assets/images/avtar-1.png')\">\r\n                                        </figure>\r\n                                        <div class=\"chat-text-box\">\r\n                                            <p>Hello! Can I help you?</p>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>\r\n                                <li>\r\n                                    <div class=\"chat-box user-chat\">\r\n                                        <figure class=\"img-box\"\r\n                                            style=\"background-image:url('assets/images/avtar-1.png')\"></figure>\r\n                                        <div class=\"chat-text-box\">\r\n                                            <p>Yes, can I pay via PayPal?</p>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>\r\n\r\n                                <li>\r\n                                    <div class=\"chat-box\">\r\n                                        <figure class=\"img-box\"\r\n                                            style=\"background-image:url('assets/images/avtar-1.png')\"></figure>\r\n                                        <div class=\"chat-text-box\">\r\n                                            <p>Sure you can!</p>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>\r\n\r\n                                <li>\r\n                                    <div class=\"chat-box user-chat\">\r\n                                        <figure class=\"img-box\"\r\n                                            style=\"background-image:url('assets/images/avtar-1.png')\"></figure>\r\n                                        <div class=\"chat-text-box\">\r\n                                            <p>Thanks</p>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>\r\n\r\n                            </ul>\r\n                            <div class=\"type-msg-wrap\">\r\n                                <input type=\"text\" class=\"form-control\" placeholder=\"Enter your message\" />\r\n                            </div>\r\n                        </div>\r\n\r\n                    </div>\r\n                <!-- </a> -->\r\n            </li>\r\n        </ul>\r\n        <div class=\"tab-content\" id=\"dashboard-tabs-content\">\r\n\r\n            <div class=\"tab-pane fade \" id=\"place-new-order\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-1\">\r\n\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Cooming Soon</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn\">\r\n                        working...\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n\r\n            <div class=\"tab-pane fade\" id=\"account-setting\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-2\">\r\n\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Account Details</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn\">\r\n                        <form [formGroup]=\"userInfoForm\" (ngSubmit)=\"updateUserInfo()\" class=\"row\">\r\n                            <div class=\"col-md-5\">\r\n                                <div class=\"dashboard-form-wrap\">\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputState\" class=\"col-sm-3 col-form-label\">Select Address<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9\">\r\n                                            <!-- *ngFor=\"let addr of fullAddress\" -->\r\n                                            <select id=\"inputState\" formControlName=\"address\" class=\"form-control arrow-down  form-control-lg\">\r\n                                                <option selected=\"selected\">Your Post Code</option>\r\n                                                <option  [value]=\"fullAddress\"><option>\r\n                                            </select>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.address\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('address').hasError(validation.type) && (userInfoForm.get('address').dirty || userInfoForm.get('address').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n                                    <div class=\"form-group form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Post Code<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-6 input-group\">\r\n                                            <input type=\"text\" formControlName=\"postcode\" [(ngModel)]=\"post_code\"  class=\"form-control form-control-lg\"\r\n                                                placeholder=\"se187bg\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-1.png\"\r\n                                                        alt=\"form-field-icon-1.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                        <div class=\"col-sm-3 \">\r\n                                            <button type=\"button\" (click)=\"checkPostCode()\" class=\"btn w-100 h-100 find-btn btn-success\">Find <i\r\n                                                    class=\"fa fa-paper-plane\" aria-hidden=\"true\"></i></button>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.postcode\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('postcode').hasError(validation.type) && (userInfoForm.get('postcode').dirty || userInfoForm.get('postcode').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Building Name or\r\n                                            Number<span class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"text\" formControlName=\"building_name_no\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Building Name or Number\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-2.png\"\r\n                                                        alt=\"form-field-icon-2.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.building_name_no\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('building_name_no').hasError(validation.type) && (userInfoForm.get('building_name_no').dirty || userInfoForm.get('building_name_no').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Street Name<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9  input-group\">\r\n                                            <input type=\"text\"  formControlName=\"street_name\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Street Name\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-3.png\"\r\n                                                        alt=\"form-field-icon-3.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.street_name\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('street_name').hasError(validation.type) && (userInfoForm.get('street_name').dirty || userInfoForm.get('street_name').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Town<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9  input-group\">\r\n                                            <input type=\"text\"  formControlName=\"town\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Town\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-4.png\"\r\n                                                        alt=\"form-field-icon-4.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.town\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('town').hasError(validation.type) && (userInfoForm.get('town').dirty || userInfoForm.get('town').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-md-5 offset-md-1\">\r\n                                <div class=\"dashboard-form-wrap\">\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputState\" class=\"col-sm-3 col-form-label\">First Name<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"text\" formControlName=\"first_name\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your First Name\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-5.png\"\r\n                                                        alt=\"form-field-icon-5.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.first_name\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('first_name').hasError(validation.type) && (userInfoForm.get('first_name').dirty || userInfoForm.get('first_name').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n                                    <div class=\"form-group form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Last Name<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"text\" formControlName=\"last_name\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your Last Name\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-5.png\"\r\n                                                        alt=\"form-field-icon-5.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.last_name\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('last_name').hasError(validation.type) && (userInfoForm.get('last_name').dirty || userInfoForm.get('last_name').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Email Address<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"text\" disabled=\"disabled\" formControlName=\"email\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your Email Address\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-6.png\"\r\n                                                        alt=\"form-field-icon-6.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.email\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('email').hasError(validation.type) && (userInfoForm.get('email').dirty || userInfoForm.get('email').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Password<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"password\" formControlName=\"password\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your Current Password\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-7.png\"\r\n                                                        alt=\"form-field-icon-7.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.password\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('password').hasError(validation.type) && (userInfoForm.get('password').dirty || userInfoForm.get('password').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Create New Password\r\n                                        </label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"password\" formControlName=\"new_password\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Enter Your New Password\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-8.png\"\r\n                                                        alt=\"form-field-icon-8.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.new_password\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('new_password').hasError(validation.type) && (userInfoForm.get('new_password').dirty || userInfoForm.get('new_password').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Confirm Password\r\n                                        </label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <input type=\"password\" formControlName=\"password_confirmation\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"Confirm Your New Password\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-8.png\"\r\n                                                        alt=\"form-field-icon-8.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.password_confirmation\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('password_confirmation').hasError(validation.type) && (userInfoForm.get('password_confirmation').dirty || userInfoForm.get('password_confirmation').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group  form-row\">\r\n                                        <label for=\"inputPassword\" class=\"col-sm-3 col-form-label\">Phone Number<span\r\n                                                class=\"required\">*</span></label>\r\n                                        <div class=\"col-sm-9 input-group\">\r\n                                            <div class=\"input-group-prepend\">\r\n                                                <span class=\"input-group-text\" id=\"basic-addon3\">\r\n                                                    <select class=\"selectpicker\" data-width=\"fit\">\r\n                                                        <option\r\n                                                            data-content='<span class=\"flag-icon flag-icon-us\"></span>'>\r\n                                                        </option>\r\n                                                        <option\r\n                                                            data-content='<span class=\"flag-icon flag-icon-mx\"></span>'>\r\n                                                        </option>\r\n                                                    </select>\r\n                                                </span>\r\n                                            </div>\r\n                                            <input type=\"text\" formControlName=\"phone_number\" class=\"form-control form-control-lg\"\r\n                                                placeholder=\"123 456 7890\">\r\n                                            <div class=\"input-group-append\">\r\n                                                <span class=\"input-group-text\"><img\r\n                                                        src=\"assets/images/form-field-icon-9.png\"\r\n                                                        alt=\"form-field-icon-9.png\" /></span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"validation-error\" *ngFor=\"let validation of account_validation_messages.phone_number\">\r\n                                        <span class=\"validation-error\"\r\n                                            *ngIf=\"userInfoForm.get('phone_number').hasError(validation.type) && (userInfoForm.get('phone_number').dirty || userInfoForm.get('phone_number').touched)\">*{{validation.message}}</span>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <div class=\"col-lg-12\">\r\n                                <div class=\"buttons-outer text-center\">\r\n                                    <button class=\"btn primary_border_btn nm_btn\" type=\"button\">Back</button>\r\n                                    <button type=\"button\" (click)=\"updateUserInfo()\" class=\"btn primary_btn nm_btn\">Save Changes</button>\r\n                                </div>\r\n                            </div>\r\n                        </form>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            \r\n            <div class=\"tab-pane fade\" id=\"order-history\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-3\">\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Check your order history</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn\">\r\n                        <div class=\"row\">\r\n                            <div class=\"col-md-6\">\r\n                                <div class=\"dashboard-history-table-wrap\">\r\n                                    <table id=\"order-table\" class=\"table table-striped table-bordered\"\r\n                                        style=\"width:100%\">\r\n                                        <thead>\r\n                                            <tr>\r\n                                                <th>Order</th>\r\n                                                <th>Date</th>\r\n                                                <th>Status</th>\r\n                                                <th>Total</th>\r\n                                                <th>Actions</th>\r\n                                            </tr>\r\n                                        </thead>\r\n                                        <tbody>\r\n                                            <tr *ngFor=\"let orderItem of allOrders\">\r\n                                                <td><a href=\"#\" class=\"\">#{{orderItem.id}}</a></td>\r\n                                                <td>{{orderItem.updated_at}}</td>\r\n                                                <td>{{orderItem.status}}</td>\r\n                                                <td>{{orderItem.actual_price}}</td>\r\n                                                <td><a class=\"link_bttn hand\" (click)=\"viewOrderDetail(orderItem.id)\">View</a></td>\r\n                                            </tr>\r\n                                        </tbody>\r\n                                    </table>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <div class=\"col-md-6\">\r\n                                <div class=\"order-details-wrap\">\r\n                                    <div class=\"title\">\r\n                                        <h3>Order details</h3>\r\n                                        <p>Order #{{orderDetail?.id}} was placed on January 14, 2019 and is currently Processing</p>\r\n                                    </div>\r\n                                    <div class=\"table-wrap table-row\">\r\n                                        <table class=\"table order-detail-table\" style=\"width:100%\">\r\n                                            <thead>\r\n                                                <tr>\r\n                                                    <th>Product</th>\r\n                                                    <th>Total</th>\r\n                                                </tr>\r\n                                            </thead>\r\n                                            <tbody>\r\n                                                <tr>\r\n                                                    <th><a href=\"#\">{{orderDetail?.order_history[0].name}}</a> </th>\r\n                                                    <td>£1.50</td>\r\n                                                </tr>\r\n                                                <tr>\r\n                                                    <th>Subtotal:</th>\r\n                                                    <td><strong>£1.50</strong></td>\r\n                                                </tr>\r\n                                                <tr>\r\n                                                    <th>Paymnet Method:</th>\r\n                                                    <td>Debit/Credit Card</td>\r\n                                                </tr>\r\n\r\n                                                <tr>\r\n                                                    <th>TOTAL:</th>\r\n                                                    <td><strong>£1.50</strong></td>\r\n                                                </tr>\r\n                                            </tbody>\r\n                                        </table>\r\n                                    </div>\r\n                                    <div class=\"table-row schedule-collection-wrap\">\r\n                                        <p><strong>Schedule your collection date:</strong> 14 January, 2019</p>\r\n                                    </div>\r\n\r\n\r\n                                    <div class=\"table-wrap table-row\">\r\n                                        <table class=\"table order-detail-table\" style=\"width:100%\">\r\n                                            <tbody>\r\n                                                <tr>\r\n                                                    <th><strong>Select your collection day and time slots:</strong></th>\r\n                                                    <td>Wednesday - 19:00-20:00</td>\r\n                                                </tr>\r\n                                            </tbody >\r\n                                        </table>\r\n                                    </div>\r\n                                    \r\n                                    <div class=\"billing-adress-wrap table-row\">\r\n                                        <h3>Billing address</h3>\r\n                                        <p>Patrick Ejezie<br />\r\n                                            2 Burrage Place,<br />\r\n                                            SE18 78G<br />\r\n                                            Info.spotlex@gmail.com</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"table-row order-detail-button text-right\">\r\n                                        <button class=\"btn primary_btn\">Reorder</button>\r\n                                    </div>\r\n\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"tab-pane fade\" id=\"refer-friend\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-3\">\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Refer Your Friends</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn row\">\r\n                        <div class=\"col-md-2 offset-md-2\">\r\n                            <div class=\"sm-buttons-outer\">\r\n                                <ul>\r\n                                    <li>\r\n                                        <a href=\"www.facebook.com\" class=\"facebook\"><i class=\"fa fa-facebook\" aria-hidden=\"true\"></i>\r\n                                            Share on Facebook </a>\r\n                                    </li>\r\n                                    <li>\r\n                                        <a href=\"www.twitter.com\" class=\"twitter\"><i class=\"fa fa-twitter\" aria-hidden=\"true\"></i>\r\n                                            Share on Twitter</a>\r\n                                    </li>\r\n                                    <li>\r\n                                        <a href=\"www.gmail.com\" class=\"googlePlus\"><i class=\"fa fa-google-plus\"\r\n                                                aria-hidden=\"true\"></i> Share on Google+</a>\r\n                                    </li>\r\n                                </ul>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-md-5 offset-md-1\">\r\n                            <div class=\"reger-frient-content\">\r\n                                <h4>Refer friends now</h4>\r\n                                <p>When your friend completes their first Spotlex order using your referral code, you'll\r\n                                    receive £10 of Spotlex credit</p>\r\n\r\n                                <div class=\"newsletter-wrap\">\r\n                                    <form>\r\n                                        <input type=\"text\" class=\"form-control\" value=\"ORDER1\" readonly />\r\n                                        <button type=\"button\" class=\"btn primary_btn\">Copy</button>\r\n                                    </form>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"tab-pane fade active show\" id=\"loyality-point\" role=\"tabpanel\"\r\n                aria-labelledby=\"dashboard-tabs-3\">\r\n                <div class=\"dashboard-tabs-content-box\">\r\n                    <div class=\"dashboard-tabs-content-title\">\r\n                        <h3>Loyalty Points</h3>\r\n                    </div>\r\n                    <div class=\"dashboard-tabs-content-inn text-center\">\r\n                        <h3>You have {{loyalityPoint}} points</h3>\r\n                        <p>For every pound you spend you earn one point. Once you reach 150 points, you will\r\n                            receive<br /> a 10GBP discount to use on future orders.</p>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"tab-pane fade\" id=\"coupen\" role=\"tabpanel\" aria-labelledby=\"dashboard-tabs-3\">\r\n                    <div class=\"dashboard-tabs-content-box\">\r\n                        <div class=\"dashboard-tabs-content-title\">\r\n                            <div class=\"row mr-lf\">\r\n                            <div *ngFor=\"let item of Coupons\" class=\"box\">\r\n                                <div class=\"inner\">\r\n                                 <p>Coupon Code:-{{item.coupon_code}}</p>\r\n                                    <div class=\"coupon\">\r\n                                    <span class=\"scissors\">✂</span>\r\n                                    <span class=\"code\">{{item.price}} {{item.discount_type}}</span>  \r\n                                    </div>\r\n                              </div>\r\n                             </div>\r\n                             </div>\r\n                            </div>\r\n                        <!-- <div class=\"dashboard-tabs-content-inn\">\r\n                            working...\r\n                        </div> -->\r\n                    </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n";
     /***/
   },
 
@@ -421,7 +421,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "\r\n<div class=\"section section-navbars\">\r\n    <div class=\"container\" id=\"menu-dropdown\">\r\n        <div class=\"row\">\r\n                <!--------Header Start---------->\r\n    <nav class=\"navbar navbar-expand-lg\">\r\n        <div class=\"container\">\r\n            <a class=\"navbar-brand\" routerLink=\"/\" routerLinkActive=\"active\"><img src=\"assets/images/logo.png\" alt=\"logo.png\" /></a>\r\n            <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n        <span class=\"navbar-toggler-icon\"></span>\r\n      </button>\r\n            <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n                <ul class=\"navbar-nav\">\r\n                    <li class=\"nav-item \">\r\n                        <a *ngIf=\"!signInButton\" class=\"nav-link\"  routerLink=\"login\" routerLinkActive=\"active\">Sign In</a>\r\n                    </li>\r\n                    <li class=\"nav-item\">\r\n                        <a class=\"nav-link\" routerLink=\"/pricing\" routerLinkActive=\"active\" >Pricing</a>\r\n                    </li>\r\n\r\n                    <li class=\"nav-item\">\r\n                        <a class=\"nav-link\" href=\"#how-it-works\">DOWNLOAD THE APP</a>\r\n                    </li>\r\n\r\n                    <li class=\"nav-item\">\r\n                        <!-- <a class=\"nav-link\" routerLink=\"/commercial\" routerLinkActive=\"active\">Commercial</a> -->\r\n                        <a class=\"nav-link\" href=\"http://34.211.31.84:8119/commercial\">Commercial</a>\r\n                    </li>\r\n\r\n                    <li class=\"nav-item\">\r\n                        <!-- <a class=\"nav-link\" routerLink=\"/refer-to-friend\" routerLinkActive=\"active\">Refer a friend</a> -->\r\n                        <a class=\"nav-link\" href=\"http://34.211.31.84:8119/refer-a-friend\">Refer a friend</a>\r\n                    </li>\r\n\r\n                    <li class=\"nav-item\">\r\n                        <a *ngIf=\"!signInButton\" class=\"nav-link order_btn\" routerLink=\"/login\" routerLinkActive=\"active\">Order Now</a>\r\n                    </li>\r\n                    <li class=\"nav-item\">\r\n                        <a *ngIf=\"signInButton\" class=\"nav-link order_btn hand\" (click)=\"logOut()\" routerLinkActive=\"active\">Logout</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </nav>\r\n            <!-- End Navbar Transparent-->\r\n        </div>\r\n    </div>\r\n</div>\r\n";
+    __webpack_exports__["default"] = "\r\n<div class=\"section section-navbars\">\r\n    <div class=\"container\" id=\"menu-dropdown\">\r\n        <div class=\"row\">\r\n                <!--------Header Start---------->\r\n    <nav class=\"navbar navbar-expand-lg\">\r\n        <div class=\"container\">\r\n            <a class=\"navbar-brand\" routerLink=\"/\" routerLinkActive=\"active\"><img src=\"assets/images/logo.png\" alt=\"logo.png\" /></a>\r\n            <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n        <span class=\"navbar-toggler-icon\"></span>\r\n      </button>\r\n            <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n                <ul class=\"navbar-nav\">\r\n                    <li *ngIf=\"!signInButton\" class=\"nav-item \">\r\n                        <a class=\"nav-link\"  routerLink=\"login\" routerLinkActive=\"active\">Sign In</a>\r\n                    </li>\r\n                    <li *ngIf=\"signInButton\" class=\"nav-item \">\r\n                        <a class=\"nav-link\"  routerLink=\"/dashboard\" routerLinkActive=\"active\">My Account</a>\r\n                    </li>\r\n                    <li class=\"nav-item\">\r\n                        <a class=\"nav-link\" routerLink=\"#\" routerLinkActive=\"active\" >Pricing</a>\r\n                    </li>\r\n\r\n                    <li class=\"nav-item\">\r\n                        <a class=\"nav-link\" href=\"#how-it-works\">DOWNLOAD THE APP</a>\r\n                    </li>\r\n\r\n                    <li class=\"nav-item\">\r\n                        <!-- <a class=\"nav-link\" routerLink=\"/commercial\" routerLinkActive=\"active\">Commercial</a> -->\r\n                        <a class=\"nav-link\" href=\"http://52.56.145.178/index.php/commercial/\">Commercial</a>\r\n                    </li>\r\n\r\n                    <li class=\"nav-item\">\r\n                        <!-- <a class=\"nav-link\" routerLink=\"/refer-to-friend\" routerLinkActive=\"active\">Refer a friend</a> -->\r\n                        <a class=\"nav-link\" href=\"http://52.56.145.178/index.php/refer-a-friend\">Refer a friend</a>\r\n                    </li>\r\n\r\n                    <li class=\"nav-item\">\r\n                        <a *ngIf=\"!signInButton\" class=\"nav-link order_btn\" routerLink=\"/login\" routerLinkActive=\"active\">Order Now</a>\r\n                    </li>\r\n                    <li class=\"nav-item\">\r\n                        <a *ngIf=\"signInButton\" class=\"nav-link order_btn hand\" (click)=\"logOut()\" routerLinkActive=\"active\">Logout</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </nav>\r\n            <!-- End Navbar Transparent-->\r\n        </div>\r\n    </div>\r\n</div>\r\n";
     /***/
   },
 
@@ -816,7 +816,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     var ngx_toastr__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(
     /*! ngx-toastr */
-    "./node_modules/ngx-toastr/__ivy_ngcc__/fesm2015/ngx-toastr.js"); // this is needed!
+    "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js"); // this is needed!
     // import { NgxUiLoaderModule, NgxUiLoaderConfig } from  'ngx-ui-loader';
 
 
@@ -991,7 +991,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       path: 'profile',
       component: _customer_profile_profile_component__WEBPACK_IMPORTED_MODULE_8__["ProfileComponent"]
     }, {
-      path: 'pricing',
+      path: 'neworder',
       component: _customer_pricing_pricing_component__WEBPACK_IMPORTED_MODULE_9__["PricingComponent"]
     }, {
       path: 'dashboard',
@@ -1946,7 +1946,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! ngx-toastr */
-    "./node_modules/ngx-toastr/__ivy_ngcc__/fesm2015/ngx-toastr.js");
+    "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
 
     var BasketComponent = /*#__PURE__*/function () {
       function BasketComponent(formBuilder, authservice, route, toastr) {
@@ -2209,7 +2209,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".hand{\r\ncursor: pointer;    \r\n}\r\n.validation-error{\r\n    color:red;\r\n}\r\n.success-msg{\r\n    color:green;\r\n}\r\n.gray {\r\n    background-color: #d1cbcb;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY3VzdG9tZXIvY2hlY2tvdXQvY2hlY2tvdXQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtBQUNBLGVBQWU7QUFDZjtBQUNBO0lBQ0ksU0FBUztBQUNiO0FBQ0E7SUFDSSxXQUFXO0FBQ2Y7QUFDQTtJQUNJLHlCQUF5QjtBQUM3QiIsImZpbGUiOiJzcmMvYXBwL2N1c3RvbWVyL2NoZWNrb3V0L2NoZWNrb3V0LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuaGFuZHtcclxuY3Vyc29yOiBwb2ludGVyOyAgICBcclxufVxyXG4udmFsaWRhdGlvbi1lcnJvcntcclxuICAgIGNvbG9yOnJlZDtcclxufVxyXG4uc3VjY2Vzcy1tc2d7XHJcbiAgICBjb2xvcjpncmVlbjtcclxufVxyXG4uZ3JheSB7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZDFjYmNiO1xyXG59Il19 */";
+    __webpack_exports__["default"] = ".hand{\r\ncursor: pointer;    \r\n}\r\n.validation-error{\r\n    color:red;\r\n}\r\n.success-msg{\r\n    color:green;\r\n}\r\n.gray {\r\n    background-color: #d1cbcb;\r\n}\r\nbody {\r\n  padding: 60px 0;\r\n  background-color: rgba(178,209,229,0.7);\r\n  margin: 0 auto;\r\n  width: 600px;\r\n}\r\n.body-text {\r\n  padding: 0 20px 30px 20px;\r\n  font-family: \"Roboto\";\r\n  font-size: 1em;\r\n  color: #333;\r\n  text-align: center;\r\n  line-height: 1.2em;\r\n}\r\n.form-container {\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n}\r\n.card-wrapper {\r\n  background-color: #6FB7E9;\r\n  width: 100%;\r\n  display: flex;\r\n\r\n}\r\n.personal-information {\r\n  background-color: #3C8DC5;\r\n  color: #fff;\r\n  padding: 1px 0;\r\n  text-align: center;\r\n}\r\nh1 {\r\n  font-size: 1.3em;\r\n  font-family: \"Roboto\"\r\n}\r\ninput {\r\n  margin: 1px 0;\r\n  padding-left: 3%;\r\n  font-size: 14px;\r\n}\r\ninput[type=\"text\"]{\r\n  display: block;\r\n  height: 50px;\r\n  width: 97%;\r\n  border: none;\r\n}\r\ninput[type=\"email\"]{\r\n  display: block;\r\n  height: 50px;\r\n  width: 97%;\r\n  border: none;\r\n}\r\ninput[type=\"submit\"]{\r\n  display: block;\r\n  height: 60px;\r\n  width: 100%;\r\n  border: none;\r\n  background-color: #3C8DC5;\r\n  color: #fff;\r\n  margin-top: 2px;\r\n  curson: pointer;\r\n  font-size: 0.9em;\r\n  text-transform: uppercase;\r\n  font-weight: bold;\r\n  cursor: pointer;\r\n}\r\ninput[type=\"submit\"]:hover{\r\n  background-color: #6FB7E9;\r\n  transition: 0.3s ease;\r\n}\r\n#column-left {\r\n  width: 46.8%;\r\n  float: left;\r\n  margin-bottom: 2px;\r\n}\r\n#column-right {\r\n  width: 46.8%;\r\n  float: right;\r\n}\r\n@media only screen and (max-width: 480px){\r\n  body {\r\n    width: 100%;\r\n    margin: 0 auto;\r\n  }\r\n  .form-container {\r\n    margin: 0 2%;\r\n  }\r\n  input {\r\n    font-size: 1em;\r\n  }\r\n  #input-button {\r\n    width: 100%;\r\n  }\r\n  #input-field {\r\n    width: 96.5%;\r\n  }\r\n  h1 {\r\n    font-size: 1.2em;\r\n  }\r\n  input {\r\n    margin: 2px 0;\r\n  }\r\n  input[type=\"submit\"]{\r\n    height: 50px;\r\n  }\r\n  #column-left {\r\n    width: 96.5%;\r\n    display: block;\r\n    float: none;\r\n  }\r\n  #column-right {\r\n    width: 96.5%;\r\n    display: block;\r\n    float: none;\r\n  }\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY3VzdG9tZXIvY2hlY2tvdXQvY2hlY2tvdXQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtBQUNBLGVBQWU7QUFDZjtBQUNBO0lBQ0ksU0FBUztBQUNiO0FBQ0E7SUFDSSxXQUFXO0FBQ2Y7QUFDQTtJQUNJLHlCQUF5QjtBQUM3QjtBQUlBO0VBQ0UsZUFBZTtFQUNmLHVDQUF1QztFQUN2QyxjQUFjO0VBQ2QsWUFBWTtBQUNkO0FBQ0E7RUFDRSx5QkFBeUI7RUFDekIscUJBQXFCO0VBQ3JCLGNBQWM7RUFDZCxXQUFXO0VBQ1gsa0JBQWtCO0VBQ2xCLGtCQUFrQjtBQUNwQjtBQUNBO0VBQ0Usc0JBQXNCO0VBQ3RCLHVCQUF1QjtFQUN2QixtQkFBbUI7QUFDckI7QUFDQTtFQUNFLHlCQUF5QjtFQUN6QixXQUFXO0VBQ1gsYUFBYTs7QUFFZjtBQUNBO0VBQ0UseUJBQXlCO0VBQ3pCLFdBQVc7RUFDWCxjQUFjO0VBQ2Qsa0JBQWtCO0FBQ3BCO0FBQ0E7RUFDRSxnQkFBZ0I7RUFDaEI7QUFDRjtBQUNBO0VBQ0UsYUFBYTtFQUNiLGdCQUFnQjtFQUNoQixlQUFlO0FBQ2pCO0FBQ0E7RUFDRSxjQUFjO0VBQ2QsWUFBWTtFQUNaLFVBQVU7RUFDVixZQUFZO0FBQ2Q7QUFDQTtFQUNFLGNBQWM7RUFDZCxZQUFZO0VBQ1osVUFBVTtFQUNWLFlBQVk7QUFDZDtBQUNBO0VBQ0UsY0FBYztFQUNkLFlBQVk7RUFDWixXQUFXO0VBQ1gsWUFBWTtFQUNaLHlCQUF5QjtFQUN6QixXQUFXO0VBQ1gsZUFBZTtFQUNmLGVBQWU7RUFDZixnQkFBZ0I7RUFDaEIseUJBQXlCO0VBQ3pCLGlCQUFpQjtFQUNqQixlQUFlO0FBQ2pCO0FBQ0E7RUFDRSx5QkFBeUI7RUFDekIscUJBQXFCO0FBQ3ZCO0FBQ0E7RUFDRSxZQUFZO0VBQ1osV0FBVztFQUNYLGtCQUFrQjtBQUNwQjtBQUNBO0VBQ0UsWUFBWTtFQUNaLFlBQVk7QUFDZDtBQUVBO0VBQ0U7SUFDRSxXQUFXO0lBQ1gsY0FBYztFQUNoQjtFQUNBO0lBQ0UsWUFBWTtFQUNkO0VBQ0E7SUFDRSxjQUFjO0VBQ2hCO0VBQ0E7SUFDRSxXQUFXO0VBQ2I7RUFDQTtJQUNFLFlBQVk7RUFDZDtFQUNBO0lBQ0UsZ0JBQWdCO0VBQ2xCO0VBQ0E7SUFDRSxhQUFhO0VBQ2Y7RUFDQTtJQUNFLFlBQVk7RUFDZDtFQUNBO0lBQ0UsWUFBWTtJQUNaLGNBQWM7SUFDZCxXQUFXO0VBQ2I7RUFDQTtJQUNFLFlBQVk7SUFDWixjQUFjO0lBQ2QsV0FBVztFQUNiO0FBQ0YiLCJmaWxlIjoic3JjL2FwcC9jdXN0b21lci9jaGVja291dC9jaGVja291dC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmhhbmR7XHJcbmN1cnNvcjogcG9pbnRlcjsgICAgXHJcbn1cclxuLnZhbGlkYXRpb24tZXJyb3J7XHJcbiAgICBjb2xvcjpyZWQ7XHJcbn1cclxuLnN1Y2Nlc3MtbXNne1xyXG4gICAgY29sb3I6Z3JlZW47XHJcbn1cclxuLmdyYXkge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2QxY2JjYjtcclxufVxyXG5cclxuQGltcG9ydCB1cmwoaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVJvYm90bzo0MDAsOTAwLDcwMCw1MDApO1xyXG5cclxuYm9keSB7XHJcbiAgcGFkZGluZzogNjBweCAwO1xyXG4gIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMTc4LDIwOSwyMjksMC43KTtcclxuICBtYXJnaW46IDAgYXV0bztcclxuICB3aWR0aDogNjAwcHg7XHJcbn1cclxuLmJvZHktdGV4dCB7XHJcbiAgcGFkZGluZzogMCAyMHB4IDMwcHggMjBweDtcclxuICBmb250LWZhbWlseTogXCJSb2JvdG9cIjtcclxuICBmb250LXNpemU6IDFlbTtcclxuICBjb2xvcjogIzMzMztcclxuICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgbGluZS1oZWlnaHQ6IDEuMmVtO1xyXG59XHJcbi5mb3JtLWNvbnRhaW5lciB7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxuICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG59XHJcbi5jYXJkLXdyYXBwZXIge1xyXG4gIGJhY2tncm91bmQtY29sb3I6ICM2RkI3RTk7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbiAgZGlzcGxheTogZmxleDtcclxuXHJcbn1cclxuLnBlcnNvbmFsLWluZm9ybWF0aW9uIHtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjM0M4REM1O1xyXG4gIGNvbG9yOiAjZmZmO1xyXG4gIHBhZGRpbmc6IDFweCAwO1xyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxufVxyXG5oMSB7XHJcbiAgZm9udC1zaXplOiAxLjNlbTtcclxuICBmb250LWZhbWlseTogXCJSb2JvdG9cIlxyXG59XHJcbmlucHV0IHtcclxuICBtYXJnaW46IDFweCAwO1xyXG4gIHBhZGRpbmctbGVmdDogMyU7XHJcbiAgZm9udC1zaXplOiAxNHB4O1xyXG59XHJcbmlucHV0W3R5cGU9XCJ0ZXh0XCJde1xyXG4gIGRpc3BsYXk6IGJsb2NrO1xyXG4gIGhlaWdodDogNTBweDtcclxuICB3aWR0aDogOTclO1xyXG4gIGJvcmRlcjogbm9uZTtcclxufVxyXG5pbnB1dFt0eXBlPVwiZW1haWxcIl17XHJcbiAgZGlzcGxheTogYmxvY2s7XHJcbiAgaGVpZ2h0OiA1MHB4O1xyXG4gIHdpZHRoOiA5NyU7XHJcbiAgYm9yZGVyOiBub25lO1xyXG59XHJcbmlucHV0W3R5cGU9XCJzdWJtaXRcIl17XHJcbiAgZGlzcGxheTogYmxvY2s7XHJcbiAgaGVpZ2h0OiA2MHB4O1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGJvcmRlcjogbm9uZTtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjM0M4REM1O1xyXG4gIGNvbG9yOiAjZmZmO1xyXG4gIG1hcmdpbi10b3A6IDJweDtcclxuICBjdXJzb246IHBvaW50ZXI7XHJcbiAgZm9udC1zaXplOiAwLjllbTtcclxuICB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlO1xyXG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gIGN1cnNvcjogcG9pbnRlcjtcclxufVxyXG5pbnB1dFt0eXBlPVwic3VibWl0XCJdOmhvdmVye1xyXG4gIGJhY2tncm91bmQtY29sb3I6ICM2RkI3RTk7XHJcbiAgdHJhbnNpdGlvbjogMC4zcyBlYXNlO1xyXG59XHJcbiNjb2x1bW4tbGVmdCB7XHJcbiAgd2lkdGg6IDQ2LjglO1xyXG4gIGZsb2F0OiBsZWZ0O1xyXG4gIG1hcmdpbi1ib3R0b206IDJweDtcclxufVxyXG4jY29sdW1uLXJpZ2h0IHtcclxuICB3aWR0aDogNDYuOCU7XHJcbiAgZmxvYXQ6IHJpZ2h0O1xyXG59XHJcblxyXG5AbWVkaWEgb25seSBzY3JlZW4gYW5kIChtYXgtd2lkdGg6IDQ4MHB4KXtcclxuICBib2R5IHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgbWFyZ2luOiAwIGF1dG87XHJcbiAgfVxyXG4gIC5mb3JtLWNvbnRhaW5lciB7XHJcbiAgICBtYXJnaW46IDAgMiU7XHJcbiAgfVxyXG4gIGlucHV0IHtcclxuICAgIGZvbnQtc2l6ZTogMWVtO1xyXG4gIH1cclxuICAjaW5wdXQtYnV0dG9uIHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gIH1cclxuICAjaW5wdXQtZmllbGQge1xyXG4gICAgd2lkdGg6IDk2LjUlO1xyXG4gIH1cclxuICBoMSB7XHJcbiAgICBmb250LXNpemU6IDEuMmVtO1xyXG4gIH1cclxuICBpbnB1dCB7XHJcbiAgICBtYXJnaW46IDJweCAwO1xyXG4gIH1cclxuICBpbnB1dFt0eXBlPVwic3VibWl0XCJde1xyXG4gICAgaGVpZ2h0OiA1MHB4O1xyXG4gIH1cclxuICAjY29sdW1uLWxlZnQge1xyXG4gICAgd2lkdGg6IDk2LjUlO1xyXG4gICAgZGlzcGxheTogYmxvY2s7XHJcbiAgICBmbG9hdDogbm9uZTtcclxuICB9XHJcbiAgI2NvbHVtbi1yaWdodCB7XHJcbiAgICB3aWR0aDogOTYuNSU7XHJcbiAgICBkaXNwbGF5OiBibG9jaztcclxuICAgIGZsb2F0OiBub25lO1xyXG4gIH1cclxufSJdfQ== */";
     /***/
   },
 
@@ -2273,7 +2273,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! ngx-toastr */
-    "./node_modules/ngx-toastr/__ivy_ngcc__/fesm2015/ngx-toastr.js");
+    "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
 
     var CheckoutComponent = /*#__PURE__*/function () {
       function CheckoutComponent(formBuilder, authservice, route, toastr, activatedRoute) {
@@ -2285,11 +2285,19 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.toastr = toastr;
         this.activatedRoute = activatedRoute;
         this.account_validation_messages = app_services_validation_service__WEBPACK_IMPORTED_MODULE_5__["ValidationService"].account_validation_messages;
-        this.minDate = new Date(); // this.maxDate = new Date();
-
+        this.isCouponCode = false;
+        this.skipItemSelection = false;
+        this.minDate = new Date();
         this.value = new Date();
         this.couponForm = this.formBuilder.group({
           coupon_code: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]]
+        });
+        this.AddCardForm = this.formBuilder.group({
+          name_on_card: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
+          card_no: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
+          expiry_month: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
+          expiry_year: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
+          cvv: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]]
         });
       }
 
@@ -2300,6 +2308,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (skipItemSelection) {
             this.isSkipItem = atob(skipItemSelection);
+            this.skipItemSelection = true;
             this.finalPrice = 15;
           }
 
@@ -2396,6 +2405,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.validateAllFormFields(this.couponForm);
             return true;
           } else {
+            this.isCouponCode = this.couponForm.value.coupon_code;
             this.authservice.applyCoupon({
               'couponcode': this.couponForm.value,
               'actual_price': this.finalPrice
@@ -2472,7 +2482,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                     switch (_context10.prev = _context10.next) {
                       case 0:
                         if (res['status'] === true) {
-                          console.log(res['timeslot'], 'pppppppppppppppppppppppp');
                           this.deliverySlot = res['timeslot'];
                           this.displayDelivery = true;
                         } else {}
@@ -2490,13 +2499,60 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
         }
       }, {
+        key: "addCardDetails",
+        value: function addCardDetails() {
+          if (!this.deliveryDate || !this.collectionDate) {
+            this.toastr.error('Please select Collection date and time or Delivery date and time', 'Spotlex!');
+            return;
+          } else {
+            this.addCard = true;
+          }
+        }
+      }, {
+        key: "addCardToPay",
+        value: function addCardToPay() {
+          var _this16 = this;
+
+          if (this.AddCardForm.invalid) {
+            this.validateAllFormFields(this.AddCardForm);
+            return true;
+          } else {
+            this.authservice.addCardToPay(this.AddCardForm.value).subscribe(function (res) {
+              return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this16, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+                return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                  while (1) {
+                    switch (_context11.prev = _context11.next) {
+                      case 0:
+                        if (res['status'] === true) {
+                          this.cardToken = res['card_token'];
+                          this.toastr.info('please wait... do not refresh and back your browser!', 'Spotlex!');
+                          this.checkOut();
+                        } else {
+                          this.toastr.error(res['message'], 'Spotlex!');
+                        }
+
+                      case 1:
+                      case "end":
+                        return _context11.stop();
+                    }
+                  }
+                }, _callee11, this);
+              }));
+            }, function (error) {
+              _this16.toastr.error(error.error.message, 'Spotlex!');
+            });
+          }
+        }
+      }, {
         key: "checkOut",
         value: function checkOut() {
-          var _this16 = this;
+          var _this17 = this;
 
           var payLoad = {
             'is_couponcode': this.isCouponCode,
+            'card_token': this.cardToken,
             'cleaningInstructions': this.delivery_notes,
+            'delivery_notes': this.delivery_notes,
             'delivery_slot_id': this.deliverySlotId,
             'collection_slot_id': this.collectionSlotId,
             'delivery_time': this.deliveryTime,
@@ -2505,29 +2561,33 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             'collection_date': this.collectionDate,
             'user_id': this.userId,
             'final_price': this.finalPrice,
-            'actual_price': this.finalPrice
+            'actual_price': this.finalPrice,
+            'couponcode': this.isCouponCode ? this.isCouponCode : '',
+            'is_skip_items': this.skipItemSelection
           };
+          console.log(payLoad, 'payLoadpayLoadpayLoadpayLoadpayLoadpayLoad');
           this.authservice.checkOut(payLoad).subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this16, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
-              return regeneratorRuntime.wrap(function _callee11$(_context11) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this17, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+              return regeneratorRuntime.wrap(function _callee12$(_context12) {
                 while (1) {
-                  switch (_context11.prev = _context11.next) {
+                  switch (_context12.prev = _context12.next) {
                     case 0:
                       if (res['status'] === true) {
-                        this.authservice.showToastrMessage('success', 'Spotlex', res['message']);
+                        this.addCard = false;
+                        this.toastr.success(res['message'], 'Spotlex!');
                       } else {
-                        this.authservice.showToastrMessage('error', 'Spotlex', res['message']);
+                        this.toastr.error(res['message'], 'Spotlex!');
                       }
 
                     case 1:
                     case "end":
-                      return _context11.stop();
+                      return _context12.stop();
                   }
                 }
-              }, _callee11, this);
+              }, _callee12, this);
             }));
           }, function (error) {
-            _this16.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+            _this17.toastr.error('error', 'Spotlex', error.error.message);
           });
         }
       }, {
@@ -2538,6 +2598,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           if (slotData.blocked_collection_slot === 0) {
             this.collectionSlotId = slotData.id;
             this.setCollectionSlotValue = slotData.collection_time_start + '-' + slotData.collection_time_end;
+            this.collectionDate = slotData.collection_date;
+            this.collectionTime = slotData.collection_time_start + '-' + slotData.collection_time_end;
           }
 
           if (slotData.blocked_collection_slot === 1) {
@@ -2551,6 +2613,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (slotData.blocked_delivery_slot === 0) {
             this.setDeliverySlotValue = slotData.delivery_time_start + '-' + slotData.delivery_time_end;
+            this.deliveryDate = slotData.collection_date;
+            this.deliveryTime = slotData.collection_time_start + '-' + slotData.collection_time_end;
             this.deliverySlotId = slotData.id;
           }
 
@@ -3168,7 +3232,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! ngx-toastr */
-    "./node_modules/ngx-toastr/__ivy_ngcc__/fesm2015/ngx-toastr.js");
+    "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
 
     var DashboardComponent = /*#__PURE__*/function () {
       function DashboardComponent(formBuilder, authservice, route, toastr) {
@@ -3205,13 +3269,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getUserData",
         value: function getUserData() {
-          var _this17 = this;
+          var _this18 = this;
 
           this.authservice.getUser().subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this17, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
-              return regeneratorRuntime.wrap(function _callee12$(_context12) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this18, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+              return regeneratorRuntime.wrap(function _callee13$(_context13) {
                 while (1) {
-                  switch (_context12.prev = _context12.next) {
+                  switch (_context13.prev = _context13.next) {
                     case 0:
                       if (res['status'] === true) {
                         this.loyalityPoint = res['data'].loyalty_point;
@@ -3221,29 +3285,29 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                     case 1:
                     case "end":
-                      return _context12.stop();
+                      return _context13.stop();
                   }
                 }
-              }, _callee12, this);
+              }, _callee13, this);
             }));
           }, function (error) {
-            _this17.toastr.success(error.error.message);
+            _this18.toastr.success(error.error.message);
           });
         }
       }, {
         key: "updateUserInfo",
         value: function updateUserInfo() {
-          var _this18 = this;
+          var _this19 = this;
 
           if (this.userInfoForm.invalid) {
             this.validateAllFormFields(this.userInfoForm);
             return true;
           } else {
             this.authservice.updateAddress(this.userInfoForm.value).subscribe(function (res) {
-              return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this18, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
-                return regeneratorRuntime.wrap(function _callee13$(_context13) {
+              return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this19, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+                return regeneratorRuntime.wrap(function _callee14$(_context14) {
                   while (1) {
-                    switch (_context13.prev = _context13.next) {
+                    switch (_context14.prev = _context14.next) {
                       case 0:
                         if (res['status'] === true) {
                           this.toastr.success(res['message']);
@@ -3253,13 +3317,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                       case 1:
                       case "end":
-                        return _context13.stop();
+                        return _context14.stop();
                     }
                   }
-                }, _callee13, this);
+                }, _callee14, this);
               }));
             }, function (error) {
-              _this18.toastr.error(error.error.message, 'Spotlex');
+              _this19.toastr.error(error.error.message, 'Spotlex');
             });
           }
         }
@@ -3276,13 +3340,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getCouponVoucher",
         value: function getCouponVoucher() {
-          var _this19 = this;
+          var _this20 = this;
 
           this.authservice.getCoupon().subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this19, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-              return regeneratorRuntime.wrap(function _callee14$(_context14) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this20, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+              return regeneratorRuntime.wrap(function _callee15$(_context15) {
                 while (1) {
-                  switch (_context14.prev = _context14.next) {
+                  switch (_context15.prev = _context15.next) {
                     case 0:
                       if (res['status'] === true) {
                         this.Coupons = res['data'];
@@ -3290,13 +3354,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                     case 1:
                     case "end":
-                      return _context14.stop();
+                      return _context15.stop();
                   }
                 }
-              }, _callee14, this);
+              }, _callee15, this);
             }));
           }, function (error) {
-            _this19.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+            _this20.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
           });
         }
       }, {
@@ -3305,15 +3369,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "checkPostCode",
         value: function checkPostCode() {
-          var _this20 = this;
+          var _this21 = this;
 
           this.authservice.checkPostCode({
             post_code: this.post_code
           }).subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this20, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-              return regeneratorRuntime.wrap(function _callee15$(_context15) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this21, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+              return regeneratorRuntime.wrap(function _callee16$(_context16) {
                 while (1) {
-                  switch (_context15.prev = _context15.next) {
+                  switch (_context16.prev = _context16.next) {
                     case 0:
                       if (res['status'] === true) {
                         this.toastr.success(res['message'], 'Spotlex');
@@ -3329,13 +3393,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                     case 1:
                     case "end":
-                      return _context15.stop();
+                      return _context16.stop();
                   }
                 }
-              }, _callee15, this);
+              }, _callee16, this);
             }));
           }, function (error) {
-            _this20.toastr.error(error.error.message, 'Update Address!');
+            _this21.toastr.error(error.error.message, 'Update Address!');
           });
         }
       }, {
@@ -3352,15 +3416,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getOrderHistory",
         value: function getOrderHistory() {
-          var _this21 = this;
+          var _this22 = this;
 
           this.authservice.getOrderHistory({
             'user_id': this.userId
           }).subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this21, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
-              return regeneratorRuntime.wrap(function _callee16$(_context16) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this22, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
+              return regeneratorRuntime.wrap(function _callee17$(_context17) {
                 while (1) {
-                  switch (_context16.prev = _context16.next) {
+                  switch (_context17.prev = _context17.next) {
                     case 0:
                       if (res['status'] === true) {
                         this.allOrders = res['currentOrders'];
@@ -3369,13 +3433,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                     case 1:
                     case "end":
-                      return _context16.stop();
+                      return _context17.stop();
                   }
                 }
-              }, _callee16, this);
+              }, _callee17, this);
             }));
           }, function (error) {
-            _this21.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+            _this22.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
           });
         }
         /**
@@ -3608,7 +3672,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".custom-margin {\n  margin-top: 20px;\n}\n\n.account-form {\n  max-width: 700px;\n  width: 100%;\n  margin: 100px auto !important;\n  position: relative;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi92YXIvd3d3L2h0bWwvcHJvamVjdC9zcG90bGV4L2Zyb250ZW5kL3NyYy9hcHAvY3VzdG9tZXIvbG9naW4vbG9naW4uY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL2N1c3RvbWVyL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksZ0JBQUE7QUNDSjs7QURFQTtFQUNJLGdCQUFBO0VBQ0EsV0FBQTtFQUNBLDZCQUFBO0VBQ0Esa0JBQUE7QUNDSiIsImZpbGUiOiJzcmMvYXBwL2N1c3RvbWVyL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmN1c3RvbS1tYXJnaW57XHJcbiAgICBtYXJnaW4tdG9wOiAyMHB4O1xyXG59XHJcblxyXG4uYWNjb3VudC1mb3Jte1xyXG4gICAgbWF4LXdpZHRoOiA3MDBweDtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgbWFyZ2luOiAxMDBweCBhdXRvICFpbXBvcnRhbnQ7XHJcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbn1cclxuIiwiLmN1c3RvbS1tYXJnaW4ge1xuICBtYXJnaW4tdG9wOiAyMHB4O1xufVxuXG4uYWNjb3VudC1mb3JtIHtcbiAgbWF4LXdpZHRoOiA3MDBweDtcbiAgd2lkdGg6IDEwMCU7XG4gIG1hcmdpbjogMTAwcHggYXV0byAhaW1wb3J0YW50O1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG59Il19 */";
+    __webpack_exports__["default"] = ".custom-margin {\n  margin-top: 20px;\n}\n\n.account-form {\n  max-width: 700px;\n  width: 100%;\n  margin: 100px auto !important;\n  position: relative;\n}\n\n.validation-error {\n  color: red;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi92YXIvd3d3L2h0bWwvcHJvamVjdC9zcG90bGV4L2Zyb250ZW5kL3NyYy9hcHAvY3VzdG9tZXIvbG9naW4vbG9naW4uY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL2N1c3RvbWVyL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksZ0JBQUE7QUNDSjs7QURFQTtFQUNJLGdCQUFBO0VBQ0EsV0FBQTtFQUNBLDZCQUFBO0VBQ0Esa0JBQUE7QUNDSjs7QURDQTtFQUNJLFVBQUE7QUNFSiIsImZpbGUiOiJzcmMvYXBwL2N1c3RvbWVyL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmN1c3RvbS1tYXJnaW57XHJcbiAgICBtYXJnaW4tdG9wOiAyMHB4O1xyXG59XHJcblxyXG4uYWNjb3VudC1mb3Jte1xyXG4gICAgbWF4LXdpZHRoOiA3MDBweDtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgbWFyZ2luOiAxMDBweCBhdXRvICFpbXBvcnRhbnQ7XHJcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbn1cclxuLnZhbGlkYXRpb24tZXJyb3Ige1xyXG4gICAgY29sb3I6cmVkO1xyXG59XHJcbiIsIi5jdXN0b20tbWFyZ2luIHtcbiAgbWFyZ2luLXRvcDogMjBweDtcbn1cblxuLmFjY291bnQtZm9ybSB7XG4gIG1heC13aWR0aDogNzAwcHg7XG4gIHdpZHRoOiAxMDAlO1xuICBtYXJnaW46IDEwMHB4IGF1dG8gIWltcG9ydGFudDtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xufVxuXG4udmFsaWRhdGlvbi1lcnJvciB7XG4gIGNvbG9yOiByZWQ7XG59Il19 */";
     /***/
   },
 
@@ -3667,14 +3731,21 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! @angular/router */
     "./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+
+
+    var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    /*! ngx-toastr */
+    "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
 
     var LoginComponent = /*#__PURE__*/function () {
-      function LoginComponent(formBuilder, authservice, route) {
+      function LoginComponent(formBuilder, authservice, route, toastr) {
         _classCallCheck(this, LoginComponent);
 
         this.formBuilder = formBuilder;
         this.authservice = authservice;
         this.route = route;
+        this.toastr = toastr;
         this.user = [];
         this.account_validation_messages = _services_validation_service__WEBPACK_IMPORTED_MODULE_4__["ValidationService"].account_validation_messages;
         this.data = new Date();
@@ -3695,7 +3766,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getUserLogin",
         value: function getUserLogin() {
-          var _this22 = this;
+          var _this23 = this;
 
           if (this.userLoginForm.invalid) {
             this.validateAllFormFields(this.userLoginForm);
@@ -3703,39 +3774,44 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           this.authservice.login(this.userLoginForm.value).subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this22, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
-              return regeneratorRuntime.wrap(function _callee17$(_context17) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this23, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
+              return regeneratorRuntime.wrap(function _callee18$(_context18) {
                 while (1) {
-                  switch (_context17.prev = _context17.next) {
+                  switch (_context18.prev = _context18.next) {
                     case 0:
                       if (!(res['status'] === true)) {
-                        _context17.next = 8;
+                        _context18.next = 9;
                         break;
                       }
 
-                      _context17.next = 3;
+                      this.toastr.success(res['message'], 'Spotlex');
+                      _context18.next = 4;
                       return this.authservice.showToastrMessage('success', 'User Login', res['message']);
 
-                    case 3:
+                    case 4:
                       localStorage.setItem('la_user_token', res['token']);
                       localStorage.setItem('la_user_token_data', JSON.stringify(res['data']));
                       this.route.navigate(['']);
-                      _context17.next = 10;
+                      _context18.next = 10;
                       break;
 
-                    case 8:
-                      console.log(res, 'resres');
-                      this.authservice.showToastrMessage('error', 'Spotlex', res['message']);
+                    case 9:
+                      if (res['status'] === false) {
+                        this.toastr.error(res['message'], 'Spotlex');
+                      } else {
+                        console.log(res, 'resres');
+                        this.toastr.error(res['message'], 'Spotlex');
+                      }
 
                     case 10:
                     case "end":
-                      return _context17.stop();
+                      return _context18.stop();
                   }
                 }
-              }, _callee17, this);
+              }, _callee18, this);
             }));
           }, function (error) {
-            _this22.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+            _this23.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
           });
         }
         /**
@@ -3777,6 +3853,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         type: _services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]
       }, {
         type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]
+      }, {
+        type: ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"]
       }];
     };
 
@@ -3788,7 +3866,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(
       /*! ./login.component.scss */
       "./src/app/customer/login/login.component.scss"))["default"]]
-    }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], _services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])], LoginComponent);
+    }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], _services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"], ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"]])], LoginComponent);
     /***/
   },
 
@@ -3951,13 +4029,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getUserData",
         value: function getUserData() {
-          var _this23 = this;
+          var _this24 = this;
 
           this.authservice.getUser().subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this23, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
-              return regeneratorRuntime.wrap(function _callee18$(_context18) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this24, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
+              return regeneratorRuntime.wrap(function _callee19$(_context19) {
                 while (1) {
-                  switch (_context18.prev = _context18.next) {
+                  switch (_context19.prev = _context19.next) {
                     case 0:
                       if (res['status'] === true) {
                         this.userData = res['data'];
@@ -3969,10 +4047,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                     case 1:
                     case "end":
-                      return _context18.stop();
+                      return _context19.stop();
                   }
                 }
-              }, _callee18, this);
+              }, _callee19, this);
             }));
           }, function (error) {
             console.log('error', 'Spotlex', error.error.message);
@@ -3981,17 +4059,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getCategoryList",
         value: function getCategoryList() {
-          var _this24 = this;
+          var _this25 = this;
 
           var payload = {
             user_id: this.userData['id']
           };
           this.productCategoryService.getCategoryList(payload).subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this24, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this25, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
               var i, obj;
-              return regeneratorRuntime.wrap(function _callee19$(_context19) {
+              return regeneratorRuntime.wrap(function _callee20$(_context20) {
                 while (1) {
-                  switch (_context19.prev = _context19.next) {
+                  switch (_context20.prev = _context20.next) {
                     case 0:
                       if (res['status'] === true) {
                         this.quantityCount = res['quantity_count'];
@@ -4015,10 +4093,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                     case 1:
                     case "end":
-                      return _context19.stop();
+                      return _context20.stop();
                   }
                 }
-              }, _callee19, this);
+              }, _callee20, this);
             }));
           }, function (error) {
             console.log('error', 'Spotlex', error.error.message);
@@ -4027,12 +4105,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getProductByCatId",
         value: function getProductByCatId(id) {
-          var _this25 = this;
+          var _this26 = this;
 
           this.selectedCategory = id;
           this.categories.forEach(function (element) {
             if (element['id'] === id) {
-              _this25.productOfCategory = element['category_product']['data'];
+              _this26.productOfCategory = element['category_product']['data'];
             }
           });
         }
@@ -4058,7 +4136,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "addToCart",
         value: function addToCart(product, value) {
-          var _this26 = this;
+          var _this27 = this;
 
           this.quantity = this.getQuantity(product.id, this.userId);
 
@@ -4084,11 +4162,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             'image': product.image
           };
           this.priceservice.addToCart(payLoad).subscribe(function (res) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this26, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this27, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee21() {
               var index, prod;
-              return regeneratorRuntime.wrap(function _callee20$(_context20) {
+              return regeneratorRuntime.wrap(function _callee21$(_context21) {
                 while (1) {
-                  switch (_context20.prev = _context20.next) {
+                  switch (_context21.prev = _context21.next) {
                     case 0:
                       if (res['status'] === true) {
                         if (res['CartItem'].length > 0) {
@@ -4118,10 +4196,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                     case 1:
                     case "end":
-                      return _context20.stop();
+                      return _context21.stop();
                   }
                 }
-              }, _callee20, this);
+              }, _callee21, this);
             }));
           }, function (error) {});
         }
@@ -4616,17 +4694,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "signUp",
         value: function signUp() {
-          var _this27 = this;
+          var _this28 = this;
 
           if (this.userSignupForm.invalid) {
             this.validateAllFormFields(this.userSignupForm);
             return true;
           } else {
             this.authservice.login(this.userSignupForm.value).subscribe(function (res) {
-              return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this27, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee21() {
-                return regeneratorRuntime.wrap(function _callee21$(_context21) {
+              return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this28, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee22() {
+                return regeneratorRuntime.wrap(function _callee22$(_context22) {
                   while (1) {
-                    switch (_context21.prev = _context21.next) {
+                    switch (_context22.prev = _context22.next) {
                       case 0:
                         if (res['status'] === true) {
                           this.authservice.showToastrMessage('success', 'Spotlex', res['message']);
@@ -4636,13 +4714,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                       case 1:
                       case "end":
-                        return _context21.stop();
+                        return _context22.stop();
                     }
                   }
-                }, _callee21, this);
+                }, _callee22, this);
               }));
             }, function (error) {
-              _this27.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+              _this28.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
             });
           }
         }
@@ -4787,7 +4865,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "calcRoute",
         value: function calcRoute() {
-          var _this28 = this;
+          var _this29 = this;
 
           this.line = new google.maps.Polyline({
             strokeOpacity: 0.5,
@@ -4816,12 +4894,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   var nextSegment = steps[j].path;
 
                   for (var k = 0; k < nextSegment.length; k++) {
-                    _this28.line.getPath().push(nextSegment[k]);
+                    _this29.line.getPath().push(nextSegment[k]);
                   }
                 }
               }
 
-              _this28.initRoute();
+              _this29.initRoute();
             }
           });
         }
@@ -4837,7 +4915,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "mockDirections",
         value: function mockDirections() {
-          var _this29 = this;
+          var _this30 = this;
 
           var locationData = [[51.51324, -0.09909000000000001], [51.51478, -0.08078]];
           console.log(locationData);
@@ -4850,7 +4928,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             map: this.map
           });
           locationArray.forEach(function (l) {
-            return _this29.line.getPath().push(l);
+            return _this30.line.getPath().push(l);
           });
           var start = new google.maps.LatLng(51.513237, -0.099102);
           var end = new google.maps.LatLng(51.514786, -0.080799);
@@ -4870,7 +4948,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "initRoute",
         value: function initRoute() {
-          var _this30 = this;
+          var _this31 = this;
 
           var route = this.line.getPath().getArray(); // options
 
@@ -4900,7 +4978,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           this.marker.addLocation(route);
           setTimeout(function () {
-            return _this30.play();
+            return _this31.play();
           }, 2000);
         } // play animation
 
@@ -5095,7 +5173,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "intercept",
         value: function intercept(req, next) {
-          var _this31 = this;
+          var _this32 = this;
 
           this.requests.push(req); // console.log(`No of requests--->${this.requests.length}`);
 
@@ -5103,24 +5181,24 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           return rxjs__WEBPACK_IMPORTED_MODULE_3__["Observable"].create(function (observer) {
             var subscription = next.handle(req).subscribe(function (event) {
               if (event instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpResponse"]) {
-                _this31.removeRequest(req);
+                _this32.removeRequest(req);
 
                 observer.next(event);
               }
             }, function (err) {
               alert('error' + err);
 
-              _this31.removeRequest(req);
+              _this32.removeRequest(req);
 
               observer.error(err);
             }, function () {
-              _this31.removeRequest(req);
+              _this32.removeRequest(req);
 
               observer.complete();
             }); // remove request from queue when cancelled
 
             return function () {
-              _this31.removeRequest(req);
+              _this32.removeRequest(req);
 
               subscription.unsubscribe();
             };
@@ -5228,6 +5306,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           return this.http.get(this.apiUrl + '/api/auth/logout');
         }
       }, {
+        key: "addCardToPay",
+        value: function addCardToPay(cardInfo) {
+          return this.http.post(this.apiUrl + '/api/addcarddetails', cardInfo);
+        }
+      }, {
         key: "login",
         value: function login(loginData) {
           return this.http.post(this.apiUrl + '/api/login', loginData);
@@ -5283,16 +5366,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "showToastrMessage",
         value: function showToastrMessage(status, summary, detail) {
-          return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee22() {
-            return regeneratorRuntime.wrap(function _callee22$(_context22) {
+          return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee23() {
+            return regeneratorRuntime.wrap(function _callee23$(_context23) {
               while (1) {
-                switch (_context22.prev = _context22.next) {
+                switch (_context23.prev = _context23.next) {
                   case 0:
                   case "end":
-                    return _context22.stop();
+                    return _context23.stop();
                 }
               }
-            }, _callee22);
+            }, _callee23);
           }));
         }
       }]);
@@ -5836,7 +5919,23 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }],
       'coupon_code': [{
         type: 'required',
-        message: 'please enter coupon code'
+        message: 'please enter coupon code.'
+      }],
+      'card_no': [{
+        type: 'required',
+        message: 'please enter card number.'
+      }],
+      'expiry_month': [{
+        type: 'required',
+        message: 'please enter card expiry month.'
+      }],
+      'expiry_year': [{
+        type: 'required',
+        message: 'please enter card expiry year.'
+      }],
+      'name_on_card': [{
+        type: 'required',
+        message: 'please enter name.'
       }]
     };
     ValidationService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -6020,7 +6119,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".section-navbars {\n  padding: 2px 0 !important;\n}\n\n.order_btn {\n  padding: 0px 5px !important;\n}\n\n.navbar.navbar-expand-lg .navbar-nav li {\n  margin-right: 47px !important;\n}\n\n.hand {\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi92YXIvd3d3L2h0bWwvcHJvamVjdC9zcG90bGV4L2Zyb250ZW5kL3NyYy9hcHAvc2hhcmVkL25hdmJhci9uYXZiYXIuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL3NoYXJlZC9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0kseUJBQUE7QUNDSjs7QURDQTtFQUNJLDJCQUFBO0FDRUo7O0FEQ0E7RUFDSSw2QkFBQTtBQ0VKOztBREFBO0VBQ0ksZUFBQTtBQ0dKIiwiZmlsZSI6InNyYy9hcHAvc2hhcmVkL25hdmJhci9uYXZiYXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2VjdGlvbi1uYXZiYXJze1xyXG4gICAgcGFkZGluZzogMnB4IDAgIWltcG9ydGFudDtcclxufVxyXG4ub3JkZXJfYnRue1xyXG4gICAgcGFkZGluZzogMHB4IDVweCAhaW1wb3J0YW50O1xyXG59XHJcblxyXG4ubmF2YmFyLm5hdmJhci1leHBhbmQtbGcgLm5hdmJhci1uYXYgbGl7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDQ3cHggIWltcG9ydGFudDtcclxufVxyXG4uaGFuZHtcclxuICAgIGN1cnNvcjogcG9pbnRlcjtcclxufSIsIi5zZWN0aW9uLW5hdmJhcnMge1xuICBwYWRkaW5nOiAycHggMCAhaW1wb3J0YW50O1xufVxuXG4ub3JkZXJfYnRuIHtcbiAgcGFkZGluZzogMHB4IDVweCAhaW1wb3J0YW50O1xufVxuXG4ubmF2YmFyLm5hdmJhci1leHBhbmQtbGcgLm5hdmJhci1uYXYgbGkge1xuICBtYXJnaW4tcmlnaHQ6IDQ3cHggIWltcG9ydGFudDtcbn1cblxuLmhhbmQge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59Il19 */";
+    __webpack_exports__["default"] = ".section-navbars {\n  padding: 2px 0 !important;\n}\n\n.order_btn {\n  padding: 0px 5px !important;\n}\n\n.navbar.navbar-expand-lg .navbar-nav li {\n  margin-right: 47px !important;\n}\n\n.hand {\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi92YXIvd3d3L2h0bWwvcHJvamVjdC9zcG90bGV4L2Zyb250ZW5kL3NyYy9hcHAvc2hhcmVkL25hdmJhci9uYXZiYXIuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL3NoYXJlZC9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0kseUJBQUE7QUNDSjs7QURDQTtFQUNJLDJCQUFBO0FDRUo7O0FEQ0E7RUFDSSw2QkFBQTtBQ0VKOztBREFBO0VBQ0ksZUFBQTtBQ0dKIiwiZmlsZSI6InNyYy9hcHAvc2hhcmVkL25hdmJhci9uYXZiYXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2VjdGlvbi1uYXZiYXJze1xyXG4gICAgcGFkZGluZzogMnB4IDAgIWltcG9ydGFudDtcclxufVxyXG4ub3JkZXJfYnRue1xyXG4gICAgcGFkZGluZzogMHB4IDVweCAhaW1wb3J0YW50O1xyXG59XHJcblxyXG4ubmF2YmFyLm5hdmJhci1leHBhbmQtbGcgLm5hdmJhci1uYXYgbGl7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDQ3cHggIWltcG9ydGFudDtcclxufVxyXG4uaGFuZHtcclxuICAgIGN1cnNvcjogcG9pbnRlcjtcclxufVxyXG4vLyAjbWVudS1kcm9wZG93biB7XHJcbi8vICAgICBtYXgtd2lkdGg6IDEwMCUgIWltcG9ydGFudDtcclxuLy8gfSIsIi5zZWN0aW9uLW5hdmJhcnMge1xuICBwYWRkaW5nOiAycHggMCAhaW1wb3J0YW50O1xufVxuXG4ub3JkZXJfYnRuIHtcbiAgcGFkZGluZzogMHB4IDVweCAhaW1wb3J0YW50O1xufVxuXG4ubmF2YmFyLm5hdmJhci1leHBhbmQtbGcgLm5hdmJhci1uYXYgbGkge1xuICBtYXJnaW4tcmlnaHQ6IDQ3cHggIWltcG9ydGFudDtcbn1cblxuLmhhbmQge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59Il19 */";
     /***/
   },
 
@@ -6094,7 +6193,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
           var userToken = localStorage.getItem('la_user_token');
 
-          if (userToken.length > 0) {
+          if (userToken) {
             this.signInButton = true;
           }
         }
@@ -6328,7 +6427,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
     var environment = {
-      production: false,
+      production: true,
       url: '3.11.134.243:8000',
       // url: 'http://127.0.0.1:8000',
       frontEndUrl: 'http://127.0.0.1:4200'

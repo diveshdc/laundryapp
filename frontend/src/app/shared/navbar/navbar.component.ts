@@ -12,7 +12,7 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
     // tslint:disable-next-line:no-inferrable-types
-    signInButton: boolean = false;
+    signInButton: Boolean = false;
 
     constructor(public location: Location,
         private element: ElementRef,
@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
         const userToken = localStorage.getItem('la_user_token');
-        if (userToken.length > 0) {
+        if (userToken) {
             this.signInButton = true;
         }
     }

@@ -18,7 +18,7 @@ public function createOrder($input, $userInfo) {
 	              $order->delivery_time       = $input['delivery_time'];
 	              $order->cleaningInstructions= $input['cleaningInstructions'];
 	              $order->is_couponcode       = $input['is_couponcode'];
-	              $order->couponcode          = $input['couponcode'];
+	              $order->couponcode          = $input['couponcode']?$input['couponcode']:'';
 	              $order->actual_price        = $input['actual_price']; 
 	              $order->final_price         = $input['final_price'];
 	              $order->is_skip_items       = $input['is_skip_items'];

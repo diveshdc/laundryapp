@@ -41,13 +41,13 @@ class PaymentController extends Controller
 		     $stripe = Stripe\Stripe::setApiKey(Config::get('services.stripe.secret'));
 		        // create card token
 			   $token = $this->createToken($request);
-		 		return $token->id;
-			   #Create new customer
-			  $customer = $this->createCustomer(Auth::user()->email, $token->id);
+		 		// return $token->id;
+			   // Create new customer
+			  // $customer = $this->createCustomer(Auth::user()->email, $token->id);
 			return response()->json([
 					'status'    => true,
 					'message'	=> 'Card added successfully!',
-					'card_id'   => $customer['sources']['data'][0]['id'],
+					'card_token'   => $token->id,
 			]);
 		}catch (\Exception $ex){
 		            return $this->returnException($ex);

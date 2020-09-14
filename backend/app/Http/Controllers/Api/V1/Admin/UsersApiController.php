@@ -95,7 +95,7 @@ class UsersApiController extends Controller
                      return response()->json([
                         'status'  => false,
                         'message' => implode('<br />', $messages)
-                    ], 401); 
+                    ], 200); 
                 }
             }
         $checkLogindetails = Auth::attempt([
@@ -106,7 +106,7 @@ class UsersApiController extends Controller
                      return response()->json([
                         'status'  => false,
                         'message' => 'Email or password not match!'
-                    ], 401); 
+                    ], 200); 
             }else{
                     $user = Auth::user(); 
                     $userIsActive = User::where('active',1)->find($user->id); 

@@ -108,8 +108,20 @@ export class ValidationService {
 { type: 'required', message: 'Town is required' },
 ],
 'coupon_code': [
-  { type: 'required', message: 'please enter coupon code' },
+  { type: 'required', message: 'please enter coupon code.' },
   ],
+  'card_no': [
+    { type: 'required', message: 'please enter card number.' },
+    ],
+    'expiry_month': [
+      { type: 'required', message: 'please enter card expiry month.' },
+      ],
+      'expiry_year': [
+        { type: 'required', message: 'please enter card expiry year.' },
+        ],
+        'name_on_card': [
+          { type: 'required', message: 'please enter name.' },
+          ],
     }
     static numberNotRequiredValidator(number): any {
       if (number.pristine) {

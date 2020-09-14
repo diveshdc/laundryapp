@@ -4,9 +4,13 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   url: '3.11.134.243:8000',
   // url: 'http://127.0.0.1:8000',
 
-  frontEndUrl: 'http://127.0.0.1:4200'
+  frontEndUrl: 'http://127.0.0.1:4200',
+
+  // stripe: {
+  //   testKey: 'pk_test_Wvhz99D3jeLubPR0fDX9TM9N00OFiAZ8Wp'
+  // },
 };

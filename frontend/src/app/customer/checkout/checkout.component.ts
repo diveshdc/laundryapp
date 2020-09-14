@@ -4,12 +4,14 @@ import { AuthService } from 'app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ValidationService } from 'app/services/validation.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'environments/environment';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
+  // private stripe: Stripe;
   public delivery_notes;
   public value;
   public minDate;
@@ -18,15 +20,14 @@ export class CheckoutComponent implements OnInit {
   userId: any;
   finalPrice: number;
   couponForm: FormGroup;
-  // deliveryNotesForm: FormGroup;
-  // errorMessage: any;
-  // successMsg: any;
+  AddCardForm: FormGroup;
   displayCollection: boolean;
   displayDelivery: boolean;
-  isCouponCode: boolean;
+  isCouponCode: Boolean = false;
   deliverySlotId: any;
   collectionSlotId: any;
   deliveryTime: any;
+  addCard: any;
   collectionDate: any;
   collectionTime: any;
   deliveryDate: any;
@@ -37,6 +38,8 @@ export class CheckoutComponent implements OnInit {
   setCollectionSlotValue: string;
   deliveryDateTime: string;
   collectionDateTime: string;
+  cardToken: any;
+  skipItemSelection: Boolean = false;
   constructor(private formBuilder: FormBuilder,
     private authservice: AuthService,
     private route: Router,
@@ -44,11 +47,18 @@ export class CheckoutComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     ) {
     this.minDate = new Date();
-    // this.maxDate = new Date();
     this.value = new Date();
     this.couponForm = this.formBuilder.group({
       coupon_code: ['', [Validators.required]]
       });
+
+      this.AddCardForm = this.formBuilder.group({
+        name_on_card: ['', [Validators.required]],
+        card_no: ['', [Validators.required]],
+        expiry_month: ['', [Validators.required]],
+        expiry_year: ['', [Validators.required]],
+        cvv: ['', [Validators.required]],
+        });
 
   }
 
@@ -56,6 +66,7 @@ export class CheckoutComponent implements OnInit {
     const skipItemSelection = this.activatedRoute.snapshot.params.skip;
     if (skipItemSelection) {
       this.isSkipItem = atob(skipItemSelection);
+      this.skipItemSelection = true
       this.finalPrice = 15;
     }
     this.getUserData();
@@ -111,6 +122,7 @@ export class CheckoutComponent implements OnInit {
       this.validateAllFormFields(this.couponForm);
       return true;
     } else {
+      this.isCouponCode = this.couponForm.value.coupon_code;
       this.authservice.applyCoupon({'couponcode': this.couponForm.value, 'actual_price': this.finalPrice}).subscribe(async res => {
         if (res['status'] === true) {
           // tslint:disable-next-line:radix
@@ -149,8 +161,7 @@ onDateSelected(e, type) {
     this.displayCollection = false;
     this.authservice.getTimeSlot({delivery_date: newDate}).subscribe(async res => {
       if (res['status'] === true) {
-        console.log(res['timeslot'], 'pppppppppppppppppppppppp')
-        this.deliverySlot = res['timeslot']
+        this.deliverySlot = res['timeslot'];
         this.displayDelivery = true;
       } else {
 
@@ -161,10 +172,39 @@ onDateSelected(e, type) {
   }
 }
 
+addCardDetails() {
+  if (!this.deliveryDate || !this.collectionDate) {
+    this.toastr.error('Please select Collection date and time or Delivery date and time', 'Spotlex!');
+    return;
+  } else {
+  this.addCard = true;
+  }
+}
+addCardToPay() {
+  if (this.AddCardForm.invalid) {
+    this.validateAllFormFields(this.AddCardForm);
+    return true;
+  } else {
+    this.authservice.addCardToPay(this.AddCardForm.value).subscribe(async res => {
+      if (res['status'] === true) {
+        this.cardToken = res['card_token'];
+        this.toastr.info('please wait... do not refresh and back your browser!', 'Spotlex!');
+        this.checkOut();
+      } else {
+        this.toastr.error(res['message'], 'Spotlex!');
+      }
+    }, (error) => {
+      this.toastr.error(error.error.message, 'Spotlex!');
+    })
+  }
+}
+
 checkOut() {
   const payLoad = {
     'is_couponcode': this.isCouponCode,
+    'card_token': this.cardToken,
     'cleaningInstructions': this.delivery_notes,
+    'delivery_notes': this.delivery_notes,
     'delivery_slot_id': this.deliverySlotId,
     'collection_slot_id': this.collectionSlotId,
     'delivery_time': this.deliveryTime,
@@ -173,17 +213,20 @@ checkOut() {
     'collection_date': this.collectionDate,
     'user_id': this.userId,
     'final_price': this.finalPrice,
-    'actual_price': this.finalPrice
+    'actual_price': this.finalPrice,
+    'couponcode' : this.isCouponCode ? this.isCouponCode : '',
+    'is_skip_items' : this.skipItemSelection
   }
+  console.log(payLoad, 'payLoadpayLoadpayLoadpayLoadpayLoadpayLoad')
   this.authservice.checkOut(payLoad).subscribe(async res => {
     if (res['status'] === true) {
-
-      this.authservice.showToastrMessage('success', 'Spotlex', res['message']);
+      this.addCard = false;
+      this.toastr.success(res['message'], 'Spotlex!');
     } else {
-      this.authservice.showToastrMessage('error', 'Spotlex', res['message']);
+      this.toastr.error(res['message'], 'Spotlex!');
     }
   }, (error) => {
-    this.authservice.showToastrMessage('error', 'Spotlex', error.error.message);
+    this.toastr.error('error', 'Spotlex', error.error.message);
   })
 }
 
@@ -191,7 +234,9 @@ selectedCollectionSlot(slotData) {
   console.log(slotData, 'poiutghfxhsfdhsagfdhasdfashgdfashdagfsdhgadasd');
   if (slotData.blocked_collection_slot === 0) {
     this.collectionSlotId = slotData.id;
-    this.setCollectionSlotValue = slotData.collection_time_start + '-' +  slotData.collection_time_end
+    this.setCollectionSlotValue = slotData.collection_time_start + '-' +  slotData.collection_time_end;
+    this.collectionDate = slotData.collection_date;
+    this.collectionTime = slotData.collection_time_start + '-' + slotData.collection_time_end;
     }
   if (slotData.blocked_collection_slot === 1) {
     alert('this timeslot is not available');
@@ -201,7 +246,9 @@ selectedCollectionSlot(slotData) {
 selectedDeliverySlot(slotData) {
   console.log(slotData, 'poiutghfxhsfdhsagfdhasdfashgdfashdagfsdhgadasd');
   if (slotData.blocked_delivery_slot === 0) {
-    this.setDeliverySlotValue = slotData.delivery_time_start + '-' +  slotData.delivery_time_end
+    this.setDeliverySlotValue = slotData.delivery_time_start + '-' +  slotData.delivery_time_end;
+    this.deliveryDate = slotData.collection_date;
+    this.deliveryTime = slotData.collection_time_start + '-' + slotData.collection_time_end;
     this.deliverySlotId = slotData.id;
   }
   if (slotData.blocked_delivery_slot === 1) {
