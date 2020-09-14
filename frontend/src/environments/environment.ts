@@ -5,7 +5,7 @@
 
 export const environment = {
   production: true,
-  url: '3.11.134.243:8000',
+  url: '3.11.134.243',
   // url: 'http://127.0.0.1:8000',
 
   frontEndUrl: 'http://127.0.0.1:4200',

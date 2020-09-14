@@ -3884,7 +3884,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 const environment = {
     production: true,
-    url: '3.11.134.243:8000',
+    url: '3.11.134.243',
     // url: 'http://127.0.0.1:8000',
     frontEndUrl: 'http://127.0.0.1:4200',
 };
