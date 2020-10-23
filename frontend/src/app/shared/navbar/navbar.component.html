@@ -1,7 +1,7 @@
 
 <div class="section section-navbars">
     <div class="container" id="menu-dropdown">
-        <div class="row">
+       
                 <!--------Header Start---------->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
@@ -35,17 +35,17 @@
                         <a class="nav-link" href="http://52.56.145.178/index.php/refer-a-friend">Refer a friend</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a *ngIf="!signInButton" class="nav-link order_btn" routerLink="/login" routerLinkActive="active">Order Now</a>
+                    <li class="nav-item" *ngIf="!signInButton">
+                        <a  class="nav-link order_btn" routerLink="/login" routerLinkActive="active">Order Now</a>
                     </li>
-                    <li class="nav-item">
-                        <a *ngIf="signInButton" class="nav-link order_btn hand" (click)="logOut()" routerLinkActive="active">Logout</a>
+                    <li class="nav-item" *ngIf="signInButton">
+                        <a  class="nav-link order_btn hand" (click)="logOut()" routerLinkActive="active">Logout</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
             <!-- End Navbar Transparent-->
-        </div>
+       
     </div>
 </div>

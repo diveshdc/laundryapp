@@ -6,12 +6,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class PriceService {
-  public apiUrl: string = environment.url;
-
+  public apiUrl = 'http://3.11.134.243';
   constructor( private http: HttpClient) {
-  this.apiUrl = environment.url;
-
-  }
+    this.apiUrl = 'http://3.11.134.243';
+   }
 
    /*
   * API for Get Pricing

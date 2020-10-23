@@ -91,7 +91,6 @@ class UsersApiController extends Controller
             ]);
          if($validator->fails()) {
                 foreach ($validator->messages()->getMessages() as $field_name => $messages){
-
                      return response()->json([
                         'status'  => false,
                         'message' => implode('<br />', $messages)
@@ -99,8 +98,8 @@ class UsersApiController extends Controller
                 }
             }
         $checkLogindetails = Auth::attempt([
-                                'email' => request('email'), 
-                                'password' => request('password')
+                            'email' => request('email'), 
+                            'password' => request('password')
                             ]);
             if($checkLogindetails == false){
                      return response()->json([
@@ -110,6 +109,13 @@ class UsersApiController extends Controller
             }else{
                     $user = Auth::user(); 
                     $userIsActive = User::where('active',1)->find($user->id); 
+                    $userIsBlocked = User::where('blocked',0)->find($user->id); 
+                    if($userIsBlocked == null){
+                        return response()->json([
+                        'status' => false,
+                        'message' =>'You are blocked by admin!',
+                        ], $this->successStatus);
+                 }
                  if($userIsActive == null){
                         return response()->json([
                         'status' => false,

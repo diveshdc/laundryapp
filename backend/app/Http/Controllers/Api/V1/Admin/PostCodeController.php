@@ -210,7 +210,7 @@ public function checkPostCode(Request $request)
                 'route'=>$route,
                 'lat'=>$lat,
                 'lng'=>$lng,
-                'full address' => $address,
+                'full_address' => $address,
                 'google_place_id' => $data->results[0]->place_id
             );
             return response()->json([

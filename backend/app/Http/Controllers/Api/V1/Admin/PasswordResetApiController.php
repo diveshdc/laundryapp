@@ -35,7 +35,7 @@ class PasswordResetApiController extends Controller
             return response()->json([
                 'status'  => false,
                 'message' => "We can't find a user with that e-mail address."
-            ], 401);
+            ]);
         $passwordReset = PasswordReset::updateOrCreate(
             ['email' => $user->email],
             [

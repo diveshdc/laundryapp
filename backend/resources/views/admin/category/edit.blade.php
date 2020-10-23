@@ -37,6 +37,16 @@
               <div class="panel-body">
                 <!-- <img src="{{ url('images',$category->image) }}" class="img-responsive img-circle" width="50" height="50"> -->
               <div class="form-group">
+                 <div class="profile-img">
+                @if($category->image)
+                <img id="image_preview_container" src="{{$category->image}}"
+                    alt="preview image" class="img-responsive"  style="max-height: 112px;">
+                    @endif()
+                    @if(!$category->image)
+                      <img id="image_preview_container" src="{{ asset('images/profile_picture/usericon.svg') }}"
+                    alt="preview image" class="img-responsive"  style="max-height: 112px;">
+                    @endif()
+                    </div>
                     <label class="col-md-3 control-label">
                         Change Category Image
                      <span class="required">*</span>

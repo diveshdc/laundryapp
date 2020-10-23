@@ -55,6 +55,9 @@
             </th>
             <th>
               {{ trans('global.order.fields.name') }}
+            </th>
+             <th>
+             Name
             </th> 
              <th>
               {{ trans('global.order.fields.date') }}
@@ -85,8 +88,9 @@
           <td>
           </td>
           <td style="color: blue;">
-             <a href="{{ route('admin.order.show',$order->id)}}">#{{$order->id}} {{$order['userInfo']['first_name']}} {{$order['userInfo']['last_name']}}</a>
+             <a href="{{ route('admin.order.show',$order->id)}}">#{{$order->id}} </a>
         </td>
+        <td>{{$order['userInfo']['first_name']}} {{$order['userInfo']['last_name']}}</td>
            <td>
             <!-- {{ $order->created_at ?? '' }} -->
             {{ \Carbon\Carbon::parse($order->created_at)->format('d/M/Y')}}
@@ -125,7 +129,7 @@
               <td>
                 <div class="dropdown">
                   <button class="label-hv dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Collect
+                    Collection
                   </button>
                   <div class="dropdown-menu "  aria-labelledby="dropdownMenuButton">
                   <p>Collection</p>   
@@ -136,11 +140,11 @@
               </div>
                   <div class="dropdown">
                   <button class="label-hv dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Deliver
+                    Delivery
                   </button>
                   <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
-                  <p>Deliver</p>   
-                  <span class="label-hv label-green">Deliver</span>
+                  <p>Delivery</p>   
+                  <span class="label-hv label-green">Delivery</span>
                   <div> <img src="{{$order->receiver_image}}"  class="my-2" height="200"></div>
                   <a href="#">Export</a>
                   </div>

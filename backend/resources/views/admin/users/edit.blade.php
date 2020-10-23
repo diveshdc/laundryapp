@@ -224,7 +224,10 @@
                 </p>
             </div>
             </fieldset>
+
+
             <fieldset class="form-group {{ $errors->has('roles') ? 'has-error' : '' }}">
+                 <label for="Role">Role</label>
                  <div class="input-group">
                     <span class="input-group-prepend">
                                     <span class="input-group-text">

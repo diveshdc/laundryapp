@@ -120,6 +120,7 @@
                 </div>
             </fieldset>
             <fieldset class="form-group {{ $errors->has('roles') ? 'has-error' : '' }}">
+                 <label for="role">Role</label>
                 <div class="input-group">
                     <span class="input-group-prepend">
                                                 <span class="input-group-text">
@@ -150,6 +151,97 @@
             </div>
         </form>
     </div>
+     <div class="container" style="margin-right: 30%"> 
+   <div class="alert" id="message" style="display: none"><span style="color:green;">Image has been uploaded successfully</span></div>
+  <form  method="POST" enctype="multipart/form-data" id="upload_image_form" action="javascript:void(0)" >
+                  <input type="hidden" value="{{$user->id}}" name="user_id">
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <div class="profile-img">
+                @if($user->image_upload)
+                <img id="image_preview_container" src="{{$user->image_upload}}"
+                    alt="preview image" class="img-responsive"  style="max-height: 112px;">
+                    @endif()
+                    @if(!$user->image_upload)
+                      <img id="image_preview_container" src="{{ asset('images/profile_picture/usericon.svg') }}"
+                    alt="preview image" class="img-responsive"  style="max-height: 112px;">
+                    @endif()
+                    </div>
+                   <!--  <div class="profile-img">    
+                    @if(!$user->image_upload)
+                <img id="image_preview_container" src="{{ asset('public/images/image/default_user.png') }}"
+                    alt="preview image" class="img-responsive" style="max-height: 112px;">
+                    @endif()
+                </div> -->
+                </div>
+                <div class="col-md-12" style="margin-left: 20px">
+                    <div class="form-group">
+                        <label for="image" class="file-select">Upload FIle</label>
+                        <input type="file" name="image" placeholder="Choose image" id="image" class="d-none">
+                        <span class="text-danger">{{ $errors->first('title') }}</span>
+                    </div>
+                </div>
+                  
+                  
+                <div class="col-md-12" style="margin-left: 20px">
+                    <button type="submit" class="btn btn-primary">save image</button>
+                </div>
+            </div>     
+    </form>
+   <br />
+   <span id="uploaded_image"></span>
+  </div>
 </div>
 
 @endsection
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+   $(document).ready(function (e) {
+  
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+ 
+        $('#image').change(function(){
+             var val = $(this).val().toLowerCase(),
+            regex = new RegExp("(.*?)\.(jpg|jpeg|JPG|JPEG|PNG|png)$");
+
+        if (!(regex.test(val))) {
+            $(this).val('');
+            alert('Please select correct file format');
+        }
+            let reader = new FileReader();
+            reader.onload = (e) => { 
+              $('#image_preview_container').attr('src', e.target.result); 
+            }
+            reader.readAsDataURL(this.files[0]); 
+ 
+        });
+ 
+        $('#upload_image_form').submit(function(e) {
+            e.preventDefault();
+ 
+            var formData = new FormData(this);
+ 
+            $.ajax({
+                type:'POST',
+                url: "{{ url('admin/save-photo')}}",
+                data: formData,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success: (data) => {
+                    this.reset();
+                    $('#message').show();
+                     $("#message").fadeOut(3000);
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+        });
+    });
+</script>

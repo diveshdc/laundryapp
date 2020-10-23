@@ -57,10 +57,10 @@
 
 
              <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
-                <!-- <label for="category_name">{{ trans('global.product.fields.category') }}*
-                    <span class="btn btn-info btn-xs select-all">Select all</span>
-                    <span class="btn btn-info btn-xs deselect-all">Deselect all</span>
-                </label> -->
+                <label for="category_name">{{ trans('global.product.fields.category') }}*
+                   <!--  <span class="btn btn-info btn-xs select-all">Select all</span>
+                    <span class="btn btn-info btn-xs deselect-all">Deselect all</span> -->
+                </label>
                  
                 <select name="category[]" id="category" class="form-control">
                     @foreach($category as $id => $category)
@@ -94,6 +94,16 @@
             </div>
              <div class="panel-body">
               <div class="form-group">
+                <div class="profile-img">
+                @if($product->image)
+                <img id="image_preview_container" src="{{$product->image}}"
+                    alt="preview image" class="img-responsive"  style="max-height: 112px;">
+                    @endif()
+                    @if(!$product->image)
+                      <img id="image_preview_container" src="{{ asset('images/profile_picture/usericon.svg') }}"
+                    alt="preview image" class="img-responsive"  style="max-height: 112px;">
+                    @endif()
+                    </div>
                     <label class="col-md-3 control-label">
                         Upload Product Image
                      <span class="required">*</span>

@@ -217,7 +217,6 @@ class TimeslotsController extends Controller
 
     function collectionTime()
     {
-        $date =date('m/d/Y');
         $date_arr = [];
         for($i=1; $i<=20; $i++){
             $date_arr[] = date('m/d/Y', strtotime("+".$i."days"));
