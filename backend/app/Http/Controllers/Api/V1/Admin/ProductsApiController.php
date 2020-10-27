@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Product;
+use Request;
 
 class ProductsApiController extends Controller
 {
@@ -34,6 +35,16 @@ class ProductsApiController extends Controller
     public function destroy(Product $product)
     {
         return $product->delete();
+    }
+
+
+    public function getPriceList(Request $request)
+    {
+        return response()->json([
+                'status' => true, 
+                'data' =>Product::all(),
+                'message' => 'data found!'
+            ]);     
     }
 
     // public function destroy($id)

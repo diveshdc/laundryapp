@@ -70,6 +70,8 @@ Route::post('updateaddress', 'Api\V1\Admin\UsersApiController@updateAddress');
 
 });
 
+Route::get('getpricelist', 'Api\V1\Admin\ProductsApiController@getPriceList');
+
 Route::get('push', 'Api\V1\Admin\UsersApiController@send_method_in_apn_service');
 Route::post('createtimeslot', 'Admin\TimeslotsController@collectionTime');
 
