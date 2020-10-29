@@ -60,6 +60,45 @@ class OrdersController extends Controller
         }
    }
 
+   public function getTotalCount(Request $request){
+     try{
+      $validator = Validator::make($request->all(), [ 
+        'user_id'    => 'required',
+    ],[
+      'user_id.required'    => 'user_id missing',
+    ]);
+     if ($validator->fails()) {
+        foreach ($validator->messages()->getMessages() as $field_name => $messages){
+             return response()->json([
+                'status'  => false,
+                'message' => implode('<br />', $messages)
+            ], 401); 
+        }
+        }
+
+        $getCartDetails = CartItem::where('user_id',$request->user_id)->get();
+        if(isset($getCartDetails)){
+          $getTotal= 0.0;
+          foreach ($getCartDetails as $value) {
+            $getTotal= $getTotal + ($value->price * $value->quantity);
+          }
+        }
+
+        return response()->json([
+          'status'=>'success',
+          'data' =>$getTotal,
+          'cartCount' =>count($getCartDetails)
+        ],200);
+
+     }catch (\Exception $ex){
+            return response()->json([
+                'status' => false,
+                'message' => $ex->getMessage(),
+                'error_details' => 'on line : '.$ex->getLine().' on file : '.$ex->getFile(),
+            ], 200);
+        }
+   }
+
 public function getCartItem($userId) {
 try{
   $cartData = CartItem::with('productInfo')->where('user_id',$userId)->get();

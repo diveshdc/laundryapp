@@ -21,7 +21,7 @@ Route::put('userupdate', 'Api\V1\Admin\UsersApiController@UpdateUserData');
 Route::post('getcategory_list',   'Api\V1\Admin\CategoryProductsController@getCategoryListByUserId');
 Route::post('searchproduct_byname',   'Api\V1\Admin\CategoryProductsController@searchProducts');
 Route::get('logout', 'Api\V1\Admin\UsersApiController@logout');
-
+Route::post('get_total_count', 'Api\V1\Admin\OrdersController@getTotalCount');
 Route::post('add_and_remove_cart', 'Api\V1\Admin\OrdersController@addOrRemoveToCart');
 Route::get('getcart_item/{user_id}', 'Api\V1\Admin\OrdersController@getCartItem');
 // Route::post('getPost', 'Api\V1\Admin\PostCodeController@geoLocate');
